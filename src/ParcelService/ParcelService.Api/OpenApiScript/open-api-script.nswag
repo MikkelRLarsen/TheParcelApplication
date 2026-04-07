@@ -1,0 +1,28 @@
+﻿{
+  "runtime": "Net100",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "open-api-script.yaml",
+      "output": null,
+      "newLineBehavior": "Auto"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpController": {
+      "controllerBaseClass": "Microsoft.AspNetCore.Mvc.ControllerBase",
+      "controllerTarget": "AspNetCore",
+      "className": "Parcel",
+      "namespace": "Api.Controllers",
+      "generateOptionalParameters": true,
+      "generateDtoTypes": false,
+      "additionalNamespaceUsages": [
+        "Microsoft.AspNetCore.Mvc",
+        "System.CodeDom.Compiler",
+        "System.Threading.Tasks",
+        "ParcelService.Api.DataTransferObjects"
+      ],
+      "output": "../Controllers/ParcelController.cs"
+    }
+  }
+}

@@ -1,0 +1,127 @@
+﻿openapi: 3.0.3
+info:
+  title: Parcel Service API
+  version: 1.2.0
+  description: |
+    API for creating parcels in the event-driven parcel routing system.
+    ParcelService generates a tracking number and publishes a `ParcelCreated` event after successful creation.
+
+paths:
+  /parcels:
+    post:
+      summary: Create a new parcel
+      description: |
+        Creates a new parcel and starts the routing and allocation flow.
+        On success, a `ParcelCreated` event is published to the event bus.
+      operationId: createParcel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateParcelRequest'
+      responses:
+        '201':
+          description: Parcel created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateParcelResponse'
+        '400':
+          description: Invalid input
+
+components:
+  schemas:
+
+    CreateParcelRequest:
+      type: object
+      required:
+        - weight
+        - priority
+        - destination
+        - sender
+        - receiver
+      properties:
+        weight:
+          type: number
+          format: double
+          minimum: 0
+          example: 2.5
+        priority:
+          type: integer
+          minimum: 0
+          example: 1
+        destination:
+          $ref: '#/components/schemas/Destination'
+        sender:
+          $ref: '#/components/schemas/PersonInfo'
+        receiver:
+          $ref: '#/components/schemas/PersonInfo'
+
+    CreateParcelResponse:
+      type: object
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    Destination:
+      type: object
+      required:
+        - region
+        - terminal
+      properties:
+        region:
+          type: string
+          example: "Midtjylland"
+        terminal:
+          type: string
+          example: "Horsens"
+
+    PersonInfo:
+      type: object
+      required:
+        - name
+        - address
+      properties:
+        name:
+          type: string
+          example: "John Doe"
+        address:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      type: object
+      required:
+        - street
+        - houseNumber
+        - city
+        - zipCode
+        - country
+      properties:
+        street:
+          type: string
+          example: "Main Street"
+        houseNumber:
+          type: string
+          example: "12A"
+        city:
+          type: string
+          example: "Aarhus"
+        zipCode:
+          type: string
+          example: "8000"
+        country:
+          type: string
+          example: "Denmark"
+
+x-use-cases:
+  - name: Create Parcel Flow
+    steps:
+      - Client sends POST /parcels
+      - ParcelService validates input
+      - ParcelService generates tracking number
+      - Parcel is persisted
+      - ParcelCreated event is published
+      - RoutingService subscribes and continues flow
