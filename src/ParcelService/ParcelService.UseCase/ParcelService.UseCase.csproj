@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\ParcelService.Domain\ParcelService.Domain.csproj" />
     <ProjectReference Include="..\ParcelService.Facade\ParcelService.Facade.csproj" />
   </ItemGroup>
 

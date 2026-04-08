@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace ParcelService.Domain.ValueObjects
@@ -12,6 +13,7 @@ namespace ParcelService.Domain.ValueObjects
         public string ZipCode { get; init; }
         public string Country { get; init; }
 
+        [SetsRequiredMembers]
         private Address() { }
         public Address(string street, string houseNumber, string city, string zipCode, string country)
         {

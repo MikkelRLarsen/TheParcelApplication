@@ -25,7 +25,7 @@ using ParcelService.Api.DataTransferObjects;
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
 #pragma warning disable 8765 // Disable "CS8765 Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes)."
 
-namespace Api.Controllers
+namespace ParcelService.Api.Controllers
 {
     using System = global::System;
 
@@ -49,7 +49,7 @@ namespace Api.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-
+    [ApiController]
     public partial class ParcelController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IParcelController _implementation;

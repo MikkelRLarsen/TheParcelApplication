@@ -15,6 +15,10 @@ namespace ParcelService.Infrastructure.ModelConfigurations
             builder.ToTable("Parcel");
             builder.HasKey(x => x.Id);
 
+            builder
+               .Property(x => x.Id)
+               .ValueGeneratedNever();
+
             builder.ComplexProperty(x => x.Tracking, tracking =>
             {
                 tracking.Property(t => t.Status)

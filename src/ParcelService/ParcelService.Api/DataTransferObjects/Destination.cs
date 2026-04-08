@@ -9,11 +9,6 @@ namespace ParcelService.Api.DataTransferObjects
         public string Region { get; init; }
         public string Terminal { get; init; }
 
-        public Destination(string region, string termnial)
-        {
-            Region = region;
-            Terminal = termnial;
-        }
 
         public Facade.DataTransferObjects.Destination Map()
         {

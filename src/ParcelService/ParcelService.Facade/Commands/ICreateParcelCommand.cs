@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Shared.ResultPattern;
 
 namespace ParcelService.Facade.Commands
 {
     public interface ICreateParcelCommand
     {
-        public Task<CreateParcelCommandResponse> Handle(CreateParcelCommandDto command);
+        public Task<ResultT<CreateParcelCommandResponse>> Handle(CreateParcelCommandDto command);
     }
 }

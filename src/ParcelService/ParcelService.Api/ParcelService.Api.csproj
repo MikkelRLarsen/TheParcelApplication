@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+	<PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,9 +20,10 @@
   </ItemGroup>
 	
   <!-- Makes sure that NSwag script automatically runs before building, so we only need to update our OpenApiSpec and build for the update to be implemented
-  Condition is set, so our Release versions is not depedent on NSwag ConsoleCore tool-->
-  <Target Name="NSwag" BeforeTargets="Build" Condition="'$(Configuration)'=='Debug'">
+  Condition is set, so our Release versions is not depedent on NSwag ConsoleCore tool Debug-->
+  <Target Name="NSwag" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
 	  <Exec Command="nswag run OpenApiScript/open-api-script.nswag" />
   </Target>
 
+	
 </Project>

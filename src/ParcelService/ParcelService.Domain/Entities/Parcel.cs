@@ -2,6 +2,7 @@
 using ParcelService.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -17,11 +18,13 @@ namespace ParcelService.Domain.Entities
         public PersonInfo Sender { get; private set; }
         public PersonInfo Receiver { get; private set; }
 
+        [SetsRequiredMembers]
         private Parcel() { }
 
-        public Parcel(Tracking tracking, decimal weight, int priority, Destination destination, PersonInfo sender, PersonInfo receiver)
+        public Parcel(decimal weight, int priority, Destination destination, PersonInfo sender, PersonInfo receiver)
         {
-            Tracking = tracking;
+            Id = Guid.NewGuid();
+            Tracking = new Tracking();
             Weight = weight;
             Priority = priority;
             Destination = destination;

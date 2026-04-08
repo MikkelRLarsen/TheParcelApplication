@@ -13,14 +13,6 @@ namespace ParcelService.Api.DataTransferObjects
         public string City { get; init; }
         public string ZipCode { get; init; }
         public string Country { get; init; }
-        public Address(string street, string houseNumber, string city, string zipCode, string country)
-        {
-            Street = street;
-            HouseNumber = houseNumber;
-            City = city;
-            ZipCode = zipCode;
-            Country = country;
-        }
 
         public ParcelService.Facade.DataTransferObjects.Address Map()
         {

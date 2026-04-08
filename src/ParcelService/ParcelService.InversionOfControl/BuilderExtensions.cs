@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using ParcelService.Facade.Commands;
 using ParcelService.Infrastructure;
-using ParcelService.UseCase;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ParcelService.UseCase.Commands;
+using ParcelService.Infrastructure.Repositories;
+using ParcelService.UseCase.InfrastructureInterfaces;
 
 namespace ParcelService.InversionOfControl
 {
@@ -19,7 +21,7 @@ namespace ParcelService.InversionOfControl
 
             services.AddScoped<ICreateParcelCommand, CreateParcelCommand>();
 
-
+            services.AddScoped<IParcelRepository, ParcelRepository>();
 
             return services;
         }

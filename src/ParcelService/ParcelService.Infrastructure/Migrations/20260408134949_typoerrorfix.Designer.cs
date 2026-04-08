@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ParcelService.Infrastructure;
@@ -12,9 +13,11 @@ using ParcelService.Infrastructure;
 namespace ParcelService.Infrastructure.Migrations
 {
     [DbContext(typeof(EFAppContext))]
-    partial class EFAppContextModelSnapshot : ModelSnapshot
+    [Migration("20260408134949_typoerrorfix")]
+    partial class typoerrorfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +29,7 @@ namespace ParcelService.Infrastructure.Migrations
             modelBuilder.Entity("ParcelService.Domain.Entities.Parcel", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("Priority")
@@ -47,7 +51,7 @@ namespace ParcelService.Infrastructure.Migrations
                                 .HasColumnType("text");
                         });
 
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "Receiver", "ParcelService.Domain.Entities.Parcel.Receiver#PersonInfo", b1 =>
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "Reciever", "ParcelService.Domain.Entities.Parcel.Reciever#PersonInfo", b1 =>
                         {
                             b1.IsRequired();
 
@@ -55,7 +59,7 @@ namespace ParcelService.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Address", "ParcelService.Domain.Entities.Parcel.Receiver#PersonInfo.Address#Address", b2 =>
+                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Address", "ParcelService.Domain.Entities.Parcel.Reciever#PersonInfo.Address#Address", b2 =>
                                 {
                                     b2.IsRequired();
 
