@@ -5,8 +5,7 @@ on:
     branches: [master]
     paths:
       - 'src/ParcelService/**'
-    paths-ignore:
-      - 'src/ParcelService/Docs/**'
+      - '!src/ParcelService/Docs/**'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: parcelservice
