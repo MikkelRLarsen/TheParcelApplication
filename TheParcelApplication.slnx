@@ -12,5 +12,5 @@
     <Project Path="src/ParcelService/ParcelService.UseCase/ParcelService.UseCase.csproj" />
   </Folder>
   <Project Path="Aspire.AppHost/Aspire.AppHost.csproj" />
-  <Project Path="Aspire.Integrationtest/Aspire.Integrationtest.csproj" />
+  <Project Path="Aspire.IntegrationTest/Aspire.Integrationtest.csproj" />
 </Solution>
