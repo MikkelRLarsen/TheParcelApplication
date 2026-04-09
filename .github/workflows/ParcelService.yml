@@ -17,6 +17,7 @@ jobs:
   Countinous_Integration:
     permissions: 
       contents: read
+      checks: write
     uses: ./.github/workflows/ContinousIntegration.yml
       
   Countinous_Delivery:
