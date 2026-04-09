@@ -28,7 +28,7 @@ jobs:
     with:
       image-name: parcelservice
       docker-context: src
-      dockerfile: ParcelService/Dockerfile
+      dockerfile: src/ParcelService/Dockerfile
 
   Staging:
     runs-on: self-hosted

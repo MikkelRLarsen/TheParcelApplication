@@ -21,13 +21,14 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
 
       - name: Run Unit Tests
-        run: dotnet test --no-build --verbosity normal --filter "Category!=Integration"
+        run: dotnet test --no-build --verbosity normal --configuration Release --filter "Category!=Integration"
 
   run_integrationtest:
-    runs-on: ubuntu-latest
+    # Aspire needs Windows specific SDK and Orchestration. Might get changed to Ubuntu if fix gets found
+    runs-on: windows-latest
     needs: run_unittest
 
     steps:
@@ -42,7 +43,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
 
       - name: Run Integration Tests
-        run: dotnet test --no-build --verbosity normal --filter "Category=Integration"
+        run: dotnet test --no-build --verbosity normal --configuration Release --filter "Category=Integration"
