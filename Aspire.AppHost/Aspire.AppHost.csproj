@@ -9,12 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<!-- Windows bases packages for dev-->
+	<PackageReference Include="Aspire.Hosting.Orchestration.win-x64" Version="13.2.2" />
+	<PackageReference Include="Aspire.Dashboard.Sdk.win-x64" Version="13.2.2" />
+	  
+	<!-- Linux bases packages for CI--> 
+	<PackageReference Include="Aspire.Hosting.Orchestration.linux-x64" Version="13.2.2" />
+	<PackageReference Include="Aspire.Dashboard.Sdk.linux-x64" Version="13.2.2" />
+	  
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.2.2" />
 	<PackageReference Include="Aspire.Hosting" Version="13.2.2" />
 	<PackageReference Include="Aspire.Hosting.Redis" Version="13.2.2" />
 	<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.2.2" />
-	<PackageReference Include="Aspire.Hosting.Orchestration.win-x64" Version="13.2.2" />
-	<PackageReference Include="Aspire.Dashboard.Sdk.win-x64" Version="13.2.2" />
 	<PackageReference Include="Aspire.Hosting.AppHost" Version="13.2.2" />
 	<PackageReference Include="CommunityToolkit.Aspire.Hosting.Dapr" Version="13.0.0" />
   </ItemGroup>

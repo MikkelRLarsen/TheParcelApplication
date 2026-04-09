@@ -35,8 +35,7 @@ jobs:
           reporter: dotnet-trx
           
   run_integrationtest:
-    # Aspire needs Windows specific SDK and Orchestration. Might get changed to Ubuntu if fix gets found
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: run_unittest
 
     steps:
