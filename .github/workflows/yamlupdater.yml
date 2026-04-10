@@ -1,0 +1,25 @@
+name: YAML Updater
+
+on:
+  workflow_dispatch: 
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Update image tag
+      uses: loveholidays/gitops-action-yaml-updater@v1.0
+      with:
+        mode: IMAGE_TAG
+        container-name: redis
+        new-image-tag: 5
+        dir: TheParcelApplication/Docs/KubernetesDocuments/Deployments
+        files: RedisDeployment.yml
+    
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        message: "Update parcelservice image to 5"
+        add: "TheParcelApplication/Docs/KubernetesDocuments/Deployments/RedisDeployment.yml"
