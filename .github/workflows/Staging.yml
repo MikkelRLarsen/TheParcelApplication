@@ -17,7 +17,7 @@ on:
         required: true
         type: string
       tag:
-        required: false
+        required: true
         type: string      
       namespace:
         required: false
@@ -43,4 +43,4 @@ jobs:
 
       - name: Update deployment Image
         run: |
-         kubectl set image deployment/${{ inputs.deployment-name}} ${{ inputs.container-name }}=${{ inputs.registry }}/${{ inputs.owner }}/${{ inputs.image-name }}:${{ inputs.tag != '' && inputs.tag || github.sha }} -n ${{ inputs.namespace}}
+         kubectl set image deployment/${{ inputs.deployment-name}} ${{ inputs.container-name }}=${{ inputs.registry }}/${{ inputs.owner }}/${{ inputs.image-name }}:${{ inputs.tag }} -n ${{ inputs.namespace}}
