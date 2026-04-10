@@ -20,11 +20,11 @@ jobs:
         mode: IMAGE_TAG
         container-name: redis
         new-image-tag: 5
-        dir: TheParcelApplication/Docs/KubernetesDocuments/Deployments
+        dir: Docs/KubernetesDocuments/Deployments
         files: RedisDeployment.yml
     
     - name: Commit changes
       uses: EndBug/add-and-commit@v9
       with:
         message: "Update parcelservice image to 5"
-        add: "TheParcelApplication/Docs/KubernetesDocuments/Deployments/RedisDeployment.yml"
+        add: "Docs/KubernetesDocuments/Deployments/RedisDeployment.yml"
