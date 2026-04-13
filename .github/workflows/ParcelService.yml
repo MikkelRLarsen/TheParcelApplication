@@ -30,7 +30,7 @@ jobs:
     needs: Countinous_Delivery
     uses: ./.github/workflows/Staging.yml
     with:
-      deployment-name: ParcelDeployment
+      deployment-name: ParcelServiceDeployment
       container-name: parcelservice
       image-name: parcelservice
       tag: ${{ github.sha }}
@@ -39,7 +39,7 @@ jobs:
     needs: Staging
     uses: ./.github/workflows/Production.yml
     with:
-      deployment-name: ParcelDeployment
+      deployment-name: ParcelServiceDeployment
       container-name: parcelservice
       image-name: parcelservice
       tag: ${{ github.sha }}
@@ -51,5 +51,5 @@ jobs:
     uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
     with:
       container-name: parcelservice
-      filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelDeployment
+      filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelServiceDeployment
       tag: ${{ github.sha }}
