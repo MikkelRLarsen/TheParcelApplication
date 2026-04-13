@@ -31,7 +31,7 @@ jobs:
     uses: ./.github/workflows/Staging.yml
     with:
       deployment-name: ParcelServiceDeployment
-      container-name: ParcelService
+      container-name: parcelservice
       image-name: parcelservice
       tag: ${{ github.sha }}
       
@@ -40,7 +40,7 @@ jobs:
     uses: ./.github/workflows/Production.yml
     with:
       deployment-name: ParcelServiceDeployment
-      container-name: ParcelService
+      container-name: parcelservice
       image-name: parcelservice
       tag: ${{ github.sha }}
 
@@ -50,6 +50,6 @@ jobs:
       contents: write
     uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
     with:
-      container-name: ParcelService
+      container-name: parcelservice
       filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelServiceDeployment
       tag: ${{ github.sha }}
