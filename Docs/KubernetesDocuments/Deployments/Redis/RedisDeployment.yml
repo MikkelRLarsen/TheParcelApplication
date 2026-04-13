@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:6
+          image: redis:5
           args: ["--appendonly", "yes"]
           ports:
             - containerPort: 6379

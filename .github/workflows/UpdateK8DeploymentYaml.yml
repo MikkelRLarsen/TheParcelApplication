@@ -1,0 +1,39 @@
+name: Update K8 Deployment Yaml
+
+on:
+  workflow_call: 
+    inputs:
+      container-name:
+        required: true
+        type: string
+      filepath:
+        required: true
+        type: string
+      tag:
+        required: false
+        type: string
+  
+permissions:
+  contents: write
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      
+    - name: Update image tag
+      uses: loveholidays/gitops-action-yaml-updater@v1.0
+      with:
+        mode: IMAGE_TAG
+        container-name: ${{ inputs.container-name }}
+        new-image-tag: ${{ inputs.tag != '' && inputs.tag || github.sha }}
+        filepath: ${{ inputs.filepath }}
+    
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        message: "Update ${{ inputs.container-name }} image to ${{ inputs.tag != '' && inputs.tag || github.sha }}"
+        add: "${{ inputs.filepath }}"

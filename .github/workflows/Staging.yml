@@ -1,0 +1,46 @@
+name: Deploy Staging
+
+on:
+  workflow_call: 
+    inputs:
+      deployment-name:
+        required: true
+        type: string
+      container-name:
+        required: true
+        type: string
+      registry:
+        required: false
+        type: string
+        default: "ghcr.io"
+      image-name:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string      
+      namespace:
+        required: false
+        type: string
+        default: "default"
+      owner:
+        required: false
+        type: string
+        default: "mikkelrlarsen"     
+
+jobs:
+  Staging:
+    runs-on: self-hosted
+    environment: Staging
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: azure/setup-kubectl@v4
+      - uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Update deployment Image
+        run: |
+         kubectl set image deployment/${{ inputs.deployment-name}} ${{ inputs.container-name }}=${{ inputs.registry }}/${{ inputs.owner }}/${{ inputs.image-name }}:${{ inputs.tag }} -n ${{ inputs.namespace}}

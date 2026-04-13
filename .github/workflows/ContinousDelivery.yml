@@ -12,12 +12,18 @@ on:
       dockerfile:
         required: true
         type: string
-
-env:
-  REGISTRY: ghcr.io
-  TAG: ${{ github.sha }}
-  OWNER: mikkelrlarsen
-
+      tag:
+        required: true
+        type: string
+      registry:
+        required: false
+        type: string
+        default: ghcr.io
+      owner:
+        required: false
+        type: string
+        default: mikkelrlarsen
+  
 jobs:
   continous_delivery:
     runs-on: ubuntu-latest  
@@ -31,10 +37,10 @@ jobs:
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
+      - name: Log into registry ${{ inputs.registry }}
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -46,4 +52,4 @@ jobs:
           context: ${{ inputs.docker-context }}
           file: ${{ inputs.dockerfile }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ inputs.image-name }}:${{ env.TAG}}
+          tags: ${{ inputs.registry }}/${{ inputs.owner }}/${{ inputs.image-name }}:${{ inputs.tag }}

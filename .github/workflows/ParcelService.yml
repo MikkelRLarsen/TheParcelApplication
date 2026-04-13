@@ -6,13 +6,7 @@ on:
     branches: [master]
     paths:
       - 'src/ParcelService/**'
-      - '!src/ParcelService/Docs/**'
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: parcelservice
-  TAG: ${{ github.sha }}
-  OWNER: mikkelrlarsen
-  
+      - '!src/ParcelService/Docs/**' 
 jobs:
   Countinous_Integration:
     permissions: 
@@ -30,39 +24,32 @@ jobs:
       image-name: parcelservice
       docker-context: src
       dockerfile: src/ParcelService/Dockerfile
+      tag: ${{ github.sha }}
 
   Staging:
-    runs-on: self-hosted
-    environment: Staging
     needs: Countinous_Delivery
-
-    steps:
-      - uses: actions/checkout@v6
-      - uses: azure/setup-kubectl@v4
-      - uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          
-      - name: Update deployment image
-        run: |
-          kubectl set image deployment/${{ env.IMAGE_NAME}} ${{ env.IMAGE_NAME}}=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME}}:${{ env.TAG}} -n default
-
+    uses: ./.github/workflows/Staging.yml
+    with:
+      deployment-name: ParcelDeployment
+      container-name: parcelservice
+      image-name: parcelservice
+      tag: ${{ github.sha }}
+      
   Production:
-    runs-on: ubuntu-latest
-    environment: Production
     needs: Staging
+    uses: ./.github/workflows/Production.yml
+    with:
+      deployment-name: ParcelDeployment
+      container-name: parcelservice
+      image-name: parcelservice
+      tag: ${{ github.sha }}
 
-    steps:
-      - uses: actions/checkout@v6
-      - uses: azure/setup-kubectl@v4
-      - uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          
-      - name: Update deployment image
-        run: |
-          kubectl set image deployment/${{ env.IMAGE_NAME}} ${{ env.IMAGE_NAME}}=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME}}:${{ env.TAG}} -n default
-    
-    
+  UpdateDocs:
+    needs: Production
+    permissions: 
+      contents: write
+    uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
+    with:
+      container-name: parcelservice
+      filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelDeployment
+      tag: ${{ github.sha }}
