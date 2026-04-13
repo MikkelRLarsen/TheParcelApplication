@@ -1,0 +1,12 @@
+# pgAdmin Service (LoadBalancer)
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: pgadmin
+  ports:
+    - port: 9091
+      targetPort: 80

@@ -1,0 +1,12 @@
+# PersistentVolumeClaim for PostgreSQL to ParcelService
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: parcel-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard

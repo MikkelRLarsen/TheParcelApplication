@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: parcelservice-service
+  labels:
+    app: parcelservice-service
+spec:
+  type: LoadBalancer
+  selector: 
+    app: parcelservice
+  ports:
+    - port: 8001
+      targetPort: 8001

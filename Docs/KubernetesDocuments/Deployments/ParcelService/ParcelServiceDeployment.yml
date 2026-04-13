@@ -1,0 +1,34 @@
+# ParcelService Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parcelservice
+  labels:
+    app: parcelservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: parcelservice
+  template:
+    metadata:
+      labels:
+        app: parcelservice
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "parcelservice"
+        dapr.io/app-port: "8001"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+        - name: parcelservice
+          image: ghcr.io/mikkelrlarsen/parcelservice:f01bbff0dad4253a1f66588efa2cefe31fdc5e1d
+          ports:
+            - containerPort: 8001
+          imagePullPolicy: Always
+          env:
+            - name: ConnectionStrings__parceldb
+              valueFrom:
+                secretKeyRef:
+                  name: parcel-db-secret
+                  key: connectionString
