@@ -26,7 +26,12 @@ on:
       owner:
         required: false
         type: string
-        default: "mikkelrlarsen"     
+        default: "mikkelrlarsen"
+
+    outputs:
+      tag:
+        description: "docker image tag"
+        value: ${{ inputs.tag }}
 
 jobs:
   Staging:
