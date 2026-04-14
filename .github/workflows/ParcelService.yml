@@ -33,7 +33,7 @@ jobs:
       deployment-name: ParcelServiceDeployment
       container-name: parcelservice
       image-name: parcelservice
-      tag: ${{ github.sha }}
+      tag: ${{ needs.Countinous_Delivery.outputs.tag  }}
       
   Production:
     needs: Staging
@@ -42,7 +42,7 @@ jobs:
       deployment-name: ParcelServiceDeployment
       container-name: parcelservice
       image-name: parcelservice
-      tag: ${{ github.sha }}
+      tag: ${{ needs.Staging.outsputs.tag }}
 
   UpdateDocs:
     needs: Production
