@@ -36,20 +36,20 @@ jobs:
       tag: ${{ needs.Countinous_Delivery.outputs.tag  }}
       
   Production:
-    needs: Staging
+    needs: [Staging, Countinous_Delivery]
     uses: ./.github/workflows/Production.yml
     with:
       deployment-name: ParcelServiceDeployment
       container-name: parcelservice
       image-name: parcelservice
-      tag: ${{ needs.Staging.outsputs.tag }}
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}
 
   UpdateDocs:
-    needs: Production
+    needs: [Production, Countinous_Delivery]
     permissions: 
       contents: write
     uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
     with:
       container-name: parcelservice
       filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelServiceDeployment
-      tag: ${{ github.sha }}
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}
