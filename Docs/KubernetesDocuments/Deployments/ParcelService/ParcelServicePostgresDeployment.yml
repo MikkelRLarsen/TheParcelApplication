@@ -25,6 +25,8 @@ spec:
               value: "root"
             - name: POSTGRES_DB
               value: "parceldb"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: parcel-postgres-storage
               mountPath: /var/lib/postgresql/data
