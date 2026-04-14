@@ -23,6 +23,10 @@ on:
         required: false
         type: string
         default: mikkelrlarsen
+    outputs:
+      tag:
+        description: "docker image tag"
+        value: ${{ inputs.tag }}
   
 jobs:
   continous_delivery:
