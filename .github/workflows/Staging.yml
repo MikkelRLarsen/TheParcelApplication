@@ -28,11 +28,6 @@ on:
         type: string
         default: "mikkelrlarsen"
 
-    outputs:
-      tag:
-        description: "docker image tag"
-        value: ${{ inputs.tag }}
-
 jobs:
   Staging:
     runs-on: self-hosted
