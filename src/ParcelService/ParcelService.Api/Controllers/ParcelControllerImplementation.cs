@@ -10,6 +10,7 @@ namespace ParcelService.Api.Controllers
     {
         private readonly ICreateParcelCommand _createParcelCommand;
         private readonly HttpContext _httpContext;
+        private readonly ILogger<ParcelControllerImplementation> _logger;
 
         public ParcelControllerImplementation(ICreateParcelCommand createParcelCommand, IHttpContextAccessor contextAccessor)
         {
@@ -32,9 +33,11 @@ namespace ParcelService.Api.Controllers
             switch (result.Error.ErrorType)
             {
                 case ErrorType.BadRequest:
+                    _logger.LogError($"A request returned 400 => {result.Error.Code}");
                     throw new BadRequest(result.Error.Description);
 
                 default:
+                    _logger.LogError($"A request returned 500 => {result.Error.Code}");
                     throw new InternalException(result.Error.Description);
             }
         }

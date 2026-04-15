@@ -135,6 +135,11 @@ kubectl config set-context --current --namespace=dev
 $env:KUBECONFIG="$HOME\.kube\config;.\TheParcelApplication-kubeconfig.yml"
 ```
 
+### Download Kubeconfig
+```powershell
+kubectl config view --raw | Out-File -Encoding utf8 .\kubeconfig.yaml
+```
+
 ### Merge
 ```powershell
 kubectl config view --merge --flatten | Out-File -Encoding utf8 $HOME\.kube\config

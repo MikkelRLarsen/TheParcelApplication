@@ -34,14 +34,12 @@ namespace ParcelService.Api.Middleware
 
                 default:
                     statusCode = StatusCodes.Status500InternalServerError;
-                    badResponse = new BadResponse($"En uventet fejl skete => {exception.Source} + {exception.InnerException}");
+                    badResponse = new BadResponse($"En uventet fejl skete");
                     break;
             }
 
             // Sets the status code
             httpContext.Response.StatusCode = statusCode;
-
-            Console.WriteLine($"Error from {exception.Source} & {exception.InnerException}");
 
             // Writes and sends the reponse as JSON back to the client
             await httpContext.Response.WriteAsJsonAsync(badResponse, cancellationToken);
