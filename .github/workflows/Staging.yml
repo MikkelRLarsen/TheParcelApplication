@@ -27,6 +27,9 @@ on:
         required: false
         type: string
         default: "mikkelrlarsen"
+    secrets:
+      KUBECONFIG:
+        required: true
 
 jobs:
   Staging:
