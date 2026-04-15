@@ -26,7 +26,11 @@ on:
       owner:
         required: false
         type: string
-        default: "mikkelrlarsen"     
+        default: "mikkelrlarsen"   
+        
+    secrets:
+      KUBECONFIG:
+        required: true
 
 jobs:
   Production:
