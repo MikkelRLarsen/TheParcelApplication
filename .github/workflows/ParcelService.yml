@@ -55,5 +55,5 @@ jobs:
     uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
     with:
       container-name: parcelservice
-      filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelServiceDeployment
+      filepath: Docs/KubernetesDocuments/Deployments/ParcelService/ParcelServiceDeployment.yml
       tag: ${{ needs.Countinous_Delivery.outputs.tag }}
