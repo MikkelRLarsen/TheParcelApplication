@@ -137,7 +137,7 @@ $env:KUBECONFIG="$HOME\.kube\config;.\TheParcelApplication-kubeconfig.yml"
 
 ### Download Kubeconfig
 ```powershell
-kubectl config view --raw | Out-File -Encoding utf8 .\kubeconfig.yaml
+kubectl config view --minify --raw | Out-File -Encoding utf8 .\kubeconfig.yaml
 ```
 
 ### Merge
