@@ -30,7 +30,7 @@ jobs:
     needs: Countinous_Delivery
     uses: ./.github/workflows/Staging.yml
     with:
-      deployment-name: ParcelServiceDeployment
+      deployment-name: parcelservice
       container-name: parcelservice
       image-name: parcelservice
       tag: ${{ needs.Countinous_Delivery.outputs.tag  }}
@@ -41,7 +41,7 @@ jobs:
     needs: [Staging, Countinous_Delivery]
     uses: ./.github/workflows/Production.yml
     with:
-      deployment-name: ParcelServiceDeployment
+      deployment-name: parcelservice
       container-name: parcelservice
       image-name: parcelservice
       tag: ${{ needs.Countinous_Delivery.outputs.tag }}
