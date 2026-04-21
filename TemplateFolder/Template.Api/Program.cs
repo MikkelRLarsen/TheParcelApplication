@@ -1,3 +1,5 @@
+using ParcelService.Api.Middleware;
+using Scalar.AspNetCore;
 using Shared;
 
 namespace Template.Api;
@@ -6,28 +8,44 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+		var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+		// Add services to the container.
 
-        builder.Services.AddControllers().AddDapr();
+		builder.Services.AddControllers().AddDapr();
+		builder.Services.AddHttpContextAccessor();
 
-        builder.AddServiceDefaults();
+		builder.AddServiceDefaults();
 
-        builder.Services.AddEndpointsApiExplorer();
-      
+		builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddOpenApi();
 
-        var app = builder.Build();
+		builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+		builder.Services.AddProblemDetails();
 
-        // Configure the HTTP request pipeline.
+		builder.Services.RegisterServices(builder.Configuration);
+		builder.Services.AddScoped<IParcelController, ParcelControllerImplementation>();
 
-        app.UseHttpsRedirection();
+		var app = builder.Build();
 
-        app.UseAuthorization();
+		app.SetupDatabaseOnColdStart();
+
+		// Configure the HTTP request pipeline.
+		app.UseExceptionHandler();
+
+		app.UseHttpsRedirection();
+
+		app.UseAuthorization();
+
+		app.MapControllers();
 
 
-        app.MapControllers();
+		if (app.Environment.IsDevelopment())
+		{
+			app.MapOpenApi();
+			app.MapScalarApiReference();
+		}
 
-        app.Run();
-    }
+		app.Run();
+	}
 }
