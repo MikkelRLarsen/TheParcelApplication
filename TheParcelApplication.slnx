@@ -11,6 +11,15 @@
     <Project Path="src/ParcelService/ParcelService.UnitTest/ParcelService.UnitTest.csproj" />
     <Project Path="src/ParcelService/ParcelService.UseCase/ParcelService.UseCase.csproj" />
   </Folder>
+  <Folder Name="/src/RoutingService/">
+    <Project Path="src/RoutingService/RoutingService.Api/RoutingService.Api.csproj" />
+    <Project Path="src/RoutingService/RoutingService.Domain/RoutingService.Domain.csproj" />
+    <Project Path="src/RoutingService/RoutingService.Facade/RoutingService.Facade.csproj" />
+    <Project Path="src/RoutingService/RoutingService.Infrastructure/RoutingService.Infrastructure.csproj" />
+    <Project Path="src/RoutingService/RoutingService.InversionOfControl/RoutingService.InversionOfControl.csproj" />
+    <Project Path="src/RoutingService/RoutingService.UnitTest/RoutingService.UnitTest.csproj" />
+    <Project Path="src/RoutingService/RoutingService.UseCase/RoutingService.UseCase.csproj" />
+  </Folder>
   <Project Path="Aspire.AppHost/Aspire.AppHost.csproj" />
   <Project Path="Aspire.IntegrationTest/Aspire.Integrationtest.csproj" />
 </Solution>

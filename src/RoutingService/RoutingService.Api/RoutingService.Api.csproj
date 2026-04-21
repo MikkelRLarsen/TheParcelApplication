@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" />
+	<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+	<PackageReference Include="Scalar.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="DataTransferObjects\" />
+    <Folder Include="OpenApiScript\" />
+  </ItemGroup>
+
+</Project>
