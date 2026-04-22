@@ -12,8 +12,8 @@ namespace ParcelService.Api.DataTransferObjects
         public ParcelService.Facade.DataTransferObjects.PersonInfo Map()
         {
             return new Facade.DataTransferObjects.PersonInfo(
-                Name: this.Name,
-                Address: this.Address.Map());
+                name: this.Name,
+                address: this.Address.Map());
         }
     }    
 }

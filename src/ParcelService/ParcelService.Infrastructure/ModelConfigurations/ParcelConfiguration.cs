@@ -27,15 +27,19 @@ namespace ParcelService.Infrastructure.ModelConfigurations
 
             builder.ComplexProperty(x => x.Sender, sender =>
             {
-                sender.ComplexProperty(s => s.Address);
+                sender.ComplexProperty(s => s.PersonalInformation, personalInformation =>
+                {
+                    personalInformation.ComplexProperty(p => p.Address);
+                });
             });
 
-            builder.ComplexProperty(x => x.Receiver, receiver =>
-            {
-                receiver.ComplexProperty(r => r.Address);
-            });
-
-            builder.ComplexProperty(x => x.Destination);
+			builder.ComplexProperty(x => x.Receiver, receiver =>
+			{
+				receiver.ComplexProperty(r => r.PersonalInformation, personalInformation =>
+				{
+					personalInformation.ComplexProperty(p => p.Address);
+				});
+			});
         }
     }
 }

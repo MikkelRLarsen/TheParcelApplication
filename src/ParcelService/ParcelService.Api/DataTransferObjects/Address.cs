@@ -17,11 +17,11 @@ namespace ParcelService.Api.DataTransferObjects
         public ParcelService.Facade.DataTransferObjects.Address Map()
         {
             return new Facade.DataTransferObjects.Address(
-                Street: this.Street,
-                HouseNumber: this.HouseNumber,
-                City: this.City,
-                ZipCode: this.ZipCode,
-                Country: this.Country);
+                street: this.Street,
+                houseNumber: this.HouseNumber,
+                city: this.City,
+                zipCode: this.ZipCode,
+                country: this.Country);
         }
     }  
 }

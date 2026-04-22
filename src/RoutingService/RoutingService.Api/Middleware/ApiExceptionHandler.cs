@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using ParcelService.Api.DataTransferObjects;
-using static ParcelService.Api.Middleware.ApiExceptions;
+using RoutingService.Api.DataTransferObjects;
 
-namespace ParcelService.Api.Middleware
+namespace RoutingService.Api.Middleware
 {
     public class ApiExceptions
     {
@@ -27,10 +26,6 @@ namespace ParcelService.Api.Middleware
 
             switch (exception)
             {
-                case BadRequest:
-                    statusCode = StatusCodes.Status400BadRequest;
-                    badResponse = new BadResponse(exception.Message);
-                    break;
 
                 default:
                     statusCode = StatusCodes.Status500InternalServerError;

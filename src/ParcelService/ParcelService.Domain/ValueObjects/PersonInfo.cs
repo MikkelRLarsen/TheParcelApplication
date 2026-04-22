@@ -18,7 +18,5 @@ namespace ParcelService.Domain.ValueObjects
             Name = name;
             Address = address;
         }
-
-
     }
 }

@@ -6,19 +6,17 @@ namespace ParcelService.Facade.DataTransferObjects
 {
     public record CreateParcelCommandDto
     {
-        public decimal Weight { get; init; }
-        public int Priority { get; init; }
-        public Destination Destination { get; init; }
-        public PersonInfo Sender { get; init; }
-        public PersonInfo Reciever { get; init; }
+		public CreateParcelCommandDto(decimal weight, int priority, Party receiver, Party sender)
+		{
+			Weight = weight;
+			Priority = priority;
+			Receiver = receiver;
+			Sender = sender;
+		}
 
-        public CreateParcelCommandDto(decimal weight, int priority, Destination destination, PersonInfo sender, PersonInfo reciever)
-        {
-            Weight = weight;
-            Priority = priority;
-            Destination = destination;
-            Sender = sender;
-            Reciever = reciever;
-        }
+		public decimal Weight { get; private set; }
+		public int Priority { get; private set; }
+		public Party Receiver { get; private set; }
+		public Party Sender { get; private set; }
     }
 }

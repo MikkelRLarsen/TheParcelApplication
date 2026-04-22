@@ -18,35 +18,34 @@ namespace ParcelService.UseCase.Mappers
         {
             try
             {
-                Domain.ValueObjects.Destination destination =
-                    new Domain.ValueObjects.Destination(
-                        dto.Destination.Region,
-                        dto.Destination.Terminal);
+                Domain.ValueObjects.Party reciever =
+                    new Domain.ValueObjects.Party(
+                        terminalId: dto.Receiver.TerminalId,
+                        personalInformation: new Domain.ValueObjects.PersonInfo(
+                            name: dto.Receiver.PersonalInformation.Name,
+                            address: new Domain.ValueObjects.Address(
+                                street: dto.Receiver.PersonalInformation.Address.Street,
+                                houseNumber: dto.Receiver.PersonalInformation.Address.HouseNumber,
+                                city: dto.Receiver.PersonalInformation.Address.City,
+                                zipCode: dto.Receiver.PersonalInformation.Address.ZipCode,
+                                country: dto.Receiver.PersonalInformation.Address.Country)));
 
-                Domain.ValueObjects.PersonInfo sender =
-                    new Domain.ValueObjects.PersonInfo(
-                        dto.Sender.Name,
-                        new Domain.ValueObjects.Address(
-                            dto.Sender.Address.Street,
-                            dto.Sender.Address.HouseNumber,
-                            dto.Sender.Address.City,
-                            dto.Sender.Address.ZipCode,
-                            dto.Sender.Address.Country));
+				Domain.ValueObjects.Party sender =
+	                new Domain.ValueObjects.Party(
+		                terminalId: dto.Sender.TerminalId,
+		                personalInformation: new Domain.ValueObjects.PersonInfo(
+			                name: dto.Sender.PersonalInformation.Name,
+			                address: new Domain.ValueObjects.Address(
+				                street: dto.Sender.PersonalInformation.Address.Street,
+				                houseNumber: dto.Sender.PersonalInformation.Address.HouseNumber,
+				                city: dto.Sender.PersonalInformation.Address.City,
+				                zipCode: dto.Sender.PersonalInformation.Address.ZipCode,
+				                country: dto.Sender.PersonalInformation.Address.Country)));
 
-                Domain.ValueObjects.PersonInfo reciever =
-                    new Domain.ValueObjects.PersonInfo(
-                        dto.Reciever.Name,
-                        new Domain.ValueObjects.Address(
-                            dto.Reciever.Address.Street,
-                            dto.Reciever.Address.HouseNumber,
-                            dto.Reciever.Address.City,
-                            dto.Reciever.Address.ZipCode,
-                            dto.Reciever.Address.Country));
 
-                Parcel parcel = new Parcel(
+				Parcel parcel = new Parcel(
                     dto.Weight,
                     dto.Priority,
-                    destination,
                     sender,
                     reciever);
 

@@ -49,8 +49,8 @@ namespace ParcelService.Api.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    [ApiController]
-    public partial class ParcelController : Microsoft.AspNetCore.Mvc.ControllerBase
+	[ApiController]
+	public partial class ParcelController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IParcelController _implementation;
 

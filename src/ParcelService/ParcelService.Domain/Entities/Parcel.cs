@@ -14,27 +14,26 @@ namespace ParcelService.Domain.Entities
         public Tracking Tracking { get; private set; }
         public decimal Weight { get; private set; }
         public int Priority { get; private set; }
-        public Destination Destination { get; private set; }
-        public PersonInfo Sender { get; private set; }
-        public PersonInfo Receiver { get; private set; }
+        public Party Receiver { get; private set; }
+        public Party Sender { get; private set; }
+
 
         [SetsRequiredMembers]
         private Parcel() { }
 
-        public Parcel(decimal weight, int priority, Destination destination, PersonInfo sender, PersonInfo receiver)
-        {
-            Id = Guid.NewGuid();
-            Tracking = new Tracking();
-            Weight = weight;
-            Priority = priority;
-            Destination = destination;
-            Sender = sender;
-            Receiver = receiver;
+		public Parcel(decimal weight, int priority, Party receiver, Party sender)
+		{
+			Id = Guid.NewGuid();
+			Tracking = new Tracking();
+			Weight = weight;
+			Priority = priority;
+			Receiver = receiver;
+			Sender = sender;
 
-            Validate();
-        }
+			Validate();
+		}
 
-        protected void Validate()
+		protected void Validate()
         {
             if (Weight < 0)
                 throw new DomainException("Must have a Weight");

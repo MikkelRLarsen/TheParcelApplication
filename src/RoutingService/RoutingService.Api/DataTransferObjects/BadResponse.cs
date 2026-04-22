@@ -1,4 +1,4 @@
-﻿namespace ParcelService.Api.DataTransferObjects
+﻿namespace RoutingService.Api.DataTransferObjects
 {
     public class BadResponse
     {
