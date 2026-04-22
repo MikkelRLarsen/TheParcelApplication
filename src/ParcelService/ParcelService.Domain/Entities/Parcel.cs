@@ -10,12 +10,12 @@ namespace ParcelService.Domain.Entities
 {
     public class Parcel
     {
-        public Guid Id { get; private set; }
-        public Tracking Tracking { get; private set; }
+        public Guid Id { get; init; }
+        public Tracking Tracking { get; private set; } = null!;
         public decimal Weight { get; private set; }
         public int Priority { get; private set; }
-        public Party Receiver { get; private set; }
-        public Party Sender { get; private set; }
+        public Party Receiver { get; private set; } = null!;
+        public Party Sender { get; private set; } = null!;
 
 
         [SetsRequiredMembers]

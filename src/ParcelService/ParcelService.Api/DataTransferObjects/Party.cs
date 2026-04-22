@@ -7,8 +7,8 @@ namespace ParcelService.Api.DataTransferObjects
 {
 	public record Party
 	{
-		public Guid TerminalId { get; init; }
-		public PersonInfo PersonalInformation { get; init; }
+		public required Guid TerminalId { get; init; }
+		public required PersonInfo PersonalInformation { get; init; }
 
 		public ParcelService.Facade.DataTransferObjects.Party Map()
 		{

@@ -8,7 +8,7 @@ namespace ParcelService.Domain.ValueObjects
     public record Party
     {
         public Guid TerminalId { get; init; }
-        public PersonInfo PersonalInformation { get; init; }
+        public PersonInfo PersonalInformation { get; init; } = null!;
 
         [SetsRequiredMembers]
         private Party() { }

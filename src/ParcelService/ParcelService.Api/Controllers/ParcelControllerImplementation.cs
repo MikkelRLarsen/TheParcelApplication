@@ -12,13 +12,14 @@ namespace ParcelService.Api.Controllers
         private readonly HttpContext _httpContext;
         private readonly ILogger<ParcelControllerImplementation> _logger;
 
-        public ParcelControllerImplementation(ICreateParcelCommand createParcelCommand, IHttpContextAccessor contextAccessor)
-        {
-            _createParcelCommand = createParcelCommand;
-            _httpContext = contextAccessor.HttpContext;
-        }
+		public ParcelControllerImplementation(ICreateParcelCommand createParcelCommand, IHttpContextAccessor contextAccessor, ILogger<ParcelControllerImplementation> logger)
+		{
+			_createParcelCommand = createParcelCommand;
+			_httpContext = contextAccessor.HttpContext!;
+			_logger = logger;
+		}
 
-        public async Task<CreateParcelResponse> CreateParcelAsync(CreateParcelRequest body)
+		public async Task<CreateParcelResponse> CreateParcelAsync(CreateParcelRequest body)
         {
             ResultT<CreateParcelCommandResponse> result = await _createParcelCommand.Handle(body.Map());
 
@@ -30,7 +31,7 @@ namespace ParcelService.Api.Controllers
                 return reponse;
             }
 
-            switch (result.Error.ErrorType)
+            switch (result.Error!.ErrorType)
             {
                 case ErrorType.BadRequest:
                     _logger.LogError($"A request returned 400 => {result.Error.Code}");

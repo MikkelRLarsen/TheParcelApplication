@@ -8,11 +8,11 @@ namespace ParcelService.Api.DataTransferObjects
 {
     public record Address
     {
-        public string Street { get; init; }
-        public string HouseNumber { get; init; }
-        public string City { get; init; }
-        public string ZipCode { get; init; }
-        public string Country { get; init; }
+        public required string Street { get; init; }
+        public required string HouseNumber { get; init; }
+        public required string City { get; init; }
+        public required string ZipCode { get; init; }
+        public required string Country { get; init; }
 
         public ParcelService.Facade.DataTransferObjects.Address Map()
         {

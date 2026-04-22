@@ -6,10 +6,10 @@ namespace ParcelService.Api.DataTransferObjects
 {
     public record CreateParcelRequest
     {
-		public decimal Weight { get; private set; }
-		public int Priority { get; private set; }
-		public Party Receiver { get; private set; }
-		public Party Sender { get; private set; }
+		public required decimal Weight { get; init; }
+		public required int Priority { get; init; }
+		public required Party Receiver { get; init; }
+		public required Party Sender { get; init; }
 
 
 		public Facade.DataTransferObjects.CreateParcelCommandDto Map()
