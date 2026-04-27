@@ -23,7 +23,7 @@ namespace Aspire.Integrationtest
 
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
         private IDistributedApplicationTestingBuilder? _appHost;
-        private DistributedApplication _app;
+        private DistributedApplication _app = null!;
 
 
         // This is an example. Use Services destribed in AppHost

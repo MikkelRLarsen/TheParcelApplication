@@ -38,6 +38,7 @@ public class Program
 
 		app.MapControllers();
 
+		app.MapSubscribeHandler();
 
 		if (app.Environment.IsDevelopment())
 		{

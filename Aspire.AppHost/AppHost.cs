@@ -30,6 +30,7 @@ namespace Aspire.AppHost
                 redis: redis);
 
             builder.ParcelService(buildingBlock);
+            builder.RoutingService(buildingBlock);
 
             // Add Dapr Dashboard
             builder.AddExecutable(
@@ -60,6 +61,21 @@ namespace Aspire.AppHost
                     ResourcesPaths = block.daprResources
                 })
                 .WaitFor(parcelDb);
+        }
+
+        public static void RoutingService(this IDistributedApplicationBuilder builder, ServiceBuildingBlocks block)
+        {
+            var routingDb = block.postgres.AddDatabase("routingdb");
+
+            var routingService = builder.AddProject<Projects.RoutingService_Api>("routingService")
+                .WithReference(routingDb)
+                .WithDaprSidecar(new DaprSidecarOptions
+                {
+                    AppId = "routingservice",
+                    DaprHttpPort = 8082,
+                    ResourcesPaths = block.daprResources
+                })
+                .WaitFor(routingDb);
         }
     }
 

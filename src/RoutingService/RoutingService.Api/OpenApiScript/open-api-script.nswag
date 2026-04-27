@@ -12,18 +12,18 @@
     "openApiToCSharpController": {
       "controllerBaseClass": "Shared.ApiControllerBase",
       "controllerTarget": "AspNetCore",
-      "className": "Parcel",
-      "namespace": "ParcelService.Api.Controllers",
+      "className": "Routing",
+      "namespace": "RoutingService.Api.Controllers",
       "generateOptionalParameters": true,
       "generateDtoTypes": false,
       "additionalNamespaceUsages": [
         "Microsoft.AspNetCore.Mvc",
         "System.CodeDom.Compiler",
         "System.Threading.Tasks",
-        "ParcelService.Api.DataTransferObjects",
+        "RoutingService.Api.DataTransferObjects",
         "Shared"
       ],
-      "output": "../Controllers/ParcelController.cs"
+      "output": "../Controllers/RoutingController.cs"
     }
   }
 }

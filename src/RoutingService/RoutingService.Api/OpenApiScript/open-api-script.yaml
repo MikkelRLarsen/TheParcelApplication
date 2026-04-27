@@ -1,0 +1,93 @@
+﻿openapi: 3.0.3
+info:
+  title: Routing Service API
+  version: 1.0.0
+  description: |
+    API for handling routing of parcels in the event-driven parcel system.
+    RoutingService consumes `NewParcelEvent` and determines the routing path.
+    On success, a `RoutingCreated` event can be published.
+
+paths:
+  /routing:
+    post:
+      summary: Process new parcel routing
+      description: |
+        Receives a new parcel event and initiates routing logic.
+        Determines the route between sender and receiver terminals.
+      operationId: processRouting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewParcelEvent'
+      responses:
+        '200':
+          description: Routing processed successfully
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+components:
+  responses:
+    400Error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+    500Error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+  schemas:
+
+    BadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request data"
+
+    NewParcelEvent:
+      type: object
+      required:
+        - trackingNumber
+        - sender
+        - receiver
+        - priority
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        sender:
+          $ref: '#/components/schemas/Terminal'
+        receiver:
+          $ref: '#/components/schemas/Terminal'
+        priority:
+          type: integer
+          minimum: 0
+          example: 1
+
+    Terminal:
+      type: object
+      required:
+        - terminalId
+      properties:
+        terminalId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+x-use-cases:
+  - name: Routing Flow
+    steps:
+      - ParcelService publishes NewParcelEvent
+      - RoutingService receives event via POST /routing
+      - RoutingService validates input
+      - RoutingService calculates optimal route

@@ -7,8 +7,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
-using ParcelService.Api.DataTransferObjects;
+using RoutingService.Api.DataTransferObjects;
 using Shared;
+using Dapr;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -26,53 +27,54 @@ using Shared;
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
 #pragma warning disable 8765 // Disable "CS8765 Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes)."
 
-namespace ParcelService.Api.Controllers
+namespace RoutingService.Api.Controllers
 {
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public interface IParcelController
+    public interface IRoutingController
     {
 
         /// <summary>
-        /// Create a new parcel
+        /// Process new parcel routing
         /// </summary>
 
         /// <remarks>
-        /// Creates a new parcel and starts the routing and allocation flow.
-        /// <br/>On success, a `ParcelCreated` event is published to the event bus.
+        /// Receives a new parcel event and initiates routing logic.
+        /// <br/>Determines the route between sender and receiver terminals.
         /// </remarks>
 
-        /// <returns>Parcel created successfully</returns>
+        /// <returns>Routing processed successfully</returns>
 
-        System.Threading.Tasks.Task<CreateParcelResponse> CreateParcelAsync(CreateParcelRequest body);
+        System.Threading.Tasks.Task ProcessRoutingAsync(NewParcelEvent body);
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
 
-    public partial class ParcelController : Shared.ApiControllerBase
+    public partial class RoutingController : Shared.ApiControllerBase
     {
-        private IParcelController _implementation;
+        private IRoutingController _implementation;
 
-        public ParcelController(IParcelController implementation)
+        public RoutingController(IRoutingController implementation)
         {
             _implementation = implementation;
         }
 
         /// <summary>
-        /// Create a new parcel
+        /// Process new parcel routing
         /// </summary>
         /// <remarks>
-        /// Creates a new parcel and starts the routing and allocation flow.
-        /// <br/>On success, a `ParcelCreated` event is published to the event bus.
+        /// Receives a new parcel event and initiates routing logic.
+        /// <br/>Determines the route between sender and receiver terminals.
         /// </remarks>
-        /// <returns>Parcel created successfully</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("parcels")]
-        public System.Threading.Tasks.Task<CreateParcelResponse> CreateParcel([Microsoft.AspNetCore.Mvc.FromBody] CreateParcelRequest body)
+        /// <returns>Routing processed successfully</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("routing")]
+        [Topic("daprpubsub", "new-parcel")]
+        public System.Threading.Tasks.Task ProcessRouting([Microsoft.AspNetCore.Mvc.FromBody] NewParcelEvent body)
         {
 
-            return _implementation.CreateParcelAsync(body);
+            return _implementation.ProcessRoutingAsync(body);
         }
 
     }
