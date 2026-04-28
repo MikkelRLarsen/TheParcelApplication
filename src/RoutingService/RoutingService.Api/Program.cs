@@ -35,20 +35,21 @@ public class Program
 		// Configure the HTTP request pipeline.
 		app.UseExceptionHandler();
 
-		app.UseHttpsRedirection();
+		app.UseCloudEvents();
+		//app.UseHttpsRedirection();
+
+		app.MapSubscribeHandler();
 
 		app.UseAuthorization();
 
 		app.MapControllers();
 
-		app.MapSubscribeHandler();
 
 		if (app.Environment.IsDevelopment())
 		{
 			app.MapOpenApi();
 			app.MapScalarApiReference();
 		}
-		app.UseCloudEvents();
 
 		app.Run();
 	}

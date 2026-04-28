@@ -6,17 +6,17 @@ namespace RoutingService.Facade.DataTransferObjects
 {
 	public sealed record RouteNewParcel
 	{
-		public RouteNewParcel(Guid trackingNumber, Terminal sender, Terminal receiver, int priority)
+		public RouteNewParcel(Guid trackingNumber, Terminal senderTerminal, Terminal receiverTerminal, int priority)
 		{
 			TrackingNumber = trackingNumber;
-			Sender = sender;
-			Receiver = receiver;
+			SenderTerminal = senderTerminal;
+			ReceiverTerminal = receiverTerminal;
 			Priority = priority;
 		}
 
 		public Guid TrackingNumber { get; init; }
-		public Terminal Sender { get; init; }
-		public Terminal Receiver { get; init; }
+		public Terminal SenderTerminal { get; init; }
+		public Terminal ReceiverTerminal { get; init; }
 		public int Priority { get; init; }
 	}
 }

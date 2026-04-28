@@ -3,16 +3,16 @@
 	public record NewParcelEvent
 	{
 		public required Guid TrackingNumber { get; init; }
-		public required Terminal Sender { get; init; }
-		public required Terminal Receiver { get; init; }
+		public required Terminal SenderTerminal { get; init; }
+		public required Terminal ReceiverTerminal { get; init; }
 		public required int Priority { get; init; }
 
 		public Facade.DataTransferObjects.RouteNewParcel Map()
 		{
 			return new Facade.DataTransferObjects.RouteNewParcel(
 				trackingNumber: TrackingNumber,
-				sender: Sender.Map(),
-				receiver: Receiver.Map(),
+				senderTerminal: SenderTerminal.Map(),
+				receiverTerminal: ReceiverTerminal.Map(),
 				priority: Priority);
 		}
 	}
