@@ -1,7 +1,7 @@
 ﻿openapi: 3.0.3
 info:
   title: Routing Service API
-  version: 1.0.0
+  version: 1.1.0
   description: |
     API for handling routing of parcels in the event-driven parcel system.
     RoutingService consumes `NewParcelEvent` and determines the routing path.
@@ -37,6 +37,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/BadResponse'
+
     500Error:
       description: Internal Server Error
       content:
@@ -57,18 +58,21 @@ components:
       type: object
       required:
         - trackingNumber
-        - sender
-        - receiver
+        - senderTerminal
+        - receiverTerminal
         - priority
       properties:
         trackingNumber:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-        sender:
+
+        senderTerminal:
           $ref: '#/components/schemas/Terminal'
-        receiver:
+
+        receiverTerminal:
           $ref: '#/components/schemas/Terminal'
+
         priority:
           type: integer
           minimum: 0
@@ -77,12 +81,33 @@ components:
     Terminal:
       type: object
       required:
-        - terminalId
+        - id
+        - region
       properties:
-        terminalId:
+        id:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
+
+        region:
+          $ref: '#/components/schemas/Region'
+
+    Region:
+      type: object
+      required:
+        - country
+        - mainRegion
+        - subRegion
+      properties:
+        country:
+          type: string
+          example: "Denmark"
+        mainRegion:
+          type: string
+          example: "Jylland"
+        subRegion:
+          type: string
+          example: "Aarhus"
 
 x-use-cases:
   - name: Routing Flow
@@ -91,3 +116,4 @@ x-use-cases:
       - RoutingService receives event via POST /routing
       - RoutingService validates input
       - RoutingService calculates optimal route
+      - Routing result is published as RoutingCreated event

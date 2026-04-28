@@ -1,7 +1,7 @@
 ﻿openapi: 3.0.3
 info:
   title: Parcel Service API
-  version: 1.2.0
+  version: 1.3.0
   description: |
     API for creating parcels in the event-driven parcel routing system.
     ParcelService generates a tracking number and publishes a `ParcelCreated` event after successful creation.
@@ -89,15 +89,43 @@ components:
     Party:
       type: object
       required:
-        - terminalId
+        - terminal
         - personalInformation
       properties:
-        terminalId:
+        terminal:
+          $ref: '#/components/schemas/Terminal'
+        personalInformation:
+          $ref: '#/components/schemas/PersonInfo'
+
+    Terminal:
+      type: object
+      required:
+        - id
+        - region
+      properties:
+        id:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-        personalInformation:
-          $ref: '#/components/schemas/PersonInfo'
+        region:
+          $ref: '#/components/schemas/Region'
+
+    Region:
+      type: object
+      required:
+        - country
+        - mainRegion
+        - subRegion
+      properties:
+        country:
+          type: string
+          example: "Denmark"
+        mainRegion:
+          type: string
+          example: "Jylland"
+        subRegion:
+          type: string
+          example: "Aarhus"
 
     PersonInfo:
       type: object

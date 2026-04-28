@@ -7,15 +7,14 @@ namespace ParcelService.Domain.ValueObjects
 {
     public record Party
     {
-        public Guid TerminalId { get; init; }
+        public Terminal Terminal { get; init; } = null!;
         public PersonInfo PersonalInformation { get; init; } = null!;
 
-        [SetsRequiredMembers]
-        private Party() { }
-
-		public Party(Guid terminalId, PersonInfo personalInformation)
+		[SetsRequiredMembers]
+		private Party() { }
+		public Party(Terminal terminal, PersonInfo personalInformation)
 		{
-			TerminalId = terminalId;
+			Terminal = terminal;
 			PersonalInformation = personalInformation;
 		}
 	}

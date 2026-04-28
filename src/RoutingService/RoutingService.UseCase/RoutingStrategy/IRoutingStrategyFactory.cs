@@ -7,6 +7,6 @@ namespace RoutingService.UseCase.RoutingStrategy
 {
 	public interface IRoutingStrategyFactory
 	{
-		public IRoutingStrategy Create(Route route);
+		public IRoutingStrategy Create();
 	}
 }

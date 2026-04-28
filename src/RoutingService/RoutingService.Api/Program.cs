@@ -1,6 +1,8 @@
+using RoutingService.Api.Controllers;
 using RoutingService.Api.Middleware;
 using Scalar.AspNetCore;
 using Shared;
+using RoutingService.InversionOfControl;
 
 namespace RoutingService.Api;
 
@@ -22,8 +24,9 @@ public class Program
 
 		builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 		builder.Services.AddProblemDetails();
+		builder.Services.AddScoped<IRoutingController, RoutingControllerImplementation>();
 
-		//builder.Services.RegisterServices(builder.Configuration);
+		builder.Services.RegisterServices(builder.Configuration);
 
 		var app = builder.Build();
 
@@ -45,6 +48,7 @@ public class Program
 			app.MapOpenApi();
 			app.MapScalarApiReference();
 		}
+		app.UseCloudEvents();
 
 		app.Run();
 	}

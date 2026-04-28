@@ -11,10 +11,10 @@ namespace RoutingService.Api.Controllers
 		private readonly ILogger<RoutingControllerImplementation> _logger;
 		private readonly HttpContext _httpContext;
 
-		public RoutingControllerImplementation(IRouteNewParcelCommand command, ILogger<RoutingControllerImplementation> logger, IHttpContextAccessor contextAccessor)
+		public RoutingControllerImplementation(IRouteNewParcelCommand command,  IHttpContextAccessor contextAccessor)
 		{
 			_command = command;
-			_logger = logger;
+			//_logger = logger;
 			_httpContext = contextAccessor.HttpContext!;
 		}
 
