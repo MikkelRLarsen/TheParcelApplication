@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace RoutingService.Facade.DataTransferObjects
 {
 	public sealed record RouteNewParcel
 	{
+		[SetsRequiredMembers]
 		public RouteNewParcel(Guid trackingNumber, Terminal senderTerminal, Terminal receiverTerminal, int priority)
 		{
 			TrackingNumber = trackingNumber;
@@ -14,9 +16,9 @@ namespace RoutingService.Facade.DataTransferObjects
 			Priority = priority;
 		}
 
-		public Guid TrackingNumber { get; init; }
-		public Terminal SenderTerminal { get; init; }
-		public Terminal ReceiverTerminal { get; init; }
-		public int Priority { get; init; }
+		public required Guid TrackingNumber { get; init; }
+		public required Terminal SenderTerminal { get; init; }
+		public required Terminal ReceiverTerminal { get; init; }
+		public required int Priority { get; init; }
 	}
 }

@@ -1,17 +1,18 @@
-﻿using RoutingService.Domain.ValueObjects;
+﻿using RoutingService.Domain;
+using RoutingService.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RoutingService.UseCase.GraphEntities
 {
-	public sealed record Graph<T> where T : Entity
+	public sealed record Graph
 	{
-		public Graph(GraphNode<T>[] graphNodes)
+		public Graph(Terminal[] graphNodes)
 		{
 			GraphNodes = graphNodes;
 		}
 
-		public GraphNode<T>[] GraphNodes { get; init; }
+		public Terminal[] GraphNodes { get; init; }
 	}
 }

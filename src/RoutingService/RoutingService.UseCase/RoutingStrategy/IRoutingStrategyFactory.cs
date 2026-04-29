@@ -7,6 +7,6 @@ namespace RoutingService.UseCase.RoutingStrategy
 {
 	public interface IRoutingStrategyFactory
 	{
-		public IRoutingStrategy Create();
+		public IRoutingStrategy Create(Terminal from, Terminal to);
 	}
 }

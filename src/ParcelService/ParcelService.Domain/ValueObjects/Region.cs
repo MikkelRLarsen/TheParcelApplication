@@ -7,6 +7,7 @@ namespace ParcelService.Domain.ValueObjects
 {
 	public sealed record Region
 	{
+		[SetsRequiredMembers]
 		public Region(string country, string mainRegion, string subRegion)
 		{
 			Country = country;
@@ -17,8 +18,8 @@ namespace ParcelService.Domain.ValueObjects
 		[SetsRequiredMembers]
 		private Region() { }
 
-		public string Country { get; init; } = null!;
-		public string MainRegion { get; init; } = null!;
-		public string SubRegion { get; init; } = null!;
+		public required string Country { get; init; } = null!;
+		public required string MainRegion { get; init; } = null!;
+		public required string SubRegion { get; init; } = null!;
 	}
 }

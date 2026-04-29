@@ -1,14 +1,23 @@
 ﻿using RoutingService.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace RoutingService.Domain
 {
 	public sealed class Edge
 	{
-		public Guid From { get; private set; }
-		public Guid To { get; private set; }
-		public int weight { get; private set; }
+		[SetsRequiredMembers]
+		public Edge(Guid from, Guid to, int weight)
+		{
+			From = from;
+			To = to;
+			this.weight = weight;
+		}
+
+		public required Guid From { get; init; }
+		public required Guid To { get; init; }
+		public required int weight { get; init; }
 	}
 }

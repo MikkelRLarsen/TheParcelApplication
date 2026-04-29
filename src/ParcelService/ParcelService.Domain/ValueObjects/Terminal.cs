@@ -7,6 +7,7 @@ namespace ParcelService.Domain.ValueObjects
 {
 	public sealed record Terminal
 	{
+		[SetsRequiredMembers]
 		public Terminal(Guid id, Region region)
 		{
 			Id = id;
@@ -16,7 +17,7 @@ namespace ParcelService.Domain.ValueObjects
 		[SetsRequiredMembers]
 		private Terminal() { }
 
-		public Guid Id { get; init; }
-		public Region Region { get; init; } = null!;
+		public required Guid Id { get; init; }
+		public required Region Region { get; init; } = null!;
 	}
 }

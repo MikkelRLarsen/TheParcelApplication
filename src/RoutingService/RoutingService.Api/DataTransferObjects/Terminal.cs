@@ -2,7 +2,7 @@
 {
 	public record Terminal
 	{
-		public Guid TerminalId { get; init; }
+		public required Guid TerminalId { get; init; }
 		public required Region Region { get; init; }
 
 		public Facade.DataTransferObjects.Terminal Map()

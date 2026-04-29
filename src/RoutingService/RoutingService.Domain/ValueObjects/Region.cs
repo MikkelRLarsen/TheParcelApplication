@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace ParcelService.Facade.DataTransferObjects
+namespace RoutingService.Domain.ValueObjects
 {
 	public sealed record Region
 	{
@@ -15,8 +15,8 @@ namespace ParcelService.Facade.DataTransferObjects
 			SubRegion = subRegion;
 		}
 
-		public required string Country { get; init; } = null!;
-		public required string MainRegion { get; init; } = null!;
-		public required string SubRegion { get; init; } = null!;
+		public required string Country { get; init; } 
+		public required string MainRegion { get; init; } 
+		public required string SubRegion { get; init; } 
 	}
 }

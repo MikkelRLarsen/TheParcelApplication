@@ -7,14 +7,16 @@ namespace ParcelService.Domain.ValueObjects
 {
     public record Address
     {
-        public string Street { get; init; } = null!;
-        public string HouseNumber { get; init; } = null!;
-        public string City { get; init; } = null!;
-        public string ZipCode { get; init; } = null!;
-        public string Country { get; init; } = null!;
+        public required string Street { get; init; } = null!;
+        public required string HouseNumber { get; init; } = null!;
+        public required string City { get; init; } = null!;
+        public required string ZipCode { get; init; } = null!; 
+        public required string Country { get; init; } = null!;
 
         [SetsRequiredMembers]
         private Address() { }
+
+        [SetsRequiredMembers]
         public Address(string street, string houseNumber, string city, string zipCode, string country)
         {
             Street = street;

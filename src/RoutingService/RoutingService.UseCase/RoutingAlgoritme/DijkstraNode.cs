@@ -1,4 +1,5 @@
-﻿using RoutingService.Domain.ValueObjects;
+﻿using RoutingService.Domain;
+using RoutingService.Domain.ValueObjects;
 using RoutingService.UseCase.GraphEntities;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,14 @@ using System.Text;
 
 namespace RoutingService.UseCase.RoutingAlgoritme
 {
-	public sealed class DijkstraNode<T> where T : Entity
+	public sealed class DijkstraNode
 	{
-		public GraphNode<T> node { get; init; }
+		public Terminal node { get; init; }
 		public HashSet<Guid> prevNodes { get; private set; }
 		public int pathDistance { get; private set; }
 		public bool visited { get; set; }
 
-		public DijkstraNode(GraphNode<T> node, int pathDistance)
+		public DijkstraNode(Terminal node, int pathDistance)
 		{
 			this.node = node;
 			prevNodes = new HashSet<Guid>();
