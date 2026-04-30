@@ -11,7 +11,7 @@ namespace RoutingService.UseCase.RoutingAlgoritme
 {
 	public static class Dijsktra
 	{
-		public static DijkstraResult CalculateDijstra<T>(this Graph graph, Guid startId, Guid needleId)
+		public static DijkstraResult CalculateDijstra(this Graph graph, Guid startId, Guid needleId)
 		{
 			// Before
 			MinHeap<Guid> heap = new MinHeap<Guid>();
@@ -50,7 +50,7 @@ namespace RoutingService.UseCase.RoutingAlgoritme
 					DijkstraNode? edgeNode = dict.GetValueOrDefault(edge.To);
 					if (edgeNode == null) throw new InvalidOperationException();
 
-					int potentielWeight = edge.weight + dNode.pathDistance;
+					int potentielWeight = edge.Weight + dNode.pathDistance;
 
 					if (potentielWeight <= edgeNode.pathDistance)
 					{

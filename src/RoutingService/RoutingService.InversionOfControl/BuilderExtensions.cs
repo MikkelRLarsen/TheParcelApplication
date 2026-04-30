@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ParcelService.Infrastructure;
 using RoutingService.Facade;
 using RoutingService.UseCase;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RoutingService.InversionOfControl
 {
@@ -26,38 +26,38 @@ namespace RoutingService.InversionOfControl
 
 		private static IServiceCollection SetupDatabase(this IServiceCollection services, IConfiguration configuration)
 		{
-			//services.AddDbContext<EFAppContext>(options =>
-			//{
-			//	options.UseNpgsql(
-			//		configuration.GetConnectionString("parceldb"),
-			//		npgsqlOptions => npgsqlOptions.MigrationsAssembly("ParcelService.Infrastructure")
-			//	);
-			//});
+			services.AddDbContext<EFAppContext>(options =>
+			{
+				options.UseNpgsql(
+					configuration.GetConnectionString("routingdb"),
+					npgsqlOptions => npgsqlOptions.MigrationsAssembly("RoutingService.Infrastructure")
+				);
+			});
 
 			return services;
 		}
 
-		//public static WebApplication SetupDatabaseOnColdStart(this WebApplication app)
-		//{
-		//	using (var scope = app.Services.CreateScope())
-		//	{
-		//		var dbContext = scope.ServiceProvider.GetRequiredService<EFAppContext>();
+		public static WebApplication SetupDatabaseOnColdStart(this WebApplication app)
+		{
+			using (var scope = app.Services.CreateScope())
+			{
+				var dbContext = scope.ServiceProvider.GetRequiredService<EFAppContext>();
 
-		//		// Check and apply pending migrations
-		//		var pendingMigrations = dbContext.Database.GetPendingMigrations();
-		//		if (pendingMigrations.Any())
-		//		{
-		//			Console.WriteLine("Applying pending migrations...");
-		//			dbContext.Database.Migrate();
-		//			Console.WriteLine("Migrations applied successfully.");
-		//		}
-		//		else
-		//		{
-		//			Console.WriteLine("No pending migrations found.");
-		//		}
-		//	}
+				// Check and apply pending migrations
+				var pendingMigrations = dbContext.Database.GetPendingMigrations();
+				if (pendingMigrations.Any())
+				{
+					Console.WriteLine("Applying pending migrations...");
+					dbContext.Database.Migrate();
+					Console.WriteLine("Migrations applied successfully.");
+				}
+				else
+				{
+					Console.WriteLine("No pending migrations found.");
+				}
+			}
 
-		//	return app;
-		//}
+			return app;
+		}
 	}
 }

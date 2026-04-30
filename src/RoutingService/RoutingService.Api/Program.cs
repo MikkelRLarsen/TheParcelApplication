@@ -30,7 +30,7 @@ public class Program
 
 		var app = builder.Build();
 
-		//app.SetupDatabaseOnColdStart();
+		app.SetupDatabaseOnColdStart();
 
 		// Configure the HTTP request pipeline.
 		app.UseExceptionHandler();

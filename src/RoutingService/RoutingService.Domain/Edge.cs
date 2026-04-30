@@ -9,15 +9,20 @@ namespace RoutingService.Domain
 	public sealed class Edge
 	{
 		[SetsRequiredMembers]
+		public Edge() { }
+
+		[SetsRequiredMembers]
 		public Edge(Guid from, Guid to, int weight)
 		{
+			Id = Guid.NewGuid();
 			From = from;
 			To = to;
-			this.weight = weight;
+			Weight = weight;
 		}
 
+		public required Guid Id { get; set; }
 		public required Guid From { get; init; }
 		public required Guid To { get; init; }
-		public required int weight { get; init; }
+		public required int Weight { get; init; }
 	}
 }
