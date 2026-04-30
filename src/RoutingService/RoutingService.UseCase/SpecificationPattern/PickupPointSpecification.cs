@@ -5,44 +5,31 @@ using System.Text;
 
 namespace RoutingService.UseCase.SpecificationPattern
 {
-	public sealed class SubAreaSpecification : ISpecification<Terminal>
+	public sealed class PickupPointSpecification : ISpecification<Terminal>
 	{
-		private readonly Guid _fromId;
-		private readonly Guid _toId;
+		private readonly Guid _terminalGuid;
 		private readonly ISpecification<Terminal>[] _andSpecs;
 
-		public SubAreaSpecification(
-			Guid fromId,
-			Guid toId,
+		public PickupPointSpecification(Guid terminalGuid, 
 			params ISpecification<Terminal>[] andSpecs)
 		{
-			_fromId = fromId;
-			_toId = toId;
+			_terminalGuid = terminalGuid;
 			_andSpecs = andSpecs ?? Array.Empty<ISpecification<Terminal>>();
 		}
 
-
 		public ISpecification<Terminal> And(ISpecification<Terminal> spec)
 		{
-			return new SubAreaSpecification(
-				_fromId, 
-				_toId,
+			return new PickupPointSpecification(
+				_terminalGuid,
 				_andSpecs.Append(spec).ToArray()
 			);
 		}
 
 		public IQueryable<Terminal> Apply(IQueryable<Terminal> query)
 		{
-			 query = query.Where(t => 
-			    (
-					t.Type == TerminalType.DistributionCenter &&
-
-					t.Edges.Any(e => e.From == _fromId && e.To == t.Id) &&
-					t.Edges.Any(e => e.From == t.Id && e.To == _toId)
-				)
-				|| t.Id == _fromId
-				|| t.Id == _toId
-			);
+			query = query.Where(t =>
+				t.Id == _terminalGuid &&
+				t.Type == TerminalType.PickupPoint);
 
 			foreach (var spec in _andSpecs)
 			{
