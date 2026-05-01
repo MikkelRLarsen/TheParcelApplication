@@ -12,18 +12,10 @@ namespace RoutingService.Domain
 		[SetsRequiredMembers]
 		private Terminal() { }
 
-		[SetsRequiredMembers]
-		public Terminal(Guid id, Region region, TerminalType type)
-		{
-			Id = id;
-			Region = region;
-			Type = type;
-		}
-
 		public required Guid Id { get; init; }
 		public required Region Region { get; init; } = null!;
 		public required TerminalType Type { get; init; }
-		public IReadOnlyCollection<Edge> Edges { get; private set; } = [];
+		public IReadOnlyCollection<Edge> Edges { get; private set; } = new List<Edge>();
 
 		public void SetEdges(IEnumerable<Edge> edges)
 		{

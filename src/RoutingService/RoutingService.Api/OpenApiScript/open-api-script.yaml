@@ -68,46 +68,19 @@ components:
           example: "550e8400-e29b-41d4-a716-446655440000"
 
         senderTerminal:
-          $ref: '#/components/schemas/Terminal'
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
 
         receiverTerminal:
-          $ref: '#/components/schemas/Terminal'
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
 
         priority:
           type: integer
           minimum: 0
           example: 1
-
-    Terminal:
-      type: object
-      required:
-        - id
-        - region
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: "550e8400-e29b-41d4-a716-446655440000"
-
-        region:
-          $ref: '#/components/schemas/Region'
-
-    Region:
-      type: object
-      required:
-        - country
-        - mainRegion
-        - subRegion
-      properties:
-        country:
-          type: string
-          example: "Denmark"
-        mainRegion:
-          type: string
-          example: "Jylland"
-        subRegion:
-          type: string
-          example: "Aarhus"
 
 x-use-cases:
   - name: Routing Flow

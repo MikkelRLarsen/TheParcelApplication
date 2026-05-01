@@ -7,15 +7,23 @@ using System.Text;
 
 namespace RoutingService.UseCase.RoutingAlgoritme
 {
-	public sealed class DijkstraResult
+	public interface IRoutePath
+	{
+		public Terminal Terminal { get; }
+		public IReadOnlyCollection<IRoutePath> NextPotentielTerminals { get; }
+	}
+
+	public sealed class DijkstraResult : IRoutePath
 	{
 		public DijkstraResult(Terminal entity)
 		{
-			Entity = entity;
+			Terminal = entity;
+			_nextPotentielTerminals = new HashSet<DijkstraResult>();
 		}
 
-		public HashSet<DijkstraResult> NextPotentielTermnials { get; private set; } = new HashSet<DijkstraResult>();
-		public Terminal Entity { get; private set; }
+		private HashSet<DijkstraResult> _nextPotentielTerminals;
+		public Terminal Terminal { get; private set; }
+		public IReadOnlyCollection<IRoutePath> NextPotentielTerminals => _nextPotentielTerminals;
 
 		public static Dictionary<Guid, DijkstraResult> Recursion(
 			Dictionary<Guid, DijkstraResult> dResultDict,
@@ -43,7 +51,7 @@ namespace RoutingService.UseCase.RoutingAlgoritme
 			if (isNeedle is false)
 			{
 				DijkstraResult dResult = dResultDict[currentNodeId];
-				dResult.NextPotentielTermnials.Add(dResultDict[nextNodeId]);
+				dResult._nextPotentielTerminals.Add(dResultDict[nextNodeId]);
 			}
 
 			return dResultDict;

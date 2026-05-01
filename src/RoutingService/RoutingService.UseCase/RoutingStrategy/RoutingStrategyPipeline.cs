@@ -1,5 +1,6 @@
 ﻿using RoutingService.Domain;
 using RoutingService.UseCase.GraphEntities;
+using RoutingService.UseCase.RoutingAlgoritme;
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace RoutingService.UseCase.RoutingStrategy
 		/// <param name="to">Destination terminal to evaluate.</param>
 		/// <returns>A task that yields a ResultT<Graph> containing the successful graph when a strategy succeeds; otherwise a failure
 		/// result with a BadRequest error (code 'PIPELINE.ERROR').</returns>
-		public async Task<ResultT<Graph>> ExecuteAsync(Terminal from, Terminal to)
+		public async Task<ResultT<IRoutePath>> ExecuteAsync(Terminal from, Terminal to)
 		{
 			foreach (var strategy in _strategies)
 			{
@@ -40,7 +41,7 @@ namespace RoutingService.UseCase.RoutingStrategy
 					return result;
 			}
 
-			return ResultT<Graph>.Failure(Error.BadRequest("PIPELINE.ERROR", "No strategy supports this package"));
+			return ResultT<IRoutePath>.Failure(Error.BadRequest("PIPELINE.ERROR", "No strategy supports this package"));
 		}
 	}
 }

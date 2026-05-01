@@ -2,6 +2,7 @@
 using RoutingService.Domain.ValueObjects;
 using RoutingService.UseCase.GraphEntities;
 using RoutingService.UseCase.Heap;
+using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,67 +10,81 @@ using System.Text;
 
 namespace RoutingService.UseCase.RoutingAlgoritme
 {
-	public static class Dijsktra
+	public interface IRouteAlgoritme
 	{
-		public static DijkstraResult CalculateDijstra(this Graph graph, Guid startId, Guid needleId)
+		public ResultT<IRoutePath> Calculate(Graph graph, Guid startId, Guid needleId);
+	}
+
+	public class Dijsktra : IRouteAlgoritme
+	{
+		public ResultT<IRoutePath> Calculate(Graph graph, Guid startId, Guid needleId)
 		{
-			// Before
-			MinHeap<Guid> heap = new MinHeap<Guid>();
-			Dictionary<Guid, DijkstraNode> dict = new Dictionary<Guid, DijkstraNode>();
-
-			foreach (Terminal node in graph.GraphNodes)
+			try
 			{
-				DijkstraNode dNode = new(
-					node: node,
-					pathDistance: node.Id == startId ? 0 : int.MaxValue);
+				// Before
+				MinHeap<Guid> heap = new MinHeap<Guid>();
+				Dictionary<Guid, DijkstraNode> dict = new Dictionary<Guid, DijkstraNode>();
 
-				heap.Enqueue(dNode.pathDistance, node.Id);
-				dict.Add(node.Id, dNode);
-			}
-
-			// Edge case
-			if (startId == needleId)
-			{
-				if (!dict.ContainsKey(startId))
-					throw new InvalidOperationException("Start node not found in graph");
-
-				return new DijkstraResult(dict[startId].node);
-			}
-
-			// Do it
-			while (heap.Any())
-			{
-				DijkstraNode? dNode = GetNextNode(heap, dict);
-				if (dNode is null)
-					break;
-
-				dNode.visited = true;
-
-				foreach (Edge edge in dNode.node.Edges)
+				foreach (Terminal node in graph.GraphNodes)
 				{
-					DijkstraNode? edgeNode = dict.GetValueOrDefault(edge.To);
-					if (edgeNode == null) throw new InvalidOperationException();
+					DijkstraNode dNode = new(
+						node: node,
+						pathDistance: node.Id == startId ? 0 : int.MaxValue);
 
-					int potentielWeight = edge.Weight + dNode.pathDistance;
+					heap.Enqueue(dNode.pathDistance, node.Id);
+					dict.Add(node.Id, dNode);
+				}
 
-					if (potentielWeight <= edgeNode.pathDistance)
+				// Edge case
+				if (startId == needleId)
+				{
+					if (!dict.ContainsKey(startId))
+						throw new InvalidOperationException("Start node not found in graph");
+
+					return new DijkstraResult(dict[startId].node);
+				}
+
+				// Do it
+				while (heap.Any())
+				{
+					DijkstraNode? dNode = GetNextNode(heap, dict);
+					if (dNode is null)
+						break;
+
+					dNode.visited = true;
+
+					foreach (Edge edge in dNode.node.Edges)
 					{
-						edgeNode.SetPrevNode(dNode.node.Id, potentielWeight);
-						heap.Enqueue(edgeNode.pathDistance, edgeNode.node.Id);
+						DijkstraNode? edgeNode = dict.GetValueOrDefault(edge.To);
+						if (edgeNode == null) throw new InvalidOperationException();
+
+						int potentielWeight = edge.Weight + dNode.pathDistance;
+
+						if (potentielWeight <= edgeNode.pathDistance)
+						{
+							edgeNode.SetPrevNode(dNode.node.Id, potentielWeight);
+							heap.Enqueue(edgeNode.pathDistance, edgeNode.node.Id);
+						}
 					}
 				}
+
+				// After
+				if (!dict[needleId].prevNodes.Any()) return Error.Failure("RouteError", "No possible route exist");
+
+				return DijkstraResult.Recursion(
+					dResultDict: new Dictionary<Guid, DijkstraResult>(),
+					dNodeDict: dict,
+					nextNodeId: needleId,
+					currentNodeId: needleId,
+					isNeedle: true)
+					[startId];
+			}
+			catch (Exception)
+			{
+
+				return Error.Failure("RouteError", "Error occured while calculating path");
 			}
 
-			// After
-			if (!dict[needleId].prevNodes.Any()) throw new InvalidOperationException();
-
-			return DijkstraResult.Recursion(
-				dResultDict: new Dictionary<Guid, DijkstraResult>(),
-				dNodeDict: dict,
-				nextNodeId: needleId,
-				currentNodeId: needleId,
-				isNeedle: true)
-				[startId];
 		}
 
 		private static DijkstraNode? GetNextNode(MinHeap<Guid> heap, Dictionary<Guid, DijkstraNode> dict)
@@ -77,9 +92,6 @@ namespace RoutingService.UseCase.RoutingAlgoritme
 			while (heap.Any())
 			{
 				int pathD = heap.GetPeakQueueValue();
-
-				if (pathD is int.MaxValue)
-					return null;
 
 				DijkstraNode? dNode = dict.GetValueOrDefault(heap.Dequeue());
 				if (dNode == null) throw new InvalidOperationException();

@@ -107,25 +107,6 @@ components:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-        region:
-          $ref: '#/components/schemas/Region'
-
-    Region:
-      type: object
-      required:
-        - country
-        - mainRegion
-        - subRegion
-      properties:
-        country:
-          type: string
-          example: "Denmark"
-        mainRegion:
-          type: string
-          example: "Jylland"
-        subRegion:
-          type: string
-          example: "Aarhus"
 
     PersonInfo:
       type: object

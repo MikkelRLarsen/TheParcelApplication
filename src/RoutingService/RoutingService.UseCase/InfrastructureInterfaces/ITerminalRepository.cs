@@ -9,6 +9,7 @@ namespace RoutingService.UseCase.InfrastructureInterfaces
 {
 	public interface ITerminalRepository
 	{
-		public Task<ResultT<IEnumerable<Terminal>>> GetAllAsync(ISpecification<Terminal> spec);
+		public Task<ResultT<IEnumerable<Terminal>>> LoadAllAsync(ISpecification<Terminal> spec);
+		public Task<ResultT<Terminal>> LoadAsync(Guid id);
 	}
 }

@@ -2,9 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ParcelService.Infrastructure;
 using RoutingService.Facade;
+using RoutingService.Infrastructure;
+using RoutingService.Infrastructure.Repositories;
 using RoutingService.UseCase;
+using RoutingService.UseCase.InfrastructureInterfaces;
+using RoutingService.UseCase.RoutingAlgoritme;
+using RoutingService.UseCase.RoutingStrategy;
 
 namespace RoutingService.InversionOfControl
 {
@@ -14,12 +18,20 @@ namespace RoutingService.InversionOfControl
 		{
 			services.SetupDatabase(configuration);
 
-
+			//Commands
 			services.AddScoped<IRouteNewParcelCommand, RouteNewParcelCommand>();
-			//services.AddScoped<ICreateParcelCommand, CreateParcelCommand>();
 
-			//services.AddScoped<IParcelRepository, ParcelRepository>();
-			//services.AddScoped<INewParcelPublisher, DaprPubSub>();
+			// Pipeline
+			services.AddScoped<IRoutingStrategyPipeline, RoutingStrategyPipeline>();
+			// Strategy
+			services.AddScoped<IRoutingStrategy, MainAreaStrategy>();
+			services.AddScoped<IRoutingStrategy, SubAreaStrategy>();
+			services.AddScoped<IRoutingStrategy, CountryStrategy>();
+			// Algorithm
+			services.AddScoped<IRouteAlgoritme, Dijsktra>();
+			
+			// Infrastructure
+			services.AddScoped<ITerminalRepository, TerminalRepository>();
 
 			return services;
 		}

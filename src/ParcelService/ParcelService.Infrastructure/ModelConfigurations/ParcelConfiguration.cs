@@ -31,10 +31,7 @@ namespace ParcelService.Infrastructure.ModelConfigurations
 				{
 					personalInformation.ComplexProperty(p => p.Address);
 				});
-                receiver.ComplexProperty(r => r.Terminal, terminal =>
-                {
-                    terminal.ComplexProperty(t => t.Region);
-                });
+                receiver.ComplexProperty(r => r.Terminal);
 			});
 
             builder.ComplexProperty(x => x.Sender, sender =>
@@ -43,10 +40,7 @@ namespace ParcelService.Infrastructure.ModelConfigurations
                 {
                     personalInformation.ComplexProperty(p => p.Address);
                 });
-				sender.ComplexProperty(s => s.Terminal, terminal =>
-				{
-					terminal.ComplexProperty(t => t.Region);
-				});
+				sender.ComplexProperty(s => s.Terminal);
 			});
         }
     }

@@ -8,13 +8,11 @@ namespace ParcelService.Facade.DataTransferObjects
 	public sealed record Terminal
 	{
 		[SetsRequiredMembers]
-		public Terminal(Guid id, Region region)
+		public Terminal(Guid id)
 		{
 			Id = id;
-			Region = region;
 		}
 
 		public required Guid Id { get; init; }
-		public required Region Region { get; init; } = null!;
 	}
 }

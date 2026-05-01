@@ -1,6 +1,7 @@
 ﻿using RoutingService.Domain;
 using RoutingService.UseCase.GraphEntities;
 using RoutingService.UseCase.InfrastructureInterfaces;
+using RoutingService.UseCase.RoutingAlgoritme;
 using RoutingService.UseCase.SpecificationPattern;
 using Shared.ResultPattern;
 using System;
@@ -13,10 +14,12 @@ namespace RoutingService.UseCase.RoutingStrategy
 	public sealed class MainAreaStrategy : IRoutingStrategy
 	{
 		private readonly ITerminalRepository _repo;
+		private readonly IRouteAlgoritme _routeAlgoritme;
 
-		public MainAreaStrategy(ITerminalRepository repo)
+		public MainAreaStrategy(ITerminalRepository repo, IRouteAlgoritme routeAlgoritme)
 		{
 			_repo = repo;
+			_routeAlgoritme = routeAlgoritme;
 		}
 
 		public RoutingOrder Order => RoutingOrder.Second;
@@ -26,20 +29,24 @@ namespace RoutingService.UseCase.RoutingStrategy
 			return from.Region.MainRegion == to.Region.MainRegion;
 		}
 
-		public async Task<ResultT<Graph>> TryExecute(Terminal from, Terminal to)
+		public async Task<ResultT<IRoutePath>> TryExecute(Terminal from, Terminal to)
 		{
-			ISpecification<Terminal> spec1 =
+			ISpecification<Terminal> spec =
 				new MainAreaSpecification(
-					mainAreaTarget: from.Region.MainRegion,
+					mainRegionTarget: from.Region.MainRegion,
 					fromId: from.Id,
 					toId: to.Id
 				);
 
-			var t1 = await _repo.GetAllAsync(spec1);
-			if (t1.Status is ResultStatus.Success)
-				return new Graph(t1.Value.ToArray());
+			var repoResult = await _repo.LoadAllAsync(spec);
+			if (repoResult.Status is ResultStatus.Failure)
+				return repoResult.Error!;
 
-			return ResultT<Graph>.Failure(Error.BadRequest("PIPELINE.ERROR", "This Strategy doesnt fit"));
+
+			return _routeAlgoritme.Calculate(new Graph(
+				repoResult.Value.ToArray()),
+				from.Id,
+				to.Id);
 		}
 	}
 }

@@ -41,59 +41,18 @@ namespace ParcelService.Infrastructure.Messages
 			public NewParcelEvent(Parcel parcel)
 			{
 				TrackingNumber = parcel.Tracking.TrackingNumber;
-				SenderTerminal = new Terminal(
-					id: parcel.Sender.Terminal.Id,
-					region: new Region(
-						country: parcel.Sender.Terminal.Region.Country,
-						mainRegion: parcel.Sender.Terminal.Region.MainRegion,
-						subRegion: parcel.Sender.Terminal.Region.SubRegion));
-
-				ReceiverTerminal = new Terminal(
-					id: parcel.Receiver.Terminal.Id,
-					region: new Region(
-						country: parcel.Receiver.Terminal.Region.Country,
-						mainRegion: parcel.Receiver.Terminal.Region.MainRegion,
-						subRegion: parcel.Receiver.Terminal.Region.SubRegion));
-
+                SenderTerminal = parcel.Sender.Terminal.Id;
+                ReceiverTerminal = parcel.Receiver.Terminal.Id;
 				Priority = parcel.Priority;
 			}
 
 			public Guid TrackingNumber { get; init; }
 
-			public Terminal SenderTerminal { get; init; }
+			public Guid SenderTerminal { get; init; }
 
-			public Terminal ReceiverTerminal { get; init; }
+			public Guid ReceiverTerminal { get; init; }
 
 			public int Priority { get; init; }
-		}
-
-		private sealed record Terminal
-		{
-			public Terminal(Guid id, Region region)
-			{
-				Id = id;
-				Region = region;
-			}
-
-			public Guid Id { get; init; }
-
-			public Region Region { get; init; }
-		}
-
-		private sealed record Region
-		{
-			public Region(string country, string mainRegion, string subRegion)
-			{
-				Country = country;
-				MainRegion = mainRegion;
-				SubRegion = subRegion;
-			}
-
-			public string Country { get; init; } = null!;
-
-			public string MainRegion { get; init; } = null!;
-
-			public string SubRegion { get; init; } = null!;
 		}
 	}
 }

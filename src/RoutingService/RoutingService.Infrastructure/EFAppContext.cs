@@ -1,16 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoutingService.Domain;
 using RoutingService.Infrastructure.ModelConfigurations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ParcelService.Infrastructure
+namespace RoutingService.Infrastructure
 {
     public class EFAppContext : DbContext
     {
-
         public DbSet<Terminal> Terminals { get; set; }
+        public DbSet<Edge> Edges { get; set; }
 
         public EFAppContext(DbContextOptions<EFAppContext> options) : base(options) { }
 

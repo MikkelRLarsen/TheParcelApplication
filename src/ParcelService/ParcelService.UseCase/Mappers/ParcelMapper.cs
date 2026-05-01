@@ -21,12 +21,7 @@ namespace ParcelService.UseCase.Mappers
                 Domain.ValueObjects.Party reciever =
                     new Domain.ValueObjects.Party(
                         terminal: new Domain.ValueObjects.Terminal(
-                            id: dto.Receiver.Terminal.Id,
-                            region: new Domain.ValueObjects.Region(
-                                country: dto.Receiver.Terminal.Region.Country,
-                                mainRegion: dto.Receiver.Terminal.Region.MainRegion,
-                                subRegion: dto.Receiver.Terminal.Region.SubRegion
-                            )
+                            id: dto.Receiver.Terminal.Id
                         ),
                         personalInformation: new Domain.ValueObjects.PersonInfo(
                             name: dto.Receiver.PersonalInformation.Name,
@@ -40,12 +35,7 @@ namespace ParcelService.UseCase.Mappers
 				Domain.ValueObjects.Party sender =
 	                new Domain.ValueObjects.Party(
 						terminal: new Domain.ValueObjects.Terminal(
-							id: dto.Sender.Terminal.Id,
-							region: new Domain.ValueObjects.Region(
-								country: dto.Sender.Terminal.Region.Country,
-								mainRegion: dto.Sender.Terminal.Region.MainRegion,
-								subRegion: dto.Sender.Terminal.Region.SubRegion
-							)
+							id: dto.Sender.Terminal.Id
 						),
 						personalInformation: new Domain.ValueObjects.PersonInfo(
 			                name: dto.Sender.PersonalInformation.Name,

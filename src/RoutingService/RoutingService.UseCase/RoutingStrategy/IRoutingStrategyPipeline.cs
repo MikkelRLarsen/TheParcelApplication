@@ -1,5 +1,6 @@
 ﻿using RoutingService.Domain;
 using RoutingService.UseCase.GraphEntities;
+using RoutingService.UseCase.RoutingAlgoritme;
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace RoutingService.UseCase.RoutingStrategy
 {
 	public interface IRoutingStrategyPipeline
 	{
-		public Task<ResultT<Graph>> ExecuteAsync(Terminal from, Terminal to);
+		public Task<ResultT<IRoutePath>> ExecuteAsync(
+			Terminal from,
+			Terminal to);
 	}
 }
