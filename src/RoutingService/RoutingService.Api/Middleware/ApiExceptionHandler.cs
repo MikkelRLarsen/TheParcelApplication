@@ -26,7 +26,6 @@ namespace RoutingService.Api.Middleware
 
             switch (exception)
             {
-
                 default:
                     statusCode = StatusCodes.Status500InternalServerError;
                     badResponse = new BadResponse($"En uventet fejl skete");

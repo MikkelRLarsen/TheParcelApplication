@@ -10,11 +10,13 @@ namespace RoutingService.UseCase
 	{
 		private readonly IRoutingStrategyPipeline _pipeline;
 		private readonly ITerminalRepository _terminalRepository;
+		private readonly ISagaStarter _sagaStarter;
 
-		public RouteNewParcelCommand(IRoutingStrategyPipeline pipeline, ITerminalRepository terminalRepository)
+		public RouteNewParcelCommand(IRoutingStrategyPipeline pipeline, ITerminalRepository terminalRepository, ISagaStarter sagaStarter)
 		{
 			_pipeline = pipeline;
 			_terminalRepository = terminalRepository;
+			_sagaStarter = sagaStarter;
 		}
 
 		public async Task<Result> Handle(RouteNewParcel command)
@@ -32,7 +34,10 @@ namespace RoutingService.UseCase
 			if (pipelineResult.Status is ResultStatus.Failure)
 				return Result.Failure(pipelineResult.Error!);
 
-			//TODO Create SAGA Event
+			await _sagaStarter.StartAllocateSaga(
+				trackingNumber: command.TrackingNumber,
+				routePath: pipelineResult.Value,
+				priority: command.Priority);
 
 			return Result.Success();
 		}
