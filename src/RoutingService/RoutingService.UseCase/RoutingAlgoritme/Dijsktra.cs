@@ -10,11 +10,6 @@ using System.Text;
 
 namespace RoutingService.UseCase.RoutingAlgoritme
 {
-	public interface IRouteAlgoritme
-	{
-		public ResultT<IRoutePath> Calculate(Graph graph, Guid startId, Guid needleId);
-	}
-
 	public class Dijsktra : IRouteAlgoritme
 	{
 		public ResultT<IRoutePath> Calculate(Graph graph, Guid startId, Guid needleId)

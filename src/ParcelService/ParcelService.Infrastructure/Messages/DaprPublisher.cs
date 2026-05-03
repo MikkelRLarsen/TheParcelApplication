@@ -9,13 +9,13 @@ using ParcelService.Infrastructure.InfrastructureErrors;
 
 namespace ParcelService.Infrastructure.Messages
 {
-    public class DaprPubSub : INewParcelPublisher
+    public class DaprPublisher : INewParcelPublisher
     {
         private readonly DaprClient _daprClient;
         private const string _pubSubName = "daprpubsub";
         private const string _topic = "new-parcel";
 
-        public DaprPubSub(DaprClient daprClient)
+        public DaprPublisher(DaprClient daprClient)
         {
             _daprClient = daprClient;
         }

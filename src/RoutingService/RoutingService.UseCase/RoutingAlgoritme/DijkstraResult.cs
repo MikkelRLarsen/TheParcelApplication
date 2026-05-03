@@ -7,12 +7,6 @@ using System.Text;
 
 namespace RoutingService.UseCase.RoutingAlgoritme
 {
-	public interface IRoutePath
-	{
-		public Terminal Terminal { get; }
-		public IReadOnlyCollection<IRoutePath> NextPotentielTerminals { get; }
-	}
-
 	public sealed class DijkstraResult : IRoutePath
 	{
 		public DijkstraResult(Terminal entity)
