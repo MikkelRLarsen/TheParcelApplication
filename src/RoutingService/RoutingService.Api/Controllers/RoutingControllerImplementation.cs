@@ -7,22 +7,27 @@ namespace RoutingService.Api.Controllers
 {
 	public sealed class RoutingControllerImplementation : IRoutingController
 	{
-		private readonly IRouteNewParcelCommand _command;
-		private readonly ILogger<RoutingControllerImplementation> _logger;
+		private readonly IRouteNewParcelCommand _routeNewParcelCommand;
 		private readonly HttpContext _httpContext;
+		private readonly ISagaRaiseEvent _sagaRaiseEvent;
 
-		public RoutingControllerImplementation(IRouteNewParcelCommand command,  IHttpContextAccessor contextAccessor)
+		public RoutingControllerImplementation(IRouteNewParcelCommand routeNewParcelCommand, IHttpContextAccessor contextAccessor, ISagaRaiseEvent sagaRaiseEvent)
 		{
-			_command = command;
-			//_logger = logger;
+			_routeNewParcelCommand = routeNewParcelCommand;
 			_httpContext = contextAccessor.HttpContext!;
+			_sagaRaiseEvent = sagaRaiseEvent;
 		}
 
-		public async Task ProcessRoutingAsync(NewParcelEvent body)
+		public async Task ProcessAllocationReceivedAsync(AllocationReceivedEvent body)
 		{
-			Result result = await _command.Handle(body.Map());
+			await _sagaRaiseEvent.RaiseSagaEvent(body.Map());
+		}
 
-			if(result.Status is ResultStatus.Success)
+		public async Task ProcessNewParcelAsync(NewParcelEvent body)
+		{
+			Result result = await _routeNewParcelCommand.Handle(body.Map());
+
+			if (result.Status is ResultStatus.Success)
 			{
 				_httpContext.Response.StatusCode = StatusCodes.Status202Accepted;
 				return;
@@ -31,11 +36,9 @@ namespace RoutingService.Api.Controllers
 			switch (result.Error!.ErrorType)
 			{
 				case ErrorType.BadRequest:
-					_logger.LogError($"A request returned 400 => {result.Error.Code}");
 					throw new BadRequest(result.Error.Description);
 
 				default:
-					_logger.LogError($"A request returned 500 => {result.Error.Code}");
 					throw new InternalException(result.Error.Description);
 			}
 		}

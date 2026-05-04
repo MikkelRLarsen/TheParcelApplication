@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RoutingService.Facade;
 using RoutingService.Infrastructure;
 using RoutingService.Infrastructure.Repositories;
+using RoutingService.Infrastructure.Workflow;
 using RoutingService.UseCase;
 using RoutingService.UseCase.InfrastructureInterfaces;
 using RoutingService.UseCase.RoutingAlgoritme;
@@ -32,6 +33,8 @@ namespace RoutingService.InversionOfControl
 			
 			// Infrastructure
 			services.AddScoped<ITerminalRepository, TerminalRepository>();
+			services.AddScoped<ISagaRaiseEvent, DaprWorkflowHandler>();
+			services.AddScoped<ISagaStarter, DaprWorkflowHandler>();
 
 			return services;
 		}

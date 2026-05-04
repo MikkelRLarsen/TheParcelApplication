@@ -10,6 +10,8 @@ namespace RoutingService.Infrastructure.Workflow
 {
 	public sealed class RoutingWorkflow : Workflow< RoutingWorkflowInput,RoutingWorkflowResult>
 	{
+		public const string ExternalEventName = "AllocationRecieved";
+
 		public override async Task<RoutingWorkflowResult> RunAsync(WorkflowContext context, RoutingWorkflowInput input)
 		{
 			RingBuffer<IRoutePath> queue = new RingBuffer<IRoutePath>(5);
@@ -23,7 +25,7 @@ namespace RoutingService.Infrastructure.Workflow
 					(nameof(RequestAllocationActivity), 
 					new RequestAllocationActivityInput(input.TrackingNumber, routePaths.NextPotentielTerminals, input.Priority));
 
-				Guid terminalId = await context.WaitForExternalEventAsync<Guid>(EventType.AllocationRecieveds.ToString());
+				Guid terminalId = await context.WaitForExternalEventAsync<Guid>(ExternalEventName);
 				
 				IRoutePath nextPath = routePaths.NextPotentielTerminals.First(p => p.Terminal.Id == terminalId);
 

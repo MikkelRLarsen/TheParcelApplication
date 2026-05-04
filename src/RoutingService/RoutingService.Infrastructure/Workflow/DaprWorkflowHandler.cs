@@ -1,11 +1,8 @@
 ﻿using Dapr.Workflow;
-using RoutingService.F;
 using RoutingService.Facade;
+using RoutingService.Facade.DataTransferObjects;
 using RoutingService.UseCase.InfrastructureInterfaces;
 using RoutingService.UseCase.RoutingAlgoritme;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RoutingService.Infrastructure.Workflow
 {
@@ -18,9 +15,9 @@ namespace RoutingService.Infrastructure.Workflow
 			_client = client;
 		}
 
-		public async Task RaiseSagaEvent(Guid trackingNumber, EventType eventName, Guid eventData)
+		public async Task RaiseSagaEvent(AllocationReceivedEvent recievedEvent)
 		{
-			await _client.RaiseEventAsync(trackingNumber.ToString(), eventName.ToString(), eventData);
+			await _client.RaiseEventAsync(recievedEvent.TrackingNumber.ToString(), RoutingWorkflow.ExternalEventName, recievedEvent.TerminalId);
 		}
 
 		public async Task StartAllocateSaga(Guid trackingNumber, IRoutePath routePath, int priority)
