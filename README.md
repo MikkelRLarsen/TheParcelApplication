@@ -9,3 +9,13 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\AddMicroservice.ps1 -ProjectName PlaceholderName
 ```
 4) Your new Microservice is now in src folder
+
+## Add Migration
+3) Use AddMigration script
+```console
+.\Add-Migration.ps1 -service ParcelService -m RemovedRegion
+```
+OR
+```console
+.\Add-Migration.ps1 -service RoutingService -m InitDb -c MyCustomContext
+```
