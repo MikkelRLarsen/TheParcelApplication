@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Dapr.Workflow;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RoutingService.Facade;
 using RoutingService.Infrastructure;
+using RoutingService.Infrastructure.Messages;
 using RoutingService.Infrastructure.Repositories;
 using RoutingService.Infrastructure.Workflow;
 using RoutingService.UseCase;
@@ -35,6 +37,14 @@ namespace RoutingService.InversionOfControl
 			services.AddScoped<ITerminalRepository, TerminalRepository>();
 			services.AddScoped<ISagaRaiseEvent, DaprWorkflowHandler>();
 			services.AddScoped<ISagaStarter, DaprWorkflowHandler>();
+			services.AddScoped<IPublisher, DaprPublisher>();
+
+			// Dapr Workflow
+			services.AddDaprWorkflow(options =>
+			{
+				options.RegisterWorkflow<RoutingWorkflow>();
+				options.RegisterActivity<RequestAllocationActivity>();
+			});
 
 			return services;
 		}

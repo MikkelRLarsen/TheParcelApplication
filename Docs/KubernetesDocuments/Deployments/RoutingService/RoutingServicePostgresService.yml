@@ -1,0 +1,11 @@
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: routing-db
+spec:
+  selector:
+    app: routing-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

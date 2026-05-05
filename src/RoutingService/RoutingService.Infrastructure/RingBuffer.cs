@@ -21,7 +21,7 @@ namespace RoutingService.Infrastructure
 
 		public bool Any()
 		{
-			return _array.Any();
+			return _currentCapacity > 0;
 		}
 
 		public T this[int index]

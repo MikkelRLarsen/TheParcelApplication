@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Dapr.Workflow;
+﻿using Dapr.Workflow;
+using RoutingService.Domain;
 using RoutingService.Facade;
 using RoutingService.UseCase.RoutingAlgoritme;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using static RoutingService.Infrastructure.Workflow.DaprWorkflowHandler;
 
 namespace RoutingService.Infrastructure.Workflow
@@ -14,29 +15,36 @@ namespace RoutingService.Infrastructure.Workflow
 
 		public override async Task<RoutingWorkflowResult> RunAsync(WorkflowContext context, RoutingWorkflowInput input)
 		{
-			RingBuffer<IRoutePath> queue = new RingBuffer<IRoutePath>(5);
+			RingBuffer<DaprWorkflowRoutePath> queue = new RingBuffer<DaprWorkflowRoutePath>(5);
 			queue.Enqueue(input.RoutePath);
 
 			while (queue.Any())
 			{
-				IRoutePath routePaths = queue.Dequeue()!;
+				DaprWorkflowRoutePath routePaths = queue.Dequeue()!;
 
 				await context.CallActivityAsync<RequestAllocationActivityResult>
 					(nameof(RequestAllocationActivity), 
 					new RequestAllocationActivityInput(input.TrackingNumber, routePaths.NextPotentielTerminals, input.Priority));
 
-				Guid terminalId = await context.WaitForExternalEventAsync<Guid>(ExternalEventName);
-				
-				IRoutePath nextPath = routePaths.NextPotentielTerminals.First(p => p.Terminal.Id == terminalId);
+				Guid terminalId;
+				while (true)
+				{
+					terminalId = await context.WaitForExternalEventAsync<Guid>(ExternalEventName, TimeSpan.FromDays(1));
+					if (routePaths.NextPotentielTerminals.Any(p => p.Terminal == terminalId))
+						break;
+				}
 
-				if(nextPath.NextPotentielTerminals.Any())
+				DaprWorkflowRoutePath nextPath = routePaths.NextPotentielTerminals.First(p => p.Terminal == terminalId);
+
+				if (nextPath.NextPotentielTerminals.Any())
 					queue.Enqueue(nextPath);
 			}
 
+			Console.WriteLine($"Workflow for {input.TrackingNumber} completed");
 			return new RoutingWorkflowResult(true, "Allocation Complete");
 		}
 	}
 
-	public record RoutingWorkflowInput(Guid TrackingNumber, IRoutePath RoutePath, int Priority);
+	public record RoutingWorkflowInput(Guid TrackingNumber, DaprWorkflowRoutePath RoutePath, int Priority);
 	public record RoutingWorkflowResult(bool Success, string Message);
 }

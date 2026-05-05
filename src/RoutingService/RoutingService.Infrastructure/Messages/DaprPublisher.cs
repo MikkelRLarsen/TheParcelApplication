@@ -29,6 +29,7 @@ namespace RoutingService.Infrastructure.Messages
 			try
 			{
 				await _daprClient.PublishEventAsync(_pubSubName, _topic, request);
+				Console.WriteLine("Published allocation request for tracking number: {0}", trackingNumber);
 				return Result.Success();
 			}
 			catch (Exception)

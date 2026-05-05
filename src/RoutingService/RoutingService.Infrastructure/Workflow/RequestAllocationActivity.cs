@@ -16,7 +16,7 @@ namespace RoutingService.Infrastructure.Workflow
 
 		public override async Task<RequestAllocationActivityResult> RunAsync(WorkflowActivityContext context, RequestAllocationActivityInput input)
 		{
-			IEnumerable<Guid> potentielTerminalId = input.Paths.Select(p => p.Terminal.Id);
+			IEnumerable<Guid> potentielTerminalId = input.Paths.Select(p => p.Terminal);
 
 			await _publisher.PublishAllocationRequest(input.TrackingNumber, potentielTerminalId, input.Priority);
 
@@ -24,6 +24,6 @@ namespace RoutingService.Infrastructure.Workflow
 		}
 	}
 
-	public record RequestAllocationActivityInput(Guid TrackingNumber, IReadOnlyCollection<IRoutePath> Paths, int Priority);
+	public record RequestAllocationActivityInput(Guid TrackingNumber, IReadOnlyCollection<DaprWorkflowRoutePath> Paths, int Priority);
 	public record RequestAllocationActivityResult(bool Published);
 }
