@@ -7,9 +7,10 @@ namespace ParcelService.Facade.DataTransferObjects
 {
 	public record PersonInfo
 	{
-		public string Name { get; init; }
-		public Address Address { get; init; }
+		public required string Name { get; init; }
+		public required Address Address { get; init; }
 
+		[SetsRequiredMembers]
 		public PersonInfo(string name, Address address)
 		{
 			Name = name;

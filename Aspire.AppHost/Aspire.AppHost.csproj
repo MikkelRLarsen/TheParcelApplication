@@ -10,8 +10,8 @@
 	
   <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
 	  <!-- Windows bases packages for dev-->
-	  <PackageReference Include="Aspire.Hosting.Orchestration.win-x64" Version="13.2.2" />
-	  <PackageReference Include="Aspire.Dashboard.Sdk.win-x64" Version="13.2.2" />		
+	  <PackageReference Include="Aspire.Hosting.Orchestration.win-x64" Version="13.2.4" />
+	  <PackageReference Include="Aspire.Dashboard.Sdk.win-x64" Version="13.2.4" />		
   </ItemGroup>
 
   <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
@@ -21,16 +21,17 @@
   </ItemGroup>
 
   <ItemGroup>	
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.2.2" />
-	<PackageReference Include="Aspire.Hosting" Version="13.2.2" />
-	<PackageReference Include="Aspire.Hosting.Redis" Version="13.2.2" />
-	<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.2.2" />
-	<PackageReference Include="Aspire.Hosting.AppHost" Version="13.2.2" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.2.4" />
+	<PackageReference Include="Aspire.Hosting" Version="13.2.4" />
+	<PackageReference Include="Aspire.Hosting.Redis" Version="13.2.4" />
+	<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.2.4" />
+	<PackageReference Include="Aspire.Hosting.AppHost" Version="13.2.4" />
 	<PackageReference Include="CommunityToolkit.Aspire.Hosting.Dapr" Version="13.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\src\ParcelService\ParcelService.Api\ParcelService.Api.csproj" />
+    <ProjectReference Include="..\src\RoutingService\RoutingService.Api\RoutingService.Api.csproj" />
   </ItemGroup>
 
 </Project>

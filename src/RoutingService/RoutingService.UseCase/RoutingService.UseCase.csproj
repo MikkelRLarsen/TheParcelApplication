@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RoutingService.Domain\RoutingService.Domain.csproj" />
+    <ProjectReference Include="..\RoutingService.Facade\RoutingService.Facade.csproj" />
+  </ItemGroup>
+
 </Project>

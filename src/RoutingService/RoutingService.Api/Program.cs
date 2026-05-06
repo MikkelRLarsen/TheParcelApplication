@@ -1,6 +1,8 @@
+using RoutingService.Api.Controllers;
 using RoutingService.Api.Middleware;
 using Scalar.AspNetCore;
 using Shared;
+using RoutingService.InversionOfControl;
 
 namespace RoutingService.Api;
 
@@ -22,17 +24,21 @@ public class Program
 
 		builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 		builder.Services.AddProblemDetails();
+		builder.Services.AddScoped<IRoutingController, RoutingControllerImplementation>();
 
-		//builder.Services.RegisterServices(builder.Configuration);
+		builder.Services.RegisterServices(builder.Configuration);
 
 		var app = builder.Build();
 
-		//app.SetupDatabaseOnColdStart();
+		app.SetupDatabaseOnColdStart();
 
 		// Configure the HTTP request pipeline.
 		app.UseExceptionHandler();
 
-		app.UseHttpsRedirection();
+		app.UseCloudEvents();
+		//app.UseHttpsRedirection();
+
+		app.MapSubscribeHandler();
 
 		app.UseAuthorization();
 

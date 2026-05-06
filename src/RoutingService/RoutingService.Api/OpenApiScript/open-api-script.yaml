@@ -1,0 +1,126 @@
+﻿openapi: 3.0.3
+info:
+  title: Routing Service API
+  version: 1.1.0
+  description: |
+    API for handling routing of parcels in the event-driven parcel system.
+    RoutingService consumes `NewParcelEvent` and determines the routing path.
+    On success, a `RoutingCreated` event can be published.
+
+paths:
+  /routing/newparcelevent:
+    post:
+      summary: Process new parcel routing
+      description: |
+        Receives a new parcel event and initiates routing logic.
+        Determines the route between sender and receiver terminals.
+      operationId: processNewParcel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewParcelEvent'
+      responses:
+        '202':
+          description: Routing processed successfully
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /routing/allocationreceivedevent:
+    post:
+      summary: Informs SAGA that a parcel was allocated
+      description: |
+        Receives a allocation recieved event and informs orchestration SAGA.
+      operationId: processAllocationReceived
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocationReceivedEvent'
+      responses:
+        '200':
+          description: Event received successfully
+        '500':
+          $ref: '#/components/responses/500Error'
+
+components:
+  responses:
+    400Error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    500Error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+  schemas:
+    BadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request data"
+
+    NewParcelEvent:
+      type: object
+      required:
+        - trackingNumber
+        - senderTerminal
+        - receiverTerminal
+        - priority
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        senderTerminal:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        receiverTerminal:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        priority:
+          type: integer
+          minimum: 0
+          example: 1
+
+    AllocationReceivedEvent:
+      type: object
+      required:
+        - trackingNumber
+        - terminalId
+
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        terminalId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+x-use-cases:
+  - name: Routing Flow
+    steps:
+      - ParcelService publishes NewParcelEvent
+      - RoutingService receives event via POST /routing
+      - RoutingService validates input
+      - RoutingService calculates optimal route
+      - Routing result is published as RoutingCreated event

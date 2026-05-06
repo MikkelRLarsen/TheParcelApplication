@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using RoutingService.Api.DataTransferObjects;
+using static RoutingService.Api.Middleware.ApiExceptions;
 
 namespace RoutingService.Api.Middleware
 {
@@ -26,8 +27,12 @@ namespace RoutingService.Api.Middleware
 
             switch (exception)
             {
+				case BadRequest:
+					statusCode = StatusCodes.Status400BadRequest;
+					badResponse = new BadResponse(exception.Message);
+					break;
 
-                default:
+				default:
                     statusCode = StatusCodes.Status500InternalServerError;
                     badResponse = new BadResponse($"En uventet fejl skete");
                     break;

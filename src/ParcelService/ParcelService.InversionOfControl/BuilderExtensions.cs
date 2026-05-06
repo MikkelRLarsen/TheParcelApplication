@@ -24,7 +24,7 @@ namespace ParcelService.InversionOfControl
             services.AddScoped<ICreateParcelCommand, CreateParcelCommand>();
 
             services.AddScoped<IParcelRepository, ParcelRepository>();
-            services.AddScoped<INewParcelPublisher, DaprPubSub>();
+            services.AddScoped<INewParcelPublisher, DaprPublisher>();
 
             return services;
         }

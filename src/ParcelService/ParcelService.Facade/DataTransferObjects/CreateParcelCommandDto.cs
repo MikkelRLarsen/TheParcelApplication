@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace ParcelService.Facade.DataTransferObjects
 {
     public record CreateParcelCommandDto
     {
+		[SetsRequiredMembers]
 		public CreateParcelCommandDto(decimal weight, int priority, Party receiver, Party sender)
 		{
 			Weight = weight;
@@ -14,9 +16,9 @@ namespace ParcelService.Facade.DataTransferObjects
 			Sender = sender;
 		}
 
-		public decimal Weight { get; private set; }
-		public int Priority { get; private set; }
-		public Party Receiver { get; private set; }
-		public Party Sender { get; private set; }
+		public required decimal Weight { get; init; }
+		public required int Priority { get; init; }
+		public required Party Receiver { get; init; }
+		public required Party Sender { get; init; }
     }
 }

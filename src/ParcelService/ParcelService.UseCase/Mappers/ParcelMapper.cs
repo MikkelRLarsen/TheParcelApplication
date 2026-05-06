@@ -20,7 +20,9 @@ namespace ParcelService.UseCase.Mappers
             {
                 Domain.ValueObjects.Party reciever =
                     new Domain.ValueObjects.Party(
-                        terminalId: dto.Receiver.TerminalId,
+                        terminal: new Domain.ValueObjects.Terminal(
+                            id: dto.Receiver.Terminal.Id
+                        ),
                         personalInformation: new Domain.ValueObjects.PersonInfo(
                             name: dto.Receiver.PersonalInformation.Name,
                             address: new Domain.ValueObjects.Address(
@@ -32,8 +34,10 @@ namespace ParcelService.UseCase.Mappers
 
 				Domain.ValueObjects.Party sender =
 	                new Domain.ValueObjects.Party(
-		                terminalId: dto.Sender.TerminalId,
-		                personalInformation: new Domain.ValueObjects.PersonInfo(
+						terminal: new Domain.ValueObjects.Terminal(
+							id: dto.Sender.Terminal.Id
+						),
+						personalInformation: new Domain.ValueObjects.PersonInfo(
 			                name: dto.Sender.PersonalInformation.Name,
 			                address: new Domain.ValueObjects.Address(
 				                street: dto.Sender.PersonalInformation.Address.Street,

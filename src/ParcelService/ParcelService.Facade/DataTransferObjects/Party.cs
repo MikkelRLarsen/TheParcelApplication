@@ -7,12 +7,13 @@ namespace ParcelService.Facade.DataTransferObjects
 {
 	public record Party
 	{
-		public Guid TerminalId { get; init; }
-		public PersonInfo PersonalInformation { get; init; }
+		public required Terminal Terminal { get; init; }
+		public required PersonInfo PersonalInformation { get; init; }
 
-		public Party(Guid terminalId, PersonInfo personalInformation)
+		[SetsRequiredMembers]
+		public Party(Terminal terminal, PersonInfo personalInformation)
 		{
-			TerminalId = terminalId;
+			Terminal = terminal;
 			PersonalInformation = personalInformation;
 		}
 	}

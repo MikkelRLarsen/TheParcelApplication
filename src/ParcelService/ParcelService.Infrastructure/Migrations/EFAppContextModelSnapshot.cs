@@ -18,7 +18,7 @@ namespace ParcelService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -37,9 +37,6 @@ namespace ParcelService.Infrastructure.Migrations
                     b.ComplexProperty(typeof(Dictionary<string, object>), "Receiver", "ParcelService.Domain.Entities.Parcel.Receiver#Party", b1 =>
                         {
                             b1.IsRequired();
-
-                            b1.Property<Guid>("TerminalId")
-                                .HasColumnType("uuid");
 
                             b1.ComplexProperty(typeof(Dictionary<string, object>), "PersonalInformation", "ParcelService.Domain.Entities.Parcel.Receiver#Party.PersonalInformation#PersonInfo", b2 =>
                                 {
@@ -74,14 +71,19 @@ namespace ParcelService.Infrastructure.Migrations
                                                 .HasColumnType("text");
                                         });
                                 });
+
+                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Terminal", "ParcelService.Domain.Entities.Parcel.Receiver#Party.Terminal#Terminal", b2 =>
+                                {
+                                    b2.IsRequired();
+
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid");
+                                });
                         });
 
                     b.ComplexProperty(typeof(Dictionary<string, object>), "Sender", "ParcelService.Domain.Entities.Parcel.Sender#Party", b1 =>
                         {
                             b1.IsRequired();
-
-                            b1.Property<Guid>("TerminalId")
-                                .HasColumnType("uuid");
 
                             b1.ComplexProperty(typeof(Dictionary<string, object>), "PersonalInformation", "ParcelService.Domain.Entities.Parcel.Sender#Party.PersonalInformation#PersonInfo", b2 =>
                                 {
@@ -115,6 +117,14 @@ namespace ParcelService.Infrastructure.Migrations
                                                 .IsRequired()
                                                 .HasColumnType("text");
                                         });
+                                });
+
+                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Terminal", "ParcelService.Domain.Entities.Parcel.Sender#Party.Terminal#Terminal", b2 =>
+                                {
+                                    b2.IsRequired();
+
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid");
                                 });
                         });
 

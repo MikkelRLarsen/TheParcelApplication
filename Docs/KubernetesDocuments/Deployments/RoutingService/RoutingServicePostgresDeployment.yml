@@ -1,0 +1,36 @@
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routing-postgres
+  template:
+    metadata:
+      labels:
+        app: routing-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_PASSWORD
+              value: "root"
+            - name: POSTGRES_DB
+              value: "routingdb"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: routing-postgres-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: routing-postgres-storage
+          persistentVolumeClaim:
+            claimName: routing-pvc

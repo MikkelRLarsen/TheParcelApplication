@@ -8,11 +8,13 @@ namespace ParcelService.Domain.ValueObjects
 {
     public record PersonInfo
     {
-        public string Name { get; init; } = null!;
-        public Address Address { get; init; } = null!;
+        public required string Name { get; init; } = null!;
+        public required Address Address { get; init; } = null!;
 
         [SetsRequiredMembers]
         private PersonInfo() { }
+
+        [SetsRequiredMembers]
         public PersonInfo(string name, Address address)
         {
             Name = name;

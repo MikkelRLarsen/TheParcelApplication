@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using ParcelService.Api.DataTransferObjects;
+using Shared;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -49,8 +50,8 @@ namespace ParcelService.Api.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-	[ApiController]
-	public partial class ParcelController : Microsoft.AspNetCore.Mvc.ControllerBase
+
+    public partial class ParcelController : Shared.ApiControllerBase
     {
         private IParcelController _implementation;
 

@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RoutingService.Domain\RoutingService.Domain.csproj" />
+    <ProjectReference Include="..\RoutingService.Facade\RoutingService.Facade.csproj" />
+    <ProjectReference Include="..\RoutingService.Infrastructure\RoutingService.Infrastructure.csproj" />
+    <ProjectReference Include="..\RoutingService.UseCase\RoutingService.UseCase.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
 </Project>
