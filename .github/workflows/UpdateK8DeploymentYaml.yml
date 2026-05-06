@@ -10,11 +10,15 @@ on:
         required: true
         type: string
       tag:
-        required: false
+        required: true
         type: string
   
 permissions:
   contents: write
+  
+concurrency:
+  group: update-yaml
+  cancel-in-progress: false  
   
 jobs:
   build:
@@ -29,11 +33,12 @@ jobs:
       with:
         mode: IMAGE_TAG
         container-name: ${{ inputs.container-name }}
-        new-image-tag: ${{ inputs.tag != '' && inputs.tag || github.sha }}
+        new-image-tag: ${{ inputs.tag }}
         filepath: ${{ inputs.filepath }}
     
     - name: Commit changes
       uses: EndBug/add-and-commit@v9
       with:
-        message: "Update ${{ inputs.container-name }} image to ${{ inputs.tag != '' && inputs.tag || github.sha }}"
+        message: "Update ${{ inputs.container-name }} image to ${{ inputs.tag }}"
         add: "${{ inputs.filepath }}"
+        pull: '--rebase --autostash'
