@@ -1,6 +1,7 @@
 ﻿using ParcelService.Domain.Entities;
 using ParcelService.Facade.Commands;
 using ParcelService.Facade.DataTransferObjects;
+using ParcelService.UseCase.InfrastructureInterfaces.Contracts;
 using ParcelService.UseCase.InfrastructureInterfaces.Ports;
 using ParcelService.UseCase.InfrastructureInterfaces.Repositories;
 using ParcelService.UseCase.Mappers;
@@ -43,7 +44,7 @@ namespace ParcelService.UseCase.Commands
             if (saveChangesResult.Status is ResultStatus.Failure)
                 return saveChangesResult.Error!;
 
-            Result publishResult = await _publisher.PublishNewParcelEvent(parcel);
+            Result publishResult = await _publisher.PublishNewParcelEvent(new NewParcelEvent(parcel));
             if (publishResult.Status is ResultStatus.Success)
                 return new CreateParcelCommandResponse(parcel.Tracking.TrackingNumber);
             else

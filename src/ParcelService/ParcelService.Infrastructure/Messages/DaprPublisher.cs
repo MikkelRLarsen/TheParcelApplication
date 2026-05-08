@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using Dapr.Client;
 using ParcelService.Infrastructure.InfrastructureErrors;
+using System.Diagnostics.CodeAnalysis;
+using ParcelService.UseCase.InfrastructureInterfaces.Contracts;
 
 namespace ParcelService.Infrastructure.Messages
 {
@@ -20,11 +22,9 @@ namespace ParcelService.Infrastructure.Messages
             _daprClient = daprClient;
         }
 
-        public async Task<Result> PublishNewParcelEvent(Parcel parcel)
+        // Consider outbox pattern, if time at the end of project
+        public async Task<Result> PublishNewParcelEvent(NewParcelEvent newParcelEvent)
         {
-
-			NewParcelEvent newParcelEvent = new NewParcelEvent(parcel);
-
 			try
             {
                 await _daprClient.PublishEventAsync(_pubSubName, _topic, newParcelEvent);
@@ -32,27 +32,8 @@ namespace ParcelService.Infrastructure.Messages
             }
             catch (Exception)
             {
-                return MessageError.MessagePublishError(parcel);
+                return MessageError.MessagePublishError(newParcelEvent);
             }
         }
-
-		private sealed record NewParcelEvent
-		{
-			public NewParcelEvent(Parcel parcel)
-			{
-				TrackingNumber = parcel.Tracking.TrackingNumber;
-                SenderTerminal = parcel.Sender.Terminal.Id;
-                ReceiverTerminal = parcel.Receiver.Terminal.Id;
-				Priority = parcel.Priority;
-			}
-
-			public Guid TrackingNumber { get; init; }
-
-			public Guid SenderTerminal { get; init; }
-
-			public Guid ReceiverTerminal { get; init; }
-
-			public int Priority { get; init; }
-		}
 	}
 }

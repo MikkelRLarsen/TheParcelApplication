@@ -46,12 +46,12 @@ namespace Shared.ResultPattern
     }
     public enum ErrorType
     {
-        Failure = 0,
-        NotFound = 1,
-        Validation = 2,
-        Conflict = 3,
-        AccessUnAuthorized = 4,
-        AccessForbidden = 5,
-        BadRequest = 6
+        Failure = 500,
+        NotFound = 404,
+        Validation = 422,
+        Conflict = 409,
+        AccessUnAuthorized = 401,
+        AccessForbidden = 403,
+        BadRequest = 400
     }
 }

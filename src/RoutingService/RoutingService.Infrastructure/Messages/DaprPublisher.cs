@@ -1,16 +1,12 @@
 ﻿using Dapr.Client;
 using RoutingService.Infrastructure.InfrastructureErrors;
 using RoutingService.UseCase.InfrastructureInterfaces;
+using RoutingService.UseCase.InfrastructureInterfaces.Contracts;
 using Shared.ResultPattern;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace RoutingService.Infrastructure.Messages
 {
-	public sealed class DaprPublisher : IPublisher
+	public sealed partial class DaprPublisher : IPublisher
 	{
 		private readonly DaprClient _daprClient;
 		private const string _pubSubName = "daprpubsub";
@@ -21,36 +17,18 @@ namespace RoutingService.Infrastructure.Messages
 			_daprClient = daprClient;
 		}
 
-		public async Task<Result> PublishAllocationRequest(Guid trackingNumber, IEnumerable<Guid> terminals, int priority)
+		public async Task<Result> PublishAllocationRequest(AllocateRequestV1 request)
 		{
-			// Create object
-			AllocateRequest request = new AllocateRequest(trackingNumber, terminals, priority);
-
 			try
 			{
 				await _daprClient.PublishEventAsync(_pubSubName, _topic, request);
-				Console.WriteLine("Published allocation request for tracking number: {0}", trackingNumber);
+				Console.WriteLine("Published allocation request for tracking number: {0}", request.TrackingNumber);
 				return Result.Success();
 			}
 			catch (Exception)
 			{
 				return MessageError.MessagePublishError();
 			}
-		}
-
-		private record AllocateRequest
-		{
-			[SetsRequiredMembers]
-			public AllocateRequest(Guid trackingNumber, IEnumerable<Guid> terminals, int priority)
-			{
-				TrackingNumber = trackingNumber;
-				Terminals = terminals;
-				Priority = priority;
-			}
-
-			public required Guid TrackingNumber { get; init; }
-			public required IEnumerable<Guid> Terminals { get; init; }
-			public required int Priority { get; init; }
 		}
 	}
 }

@@ -1,0 +1,29 @@
+﻿{
+  "runtime": "Net100",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "open-api-script.yaml",
+      "output": null,
+      "newLineBehavior": "Auto"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpController": {
+      "controllerBaseClass": "Shared.ApiControllerBase",
+      "controllerTarget": "AspNetCore",
+      "className": "Terminal",
+      "namespace": "TerminalService.Api.Controllers",
+      "generateOptionalParameters": true,
+      "generateDtoTypes": false,
+      "additionalNamespaceUsages": [
+        "Microsoft.AspNetCore.Mvc",
+        "System.CodeDom.Compiler",
+        "System.Threading.Tasks",
+        "TerminalService.Api.DataTransferObjects",
+        "Shared"
+      ],
+      "output": "../Controllers/TerminalController.cs"
+    }
+  }
+}

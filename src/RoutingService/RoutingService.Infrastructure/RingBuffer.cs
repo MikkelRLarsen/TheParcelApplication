@@ -79,7 +79,7 @@ namespace RoutingService.Infrastructure
 			T value = _array[_head];
 
 			// Remove head for Garbage Collection
-			_array[_head] = default;
+			_array[_head] = default!;
 
 			// HouseKeeping
 			_head = GetActualIndex(1);
@@ -111,7 +111,7 @@ namespace RoutingService.Infrastructure
 			{
 				if (i == _currentCapacity - 1)
 				{
-					this[i] = default;
+					this[i] = default!;
 				}
 				else
 				{

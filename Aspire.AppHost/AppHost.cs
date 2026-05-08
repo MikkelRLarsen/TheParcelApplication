@@ -31,6 +31,7 @@ namespace Aspire.AppHost
 
             builder.ParcelService(buildingBlock);
             builder.RoutingService(buildingBlock);
+            builder.TerminalService(buildingBlock);
 
             // Add Dapr Dashboard
             builder.AddExecutable(
@@ -52,7 +53,7 @@ namespace Aspire.AppHost
         {
             var parcelDb = block.postgres.AddDatabase("parceldb");
 
-            var parcelService = builder.AddProject<Projects.ParcelService_Api>("parcelService")
+            var parcelService = builder.AddProject<Projects.ParcelService_Api>("parcelservice")
                 .WithReference(parcelDb)
                 .WithDaprSidecar(new DaprSidecarOptions
                 {
@@ -67,7 +68,7 @@ namespace Aspire.AppHost
         {
             var routingDb = block.postgres.AddDatabase("routingdb");
 
-            var routingService = builder.AddProject<Projects.RoutingService_Api>("routingService")
+            var routingService = builder.AddProject<Projects.RoutingService_Api>("routingservice")
                 .WithReference(routingDb)
                 .WithDaprSidecar(new DaprSidecarOptions
                 {
@@ -77,7 +78,22 @@ namespace Aspire.AppHost
                 })
                 .WaitFor(routingDb);
         }
-    }
+
+		public static void TerminalService(this IDistributedApplicationBuilder builder, ServiceBuildingBlocks block)
+		{
+			var terminalDb = block.postgres.AddDatabase("terminaldb");
+
+			var terminalService = builder.AddProject<Projects.TerminalService_Api>("terminalservice")
+				.WithReference(terminalDb)
+				.WithDaprSidecar(new DaprSidecarOptions
+				{
+					AppId = "terminalservice",
+					DaprHttpPort = 8083,
+					ResourcesPaths = block.daprResources
+				})
+				.WaitFor(terminalDb);
+		}
+	}
 
     public record ServiceBuildingBlocks
     {
