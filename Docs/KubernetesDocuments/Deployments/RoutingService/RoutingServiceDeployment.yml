@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: routingservice
-          image: ghcr.io/mikkelrlarsen/routingservice:eea52b36c162e14eed6f3eb32ee969e6eb2698ff
+          image: ghcr.io/mikkelrlarsen/routingservice:ca21f3bb2f3644633b687d2c097ff6eab2e1d912
           ports:
             - containerPort: 8002
           imagePullPolicy: Always
