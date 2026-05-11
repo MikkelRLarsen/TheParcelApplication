@@ -10,12 +10,14 @@ namespace TerminalService.Api.Controllers
 		private readonly IAllocateRequestCommand _command;
 		private readonly ICheckIfExistQuery _query;
 		private readonly HttpContext _httpContext;
+		private readonly IUpdateTerminalCapacityQuery _updateTerminalCapacityQuery;
 
-		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor, ICheckIfExistQuery query)
+		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor, ICheckIfExistQuery query, IUpdateTerminalCapacityQuery updateTerminalCapacityQuery)
 		{
 			_command = command;
 			_httpContext = httpContextAccessor.HttpContext!;
 			_query = query;
+			_updateTerminalCapacityQuery = updateTerminalCapacityQuery;
 		}
 
 		public async Task CheckTerminalByIdAsync(Guid id)
@@ -35,6 +37,28 @@ namespace TerminalService.Api.Controllers
 			}
 		}
 
+		public async Task RequestTerminalCapacityAsync(TerminalCapacityRequest body)
+		{
+			Result result = await _updateTerminalCapacityQuery.HandleAsync(body.Map());
+
+			if (result.Status == ResultStatus.Success)
+			{
+				_httpContext.Response.StatusCode = StatusCodes.Status202Accepted;
+				return;
+			}
+
+			switch (result.Error!.ErrorType)
+			{
+				case ErrorType.BadRequest:
+					throw new BadRequest(result.Error.Description);
+
+				case ErrorType.NotFound:
+					throw new NotFoundException(result.Error.Description);
+
+				default:
+					throw new InternalException(result.Error.Description);
+			}
+		}
 
 		public async Task ProcessAllocationRequestAsync(AllocationRequestEvent body)
 		{

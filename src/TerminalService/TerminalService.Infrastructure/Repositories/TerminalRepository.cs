@@ -48,6 +48,7 @@ namespace TerminalService.Infrastructure.Repositories
 					.Where(a => a.TerminalId == terminalId &&
 								a.AllocationDate.DateTime >= from &&
 								a.AllocationDate.DateTime < to)
+					.AsNoTracking()
 					.ToListAsync();
 
 				return new TerminalDayStatus(terminalId, date, (int)dailyCapcity, allocations);

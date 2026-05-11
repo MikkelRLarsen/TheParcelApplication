@@ -14,6 +14,7 @@ namespace TerminalService.Domain.Entities
 		public required int CurrentReserved { get; init; }
 		public bool ResevationPossible => CurrentReserved < TotalCapcity;
 		public int GetNextVersion => CurrentReserved + 1;
+		public int GetAvailableAmount => TotalCapcity - CurrentReserved;
 
 		[SetsRequiredMembers]
 		public TerminalDayStatus(Guid terminalId, Date date, int totalCapacity,IEnumerable<TerminalAllocation> allocations)

@@ -51,6 +51,29 @@ paths:
         '500':
           $ref: '#/components/responses/500Error'
 
+  /terminal/capacity:
+    post:
+      summary: Request the current capacity of a Terminal
+      description: |
+        Publishes the capacity result to update-terminal-capacity topic
+      operationId: requestTerminalCapacity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTerminalCapacityRequest'
+
+      responses:
+        '202':
+          description: Request Recieved
+        '400':
+          $ref: '#/components/responses/400Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
 components:
   responses:
     400Error:
@@ -101,6 +124,16 @@ components:
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
 
+        terminalId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    UpdateTerminalCapacityRequest:
+      type: object
+      required:
+        - terminalId
+      properties:
         terminalId:
           type: string
           format: uuid

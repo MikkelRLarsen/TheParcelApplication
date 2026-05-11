@@ -28,7 +28,7 @@ namespace TerminalService.UseCase
 
 			while (retries++ < 3)
 			{
-				if(retries == 0)
+				if(retries != 0)
 					await Task.Delay(Random.Shared.Next(10, 50)); // To avoid Thundering Herd and Retry-Storm
 
 				ResultT<TerminalDayStatus> projectionResult = await _terminalRepository

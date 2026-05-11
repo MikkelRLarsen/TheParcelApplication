@@ -62,6 +62,18 @@ namespace TerminalService.Api.Controllers
 
         System.Threading.Tasks.Task CheckTerminalByIdAsync(System.Guid id);
 
+        /// <summary>
+        /// Request the current capacity of a Terminal
+        /// </summary>
+
+        /// <remarks>
+        /// Publishes the capacity result to update-terminal-capacity topic
+        /// </remarks>
+
+        /// <returns>Request Recieved</returns>
+
+        System.Threading.Tasks.Task RequestTerminalCapacityAsync(TerminalCapacityRequest body);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -102,6 +114,21 @@ namespace TerminalService.Api.Controllers
         {
 
             return _implementation.CheckTerminalByIdAsync(id);
+        }
+
+        /// <summary>
+        /// Request the current capacity of a Terminal
+        /// </summary>
+        /// <remarks>
+        /// Publishes the capacity result to update-terminal-capacity topic
+        /// </remarks>
+        /// <returns>Request Recieved</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("terminal/capacity")]
+		[Topic("daprpubsub", "request-terminal-capacity")]
+		public System.Threading.Tasks.Task RequestTerminalCapacity([Microsoft.AspNetCore.Mvc.FromBody] TerminalCapacityRequest body)
+        {
+
+            return _implementation.RequestTerminalCapacityAsync(body);
         }
 
     }
