@@ -48,10 +48,10 @@ namespace TerminalService.UseCase
 				if (saveResult.Status is ResultStatus.Failure)
 					continue;
 
-				return await _publisher.PublishAllocationRequestSucces(new AllocationRequestSucces(allocateParcel.TrackingNumber, allocateParcel.TerminalId));
+				return await _publisher.PublishAllocationRequestSuccesAsync(new AllocationRequestSucces(allocateParcel.TrackingNumber, allocateParcel.TerminalId));
 			}
 
-			Result result = await _publisher.PublishAllocationRequestFailed(new AllocationRequestFailed(allocateParcel.TrackingNumber, allocateParcel.TerminalId));
+			Result result = await _publisher.PublishAllocationRequestFailedAsync(new AllocationRequestFailed(allocateParcel.TrackingNumber, allocateParcel.TerminalId));
 			if (result.Status is ResultStatus.Failure)
 				return result;
 

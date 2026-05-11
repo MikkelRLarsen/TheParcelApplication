@@ -2,6 +2,7 @@
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 using TerminalService.Domain.Entities;
 using TerminalService.Facade;
@@ -57,6 +58,7 @@ namespace TerminalService.Infrastructure.Repositories
 			}
 		}
 
+
 		public async Task<Result> Handle(Guid id)
 		{
 			try
@@ -79,6 +81,20 @@ namespace TerminalService.Infrastructure.Repositories
 			catch (Exception)
 			{
 				return DatabaseError.Concurrency();
+			}
+		}
+
+		public async Task<ResultT<IEnumerable<Terminal>>> GetAllTerminalsAsync()
+		{
+			try
+			{
+				return await _context.Terminals
+					.AsNoTracking()
+					.ToArrayAsync();
+			}
+			catch (Exception)
+			{
+				return DatabaseError.DatabaseGetError();
 			}
 		}
 	}

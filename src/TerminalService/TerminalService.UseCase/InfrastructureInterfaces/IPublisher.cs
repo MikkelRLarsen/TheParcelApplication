@@ -8,7 +8,8 @@ namespace TerminalService.UseCase.InfrastructureInterfaces
 {
 	public interface IPublisher
 	{
-		public Task<Result> PublishAllocationRequestSucces(AllocationRequestSucces allocationRequestSucces);
-		public Task<Result> PublishAllocationRequestFailed(AllocationRequestFailed allocationRequestFailed);
+		public Task<Result> PublishAllocationRequestSuccesAsync(AllocationRequestSucces allocationRequestSucces);
+		public Task<Result> PublishAllocationRequestFailedAsync(AllocationRequestFailed allocationRequestFailed);
+		public Task<Result> PublishUpdateTerminalCapacityAsync(UpdateTerminalCapacity updateTerminalCapacity);
 	}
 }

@@ -11,6 +11,9 @@ namespace TerminalService.Infrastructure.InfrastructureErros
 		public static Error DatabaseGetError(Guid id) =>
 			Error.Failure("Database.Error", $"Unexpected error when retrieving Terminal with Id:{id}");
 
+		public static Error DatabaseGetError() =>
+			Error.Failure("Database.Error", $"Unexpected error when retrieving all Terminals");
+
 		public static Error NotFound(Guid id) =>
 			Error.NotFound("Database.Error", $"No terminal found with Id:{id}");
 

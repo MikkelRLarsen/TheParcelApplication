@@ -11,5 +11,6 @@ namespace TerminalService.UseCase.InfrastructureInterfaces
 		public Task<ResultT<TerminalDayStatus>> GetAllocationStatusAsync(Guid terminalId, DateOnly date);
 		public Task<Result> AllocateParcelAsync(TerminalAllocation allocation);
 		public Task<Result> SaveChangesAsync();
+		public Task<ResultT<IEnumerable<Terminal>>> GetAllTerminalsAsync();
 	}
 }

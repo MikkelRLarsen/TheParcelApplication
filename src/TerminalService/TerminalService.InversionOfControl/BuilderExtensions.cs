@@ -24,6 +24,7 @@ namespace TerminalService.InversionOfControl
 			services.AddScoped<ITerminalRepository, TerminalRepository>();
 			services.AddScoped<IPublisher, DaprPublisher>();
 			services.AddScoped<ICheckIfExistQuery, TerminalRepository>();
+			services.AddHostedService<TerminalDailyResetService>();
 
 			return services;
 		}
