@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TerminalService.Domain.Entities;
+using TerminalService.Facade;
 using TerminalService.Infrastructure.InfrastructureErros;
 using TerminalService.UseCase.InfrastructureInterfaces;
 
 namespace TerminalService.Infrastructure.Repositories
 {
-	public sealed class TerminalRepository : ITerminalRepository
+	public sealed class TerminalRepository : ITerminalRepository, ICheckIfExistQuery
 	{
 		private readonly EFAppContext _context;
 
@@ -53,6 +54,18 @@ namespace TerminalService.Infrastructure.Repositories
 			catch (Exception)
 			{
 				return DatabaseError.DatabaseGetError(terminalId);
+			}
+		}
+
+		public async Task<Result> Handle(Guid id)
+		{
+			try
+			{
+				return await _context.Terminals.AnyAsync(t => t.Id == id) ? Result.Success() : DatabaseError.NotFound(id);
+			}
+			catch (Exception)
+			{
+				return DatabaseError.DatabaseGetError(id);
 			}
 		}
 

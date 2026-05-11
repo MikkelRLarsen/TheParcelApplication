@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: terminalservice-service
+  labels:
+    app: terminalservice-service
+spec:
+  type: LoadBalancer
+  selector: 
+    app: terminalservice
+  ports:
+    - port: 8003
+      targetPort: 8003

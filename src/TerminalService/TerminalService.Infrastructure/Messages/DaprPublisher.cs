@@ -23,7 +23,8 @@ namespace TerminalService.Infrastructure.Messages
 		{
 			try
 			{
-				await _daprClient.PublishEventAsync(_pubSubName, "topic", allocationRequestSucces);
+				await _daprClient.PublishEventAsync(_pubSubName, "allocation-received", allocationRequestSucces);
+				Console.WriteLine($"Published allocation-received event for {allocationRequestSucces.TrackingNumber} at terminal with id:{allocationRequestSucces.TerminalId}");
 				return Result.Success();
 			}
 			catch (Exception)
@@ -36,7 +37,7 @@ namespace TerminalService.Infrastructure.Messages
 		{
 			try
 			{
-				await _daprClient.PublishEventAsync(_pubSubName, "topic", allocationRequestFailed);
+				await _daprClient.PublishEventAsync(_pubSubName, "allocation-failed", allocationRequestFailed);
 				return Result.Success();
 			}
 			catch (Exception)

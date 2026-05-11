@@ -29,6 +29,28 @@ paths:
         '409':
           $ref: '#/components/responses/409Error'
 
+  /terminal/{id}:
+    get:
+      summary: Check if terminal exists
+      description: |
+        Checks whether a terminal with the given ID exists
+      operationId: checkTerminalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Terminal ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Terminal exists
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
 components:
   responses:
     400Error:
@@ -47,6 +69,13 @@ components:
 
     409Error:
       description: Conflict/Concurrency
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    404Error:
+      description: Terminal not found
       content:
         application/json:
           schema:

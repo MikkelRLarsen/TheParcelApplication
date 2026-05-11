@@ -4,11 +4,13 @@
 // </auto-generated>
 //----------------------
 
+using Dapr;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using TerminalService.Api.DataTransferObjects;
-using Shared;
+
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -46,6 +48,20 @@ namespace TerminalService.Api.Controllers
 
         System.Threading.Tasks.Task ProcessAllocationRequestAsync(AllocationRequestEvent body);
 
+        /// <summary>
+        /// Check if terminal exists
+        /// </summary>
+
+        /// <remarks>
+        /// Checks whether a terminal with the given ID exists
+        /// </remarks>
+
+        /// <param name="id">Terminal ID</param>
+
+        /// <returns>Terminal exists</returns>
+
+        System.Threading.Tasks.Task CheckTerminalByIdAsync(System.Guid id);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -66,10 +82,26 @@ namespace TerminalService.Api.Controllers
         /// </remarks>
         /// <returns>Allocation created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("terminal")]
-        public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocationRequestEvent body)
+		[Topic("daprpubsub", "allcate-parcel-to-terminal")]
+		public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocationRequestEvent body)
         {
 
             return _implementation.ProcessAllocationRequestAsync(body);
+        }
+
+        /// <summary>
+        /// Check if terminal exists
+        /// </summary>
+        /// <remarks>
+        /// Checks whether a terminal with the given ID exists
+        /// </remarks>
+        /// <param name="id">Terminal ID</param>
+        /// <returns>Terminal exists</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("terminal/{id}")]
+        public System.Threading.Tasks.Task CheckTerminalById(System.Guid id)
+        {
+
+            return _implementation.CheckTerminalByIdAsync(id);
         }
 
     }

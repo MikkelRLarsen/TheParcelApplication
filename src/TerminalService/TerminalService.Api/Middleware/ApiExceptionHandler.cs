@@ -20,7 +20,11 @@ namespace TerminalService.Api.Middleware
         {
             public ConflictException(string message) : base(message) { }
         }
-    }
+		public class NotFoundException : Exception
+		{
+			public NotFoundException(string message) : base(message) { }
+		}
+	}
 
     public class ApiExceptionHandler : IExceptionHandler
     {
@@ -42,7 +46,12 @@ namespace TerminalService.Api.Middleware
                     badResponse = new BadResponse(exception.Message);
                     break;
 
-                default:
+                case NotFoundException:
+                    statusCode = StatusCodes.Status404NotFound;
+                    badResponse = new BadResponse(exception.Message);
+                    break;
+
+				default:
                     statusCode = StatusCodes.Status500InternalServerError;
                     badResponse = new BadResponse($"En uventet fejl skete");
                     break;

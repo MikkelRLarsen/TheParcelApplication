@@ -23,6 +23,7 @@ namespace TerminalService.InversionOfControl
 			// Infrastructure
 			services.AddScoped<ITerminalRepository, TerminalRepository>();
 			services.AddScoped<IPublisher, DaprPublisher>();
+			services.AddScoped<ICheckIfExistQuery, TerminalRepository>();
 
 			return services;
 		}

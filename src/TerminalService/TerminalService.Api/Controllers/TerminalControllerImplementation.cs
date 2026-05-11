@@ -8,13 +8,33 @@ namespace TerminalService.Api.Controllers
 	public sealed class TerminalControllerImplementation : ITerminalController
 	{
 		private readonly IAllocateRequestCommand _command;
+		private readonly ICheckIfExistQuery _query;
 		private readonly HttpContext _httpContext;
 
-		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor)
+		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor, ICheckIfExistQuery query)
 		{
 			_command = command;
 			_httpContext = httpContextAccessor.HttpContext!;
+			_query = query;
 		}
+
+		public async Task CheckTerminalByIdAsync(Guid id)
+		{
+			Result result = await _query.Handle(id);
+
+			if (result.Status == ResultStatus.Success) 
+				return;
+
+			switch (result.Error!.ErrorType)
+			{
+				case ErrorType.NotFound:
+					throw new NotFoundException(result.Error.Description);
+
+				default:
+					throw new InternalException(result.Error.Description);
+			}
+		}
+
 
 		public async Task ProcessAllocationRequestAsync(AllocationRequestEvent body)
 		{
