@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: terminalservice
-          image: ghcr.io/mikkelrlarsen/terminalservice:latest
+          image: ghcr.io/mikkelrlarsen/terminalservice:726046f9364eaa1389c1c388966654038e776548
           ports:
             - containerPort: 8003
           imagePullPolicy: Always
