@@ -19,6 +19,12 @@ namespace Shared.ResultPattern
             Error = error;
         }
 
+        protected Result(Error error, ResultStatus status)
+        {
+            Status = status;
+            Error = error;
+        }
+
         public ResultStatus Status { get; }
         public Error? Error { get; }
 
@@ -30,10 +36,13 @@ namespace Shared.ResultPattern
 
         public static Result Failure(Error error) =>
             new(error);
+
+        public static Result HandledError(Error error) => 
+            new(error, ResultStatus.HandledError);
     }
 
     public enum ResultStatus
     {
-        Success, Failure
+        Success, Failure, HandledError
     }
 }

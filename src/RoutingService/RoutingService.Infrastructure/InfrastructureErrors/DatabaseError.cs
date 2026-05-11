@@ -13,5 +13,8 @@ namespace RoutingService.Infrastructure.DatabaseErrors
 
         public static Error DatabaseGetError(Edge edge) =>
 			Error.Failure("Database.Error", $"Unexpected error when retrieving Edge with Id:{edge.Id}");
+
+        public static Error NotFound(Guid id) =>
+            Error.NotFound("Database.Error", $"No terminal found with Id:{id}");
 	}
 }

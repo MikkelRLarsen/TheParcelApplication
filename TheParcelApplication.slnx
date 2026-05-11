@@ -20,6 +20,15 @@
     <Project Path="src/RoutingService/RoutingService.UnitTest/RoutingService.UnitTest.csproj" />
     <Project Path="src/RoutingService/RoutingService.UseCase/RoutingService.UseCase.csproj" />
   </Folder>
+  <Folder Name="/src/TerminalService/">
+    <Project Path="src/TerminalService/TerminalService.Api/TerminalService.Api.csproj" />
+    <Project Path="src/TerminalService/TerminalService.Domain/TerminalService.Domain.csproj" />
+    <Project Path="src/TerminalService/TerminalService.Facade/TerminalService.Facade.csproj" />
+    <Project Path="src/TerminalService/TerminalService.Infrastructure/TerminalService.Infrastructure.csproj" />
+    <Project Path="src/TerminalService/TerminalService.InversionOfControl/TerminalService.InversionOfControl.csproj" />
+    <Project Path="src/TerminalService/TerminalService.UnitTest/TerminalService.UnitTest.csproj" />
+    <Project Path="src/TerminalService/TerminalService.UseCase/TerminalService.UseCase.csproj" />
+  </Folder>
   <Project Path="Aspire.AppHost/Aspire.AppHost.csproj" />
   <Project Path="Aspire.IntegrationTest/Aspire.Integrationtest.csproj" />
 </Solution>

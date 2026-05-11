@@ -1,0 +1,36 @@
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terminal-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terminal-postgres
+  template:
+    metadata:
+      labels:
+        app: terminal-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_PASSWORD
+              value: "root"
+            - name: POSTGRES_DB
+              value: "terminaldb"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: terminal-postgres-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: terminal-postgres-storage
+          persistentVolumeClaim:
+            claimName: terminal-pvc

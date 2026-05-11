@@ -1,0 +1,34 @@
+# ParcelService Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terminalservice
+  labels:
+    app: terminalservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terminalservice
+  template:
+    metadata:
+      labels:
+        app: terminalservice
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "terminalservice"
+        dapr.io/app-port: "8003"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+        - name: terminalservice
+          image: ghcr.io/mikkelrlarsen/terminalservice:latest
+          ports:
+            - containerPort: 8003
+          imagePullPolicy: Always
+          env:
+            - name: ConnectionStrings__routingdb
+              valueFrom:
+                secretKeyRef:
+                  name: terminal-db-secret
+                  key: connectionString

@@ -1,6 +1,7 @@
 ﻿using Dapr.Client;
 using Dapr.Workflow;
 using RoutingService.UseCase.InfrastructureInterfaces;
+using RoutingService.UseCase.InfrastructureInterfaces.Contracts;
 using RoutingService.UseCase.RoutingAlgoritme;
 
 namespace RoutingService.Infrastructure.Workflow
@@ -18,7 +19,7 @@ namespace RoutingService.Infrastructure.Workflow
 		{
 			IEnumerable<Guid> potentielTerminalId = input.Paths.Select(p => p.Terminal);
 
-			await _publisher.PublishAllocationRequest(input.TrackingNumber, potentielTerminalId, input.Priority);
+			await _publisher.PublishAllocationRequest(new AllocateRequestV1(input.TrackingNumber, potentielTerminalId, input.Priority));
 
 			return new RequestAllocationActivityResult(true);
 		}

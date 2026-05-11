@@ -1,6 +1,7 @@
 ﻿using Google.Api;
 using Microsoft.EntityFrameworkCore;
 using RoutingService.Domain;
+using RoutingService.Infrastructure.DatabaseErrors;
 using RoutingService.UseCase.InfrastructureInterfaces;
 using RoutingService.UseCase.SpecificationPattern;
 using Shared.ResultPattern;
@@ -54,7 +55,7 @@ namespace RoutingService.Infrastructure.Repositories
 		{
 			var terminal = _context.Terminals.FirstOrDefault(t => t.Id == id);
 
-			return terminal != null ? terminal : Error.NotFound("DATABASE", "No terminal found");
+			return terminal != null ? terminal : DatabaseError.NotFound(id);
 		}
 	}
 }

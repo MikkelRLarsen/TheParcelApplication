@@ -1,12 +1,10 @@
-﻿using Shared.ResultPattern;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RoutingService.UseCase.InfrastructureInterfaces.Contracts;
+using Shared.ResultPattern;
 
 namespace RoutingService.UseCase.InfrastructureInterfaces
 {
 	public interface IPublisher
 	{
-		public Task<Result> PublishAllocationRequest(Guid trackingNumber, IEnumerable<Guid> terminals, int priority);
+		public Task<Result> PublishAllocationRequest(AllocateRequestV1 request);
 	}
 }

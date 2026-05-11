@@ -1,0 +1,140 @@
+﻿openapi: 3.0.3
+info:
+  title: Terminal Service API
+  version: 1.1.0
+  description: |
+    API for handling allocation of parcels in the event-driven parcel system.
+    And generel Terminal metadata
+    
+paths:
+  /terminal:
+    post:
+      summary: Process new allocation request
+      description: |
+        Receives an Allocation Request and tries to allocate it and publish result
+      operationId: processAllocationRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocationRequestEvent'
+      responses:
+        '201':
+          description: Allocation created
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+
+  /terminal/{id}:
+    get:
+      summary: Check if terminal exists
+      description: |
+        Checks whether a terminal with the given ID exists
+      operationId: checkTerminalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Terminal ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Terminal exists
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /terminal/capacity:
+    post:
+      summary: Request the current capacity of a Terminal
+      description: |
+        Publishes the capacity result to update-terminal-capacity topic
+      operationId: requestTerminalCapacity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTerminalCapacityRequest'
+
+      responses:
+        '202':
+          description: Request Recieved
+        '400':
+          $ref: '#/components/responses/400Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+components:
+  responses:
+    400Error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    500Error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    409Error:
+      description: Conflict/Concurrency
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    404Error:
+      description: Terminal not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+  schemas:
+    BadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request data"
+
+    AllocationRequestEvent:
+      type: object
+      required:
+        - trackingNumber
+        - terminalId
+
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        terminalId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    UpdateTerminalCapacityRequest:
+      type: object
+      required:
+        - terminalId
+      properties:
+        terminalId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"

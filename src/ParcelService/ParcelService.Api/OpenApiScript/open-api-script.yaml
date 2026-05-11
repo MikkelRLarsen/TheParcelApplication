@@ -101,7 +101,6 @@ components:
       type: object
       required:
         - id
-        - region
       properties:
         id:
           type: string
