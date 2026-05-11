@@ -47,11 +47,11 @@ namespace ParcelService.UseCase.Mappers
 				                country: dto.Sender.PersonalInformation.Address.Country)));
 
 
-				Parcel parcel = new Parcel(
-                    dto.Weight,
-                    dto.Priority,
-                    sender,
-                    reciever);
+                Parcel parcel = new Parcel(
+                    weight: dto.Weight,
+                    priority: dto.Priority,
+                    reciever,
+                    sender);
 
                 return parcel;
             }
