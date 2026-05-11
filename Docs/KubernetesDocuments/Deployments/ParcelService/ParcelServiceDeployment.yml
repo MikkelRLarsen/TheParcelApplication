@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: parcelservice
-          image: ghcr.io/mikkelrlarsen/parcelservice:9e9a5621dc6dee1f909ab10e20e983f5f31beceb
+          image: ghcr.io/mikkelrlarsen/parcelservice:ca21f3bb2f3644633b687d2c097ff6eab2e1d912
           ports:
             - containerPort: 8001
           imagePullPolicy: Always
