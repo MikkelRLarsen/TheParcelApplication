@@ -1,0 +1,59 @@
+name: TerminalService Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'src/TerminalService/**'
+      - '!src/TerminalService/Docs/**' 
+jobs:
+  Countinous_Integration:
+    permissions: 
+      contents: read
+      checks: write
+    uses: ./.github/workflows/ContinousIntegration.yml
+      
+  Countinous_Delivery:
+    needs: Countinous_Integration
+    permissions: 
+      contents: read
+      packages: write
+    uses: ./.github/workflows/ContinousDelivery.yml
+    with:
+      image-name: terminalservice
+      docker-context: src
+      dockerfile: src/TerminalService/Dockerfile
+      tag: ${{ github.sha }}
+
+  Staging:
+    needs: Countinous_Delivery
+    uses: ./.github/workflows/Staging.yml
+    with:
+      deployment-name: terminalservice
+      container-name: terminalservice
+      image-name: terminalservice
+      tag: ${{ needs.Countinous_Delivery.outputs.tag  }}
+    secrets:
+      KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
+      
+  Production:
+    needs: [Staging, Countinous_Delivery]
+    uses: ./.github/workflows/Production.yml
+    with:
+      deployment-name: terminalservice
+      container-name: terminalservice
+      image-name: terminalservice
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}
+    secrets:
+      KUBECONFIG: ${{ secrets.PRODUCTION_KUBECONFIG }}
+
+  UpdateDocs:
+    needs: [Production, Countinous_Delivery]
+    permissions: 
+      contents: write
+    uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
+    with:
+      container-name: terminalservice
+      filepath: Docs/KubernetesDocuments/Deployments/TerminalService/TerminalServiceDeployment.yml
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}
