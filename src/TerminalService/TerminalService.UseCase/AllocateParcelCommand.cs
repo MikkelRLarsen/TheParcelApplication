@@ -37,6 +37,8 @@ namespace TerminalService.UseCase
 					return projectionResult.Error!;
 
 				TerminalDayStatus projection = projectionResult.Value;
+				if (projection.ResevationPossible is false)
+					return AllocationError.AllocationNotPossible(allocateParcel.TerminalId);
 
 				TerminalAllocation allocation = new TerminalAllocation(allocateParcel.TerminalId, allocateParcel.TrackingNumber, projection.GetNextVersion);
 

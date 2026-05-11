@@ -10,5 +10,8 @@ namespace TerminalService.UseCase.UseCaseErrors
 	{
 		public static Error NoMoreRetires(Guid terminalId, Guid trackingNumber) =>
 			Error.Failure("Logic.Error", $"The allocation request ran out of retries on Terminal with Id:{terminalId} with Parcel with TrackingNumber{trackingNumber}");
+
+		public static Error AllocationNotPossible(Guid terminalId) =>
+			Error.Failure("Logic.Error", $"The allocation request was denied. Terminal with Id:{terminalId} was fully reserved");
 	}
 }
