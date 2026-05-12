@@ -1,4 +1,5 @@
 ﻿using AllocationService.Domain;
+using AllocationService.UseCase.Contracts;
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ namespace AllocationService.UseCase.InfrastructureInterfaces
 {
 	public interface ICacheHandler
 	{
-		public Task<ResultT<bool>> CheckForCacheAsync(Guid terminalId);
-		public Task<Result> CreateAsync(Terminal terminal);
-		public Task<ResultT<int>> GetCapacityAsync(Guid terminalId);
-		public Task<Result> UpdateAsync(Terminal terminal);
+		public Task<Result> CreateAsync(TerminalCacheState terminal);
+		public Task<ResultT<TerminalCacheState>> GetAsync(Guid terminalId);
+		public Task<Result> UpdateAsync(TerminalCacheState terminal);
 	}
 }

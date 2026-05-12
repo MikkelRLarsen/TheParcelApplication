@@ -42,11 +42,12 @@ namespace AllocationService.UseCase
 			if (terminalWithHighestCapacity is null)
 				return Error.BadRequest("BadRequest", "No found");
 
-			if (terminalWithHighestCapacity.Capacity > 0)
+			if (terminalWithHighestCapacity.AllocationPossible)
+			{
 				return await _allocationService.AllocateAsync(
-					new Contracts.AllocationContract(
-						allocateRequest.TrackingNumber, 
-						terminalWithHighestCapacity.Id));
+					trackingNumber: allocateRequest.TrackingNumber, 
+					terminal: terminalWithHighestCapacity);
+			}
 			else
 			{
 				ResultT<IQueueTerminal> factoryResult = await _queueFactory.GetAsync(terminalWithHighestCapacity.Id);

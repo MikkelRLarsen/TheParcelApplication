@@ -15,6 +15,15 @@ namespace AllocationService.Domain
 		}
 
 		public required Guid Id { get; init; }
-		public required int Capacity { get; init; }
+		public int Capacity { get; private set; }
+
+		public bool AllocationPossible => Capacity > 0;
+		public void Decrement()
+		{
+			if (AllocationPossible)
+				Capacity--;
+			else
+				throw new Exception();
+		}
 	}
 }

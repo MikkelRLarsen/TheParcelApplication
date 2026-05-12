@@ -1,4 +1,5 @@
-﻿using AllocationService.UseCase.Contracts;
+﻿using AllocationService.Domain;
+using AllocationService.UseCase.Contracts;
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace AllocationService.UseCase.AllocationServices
 {
 	public interface IAllocationService
 	{
-		public Task<Result> AllocateAsync(AllocationContract contract);
+		public Task<Result> AllocateAsync(Guid trackingNumber, Terminal terminal);
 	}
 }

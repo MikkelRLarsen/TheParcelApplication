@@ -1,5 +1,6 @@
 using AllocationService.Api.Controllers;
 using AllocationService.Api.Middleware;
+using AllocationService.InversionOfControl;
 using Scalar.AspNetCore;
 using Shared;
 
@@ -25,11 +26,9 @@ public class Program
 		builder.Services.AddProblemDetails();
 		builder.Services.AddScoped<IAllocationController, AllocationControllerImplementation>();
 
-		//builder.Services.RegisterServices(builder.Configuration);
+		builder.Services.RegisterServices(builder.Configuration);
 
 		var app = builder.Build();
-
-		//app.SetupDatabaseOnColdStart();
 
 		// Configure the HTTP request pipeline.
 		app.UseExceptionHandler();

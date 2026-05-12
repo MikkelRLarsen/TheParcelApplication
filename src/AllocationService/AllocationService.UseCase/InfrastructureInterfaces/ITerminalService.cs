@@ -9,6 +9,6 @@ namespace AllocationService.UseCase.InfrastructureInterfaces
 {
 	public interface ITerminalService
 	{
-		public Task<ResultT<Terminal>> Get(Guid terminalId);
+		public Task<ResultT<TerminalServiceState>> GetAsync(Guid terminalId);
 	}
 }

@@ -4,11 +4,13 @@
 // </auto-generated>
 //----------------------
 
+using AllocationService.Api.DataTransferObjects;
+using Dapr;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
-using AllocationService.Api.DataTransferObjects;
-using Shared;
+
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -66,7 +68,8 @@ namespace AllocationService.Api.Controllers
         /// </remarks>
         /// <returns>Allocation created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("allocation")]
-        public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocateRequestV1 body)
+		[Topic("daprpubsub", "allocate-parcel")]
+		public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocateRequestV1 body)
         {
 
             return _implementation.ProcessAllocationRequestAsync(body);

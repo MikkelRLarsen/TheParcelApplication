@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\AllocationService\AllocationService.Api\AllocationService.Api.csproj" />
     <ProjectReference Include="..\src\ParcelService\ParcelService.Api\ParcelService.Api.csproj" />
     <ProjectReference Include="..\src\RoutingService\RoutingService.Api\RoutingService.Api.csproj" />
     <ProjectReference Include="..\src\TerminalService\TerminalService.Api\TerminalService.Api.csproj" />
