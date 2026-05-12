@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using TerminalService.Domain.Entities;
 using TerminalService.Facade;
+using TerminalService.Facade.DataTransferObjects;
 using TerminalService.UseCase.InfrastructureInterfaces;
 using TerminalService.UseCase.InfrastructureInterfaces.Contracts;
 using TerminalService.UseCase.UseCaseErrors;

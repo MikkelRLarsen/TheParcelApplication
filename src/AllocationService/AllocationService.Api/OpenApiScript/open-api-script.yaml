@@ -1,0 +1,126 @@
+﻿openapi: 3.0.3
+info:
+  title: Allocation Service API
+  version: 1.1.0
+  description: |
+    API for handling terminal allocation of parcels in the event-driven parcel system.
+    Mainly seen as a priorityqueue
+    
+paths:
+  /allocation:
+    post:
+      summary: Process new terminal allocation request
+      description: |
+        Receives an terminal allocation Request and tries to allocate it and publish result
+      operationId: processAllocationRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocateRequestV1'
+      responses:
+        '201':
+          description: Allocation created
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+
+components:
+  responses:
+    400Error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+    500Error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadResponse'
+
+  schemas:
+    BadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid request data"
+
+    AllocateRequestV1:
+      type: object
+      required:
+        - trackingNumber
+        - terminals
+        - priority
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        terminals:
+          type: array
+          items:
+            type: string
+            format: uuid
+          example:
+            - "20000000-0000-0000-0000-000000000005"
+            - "30000000-0000-0000-0000-000000000001"
+
+        priority:
+          type: integer
+          format: int32
+          example: 1
+
+      example:
+        trackingNumber: "550e8400-e29b-41d4-a716-446655440000"
+        terminals:
+          - "20000000-0000-0000-0000-000000000005"
+          - "30000000-0000-0000-0000-000000000001"
+        priority: 1
+
+    AllocationRequestFailed:
+      type: object
+      required:
+        - trackingNumber
+        - terminalId
+      properties:
+        trackingNumber:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+        terminalId:
+          type: string
+          format: uuid
+          example: "20000000-0000-0000-0000-000000000005"
+
+      example:
+        trackingNumber: "550e8400-e29b-41d4-a716-446655440000"
+        terminalId: "20000000-0000-0000-0000-000000000005"
+
+    UpdateTerminalCapacity:
+      type: object
+      required:
+        - terminalId
+        - terminalCapacity
+      properties:
+        terminalId:
+          type: string
+          format: uuid
+          example: "20000000-0000-0000-0000-000000000005"
+
+        terminalCapacity:
+          type: integer
+          format: int32
+          example: 150
+
+      example:
+        terminalId: "20000000-0000-0000-0000-000000000005"
+        terminalCapacity: 150

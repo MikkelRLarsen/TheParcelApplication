@@ -6,8 +6,8 @@ using TerminalService.Facade.DataTransferObjects;
 
 namespace TerminalService.Facade
 {
-	public interface IAllocateRequestCommand
+	public interface IGetTerminalQuery
 	{
-		public Task<Result> TryHandle(AllocateRequest allocateRequest);
+		public Task<ResultT<Terminal>> GetTerminalAsync(Guid id);
 	}
 }

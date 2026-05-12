@@ -1,15 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TerminalService.Facade
+namespace AllocationService.Api.DataTransferObjects
 {
 	public sealed record UpdateTerminalCapacity
 	{
-		[SetsRequiredMembers]
-		public UpdateTerminalCapacity(Guid terminalId)
-		{
-			TerminalId = terminalId;
-		}
-
 		public required Guid TerminalId { get; init; }
+		public required int TerminalCapacity { get; init; }
 	}
 }

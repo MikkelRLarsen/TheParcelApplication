@@ -4,13 +4,11 @@
 // </auto-generated>
 //----------------------
 
-using Dapr;
 using Microsoft.AspNetCore.Mvc;
-using Shared;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
-using TerminalService.Api.DataTransferObjects;
-
+using AllocationService.Api.DataTransferObjects;
+using Shared;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -28,12 +26,12 @@ using TerminalService.Api.DataTransferObjects;
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
 #pragma warning disable 8765 // Disable "CS8765 Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes)."
 
-namespace TerminalService.Api.Controllers
+namespace AllocationService.Api.Controllers
 {
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
-    public interface ITerminalController
+    public interface IAllocationController
     {
 
         /// <summary>
@@ -46,30 +44,16 @@ namespace TerminalService.Api.Controllers
 
         /// <returns>Allocation created</returns>
 
-        System.Threading.Tasks.Task ProcessAllocationRequestAsync(AllocationRequestEvent body);
-
-        /// <summary>
-        /// Returns terminal based om ID
-        /// </summary>
-
-        /// <remarks>
-        /// Returns a terminal with the given ID exists
-        /// </remarks>
-
-        /// <param name="id">Terminal ID</param>
-
-        /// <returns>Get Terminal</returns>
-
-        System.Threading.Tasks.Task<Terminal> GetTerminalByIdAsync(System.Guid id);
+        System.Threading.Tasks.Task ProcessAllocationRequestAsync(AllocateRequestV1 body);
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class TerminalController : Shared.ApiControllerBase
+    public partial class AllocationController : Shared.ApiControllerBase
     {
-        private ITerminalController _implementation;
+        private IAllocationController _implementation;
 
-        public TerminalController(ITerminalController implementation)
+        public AllocationController(IAllocationController implementation)
         {
             _implementation = implementation;
         }
@@ -81,27 +65,11 @@ namespace TerminalService.Api.Controllers
         /// Receives an terminal allocation Request and tries to allocate it and publish result
         /// </remarks>
         /// <returns>Allocation created</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("terminal")]
-		[Topic("daprpubsub", "allcate-parcel-to-terminal")]
-		public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocationRequestEvent body)
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("allocation")]
+        public System.Threading.Tasks.Task ProcessAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocateRequestV1 body)
         {
 
             return _implementation.ProcessAllocationRequestAsync(body);
-        }
-
-        /// <summary>
-        /// Returns terminal based om ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a terminal with the given ID exists
-        /// </remarks>
-        /// <param name="id">Terminal ID</param>
-        /// <returns>Get Terminal</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("terminal/{id}")]
-        public System.Threading.Tasks.Task<Terminal> GetTerminalById(System.Guid id)
-        {
-
-            return _implementation.GetTerminalByIdAsync(id);
         }
 
     }

@@ -3,15 +3,15 @@ info:
   title: Terminal Service API
   version: 1.1.0
   description: |
-    API for handling allocation of parcels in the event-driven parcel system.
+    API for handling terminal allocation of parcels in the event-driven parcel system.
     And generel Terminal metadata
     
 paths:
   /terminal:
     post:
-      summary: Process new allocation request
+      summary: Process new terminal allocation request
       description: |
-        Receives an Allocation Request and tries to allocate it and publish result
+        Receives an terminal allocation Request and tries to allocate it and publish result
       operationId: processAllocationRequest
       requestBody:
         required: true
@@ -31,10 +31,10 @@ paths:
 
   /terminal/{id}:
     get:
-      summary: Check if terminal exists
+      summary: Returns terminal based om ID
       description: |
-        Checks whether a terminal with the given ID exists
-      operationId: checkTerminalById
+        Returns a terminal with the given ID exists
+      operationId: getTerminalById
       parameters:
         - name: id
           in: path
@@ -45,30 +45,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Terminal exists
-        '404':
-          $ref: '#/components/responses/404Error'
-        '500':
-          $ref: '#/components/responses/500Error'
-
-  /terminal/capacity:
-    post:
-      summary: Request the current capacity of a Terminal
-      description: |
-        Publishes the capacity result to update-terminal-capacity topic
-      operationId: requestTerminalCapacity
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateTerminalCapacityRequest'
-
-      responses:
-        '202':
-          description: Request Recieved
-        '400':
-          $ref: '#/components/responses/400Error'
+          $ref: '#/components/responses/Terminal200Response'
         '404':
           $ref: '#/components/responses/404Error'
         '500':
@@ -76,6 +53,13 @@ paths:
 
 components:
   responses:
+    Terminal200Response:
+      description: Get Terminal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Terminal'
+
     400Error:
       description: Bad Request
       content:
@@ -129,12 +113,128 @@ components:
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
 
-    UpdateTerminalCapacityRequest:
+
+    Terminal:
       type: object
       required:
-        - terminalId
+        - id
+        - type
+        - currentlyReserved
+        - dailyCapacity
+        - location
       properties:
-        terminalId:
+        id:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
+
+        type:
+          $ref: '#/components/schemas/TerminalType'
+
+        currentlyReserved:
+          type: integer
+          format: int32
+          example: 20
+
+        dailyCapacity:
+          type: integer
+          format: int32
+          example: 120
+
+        location:
+          $ref: '#/components/schemas/Location'
+
+      example:
+        id: "550e8400-e29b-41d4-a716-446655440000"
+        type: "DistributionCenter"
+        dailyCapacity: 120
+        location:
+          region:
+            country: "Denmark"
+            mainRegion: "Jylland"
+            subRegion: "Horsens"
+          address:
+            city:
+              name: "Horsens"
+            street: "Havnevej"
+            streetNumber: 12
+
+    TerminalType:
+      type: string
+      description: Enum placeholder for terminal types
+      enum:
+        - Hub
+        - PickupPoint
+        - DistributionCenter
+      example: "DistributionCenter"
+
+    Location:
+      type: object
+      required:
+        - region
+        - address
+      properties:
+        region:
+          $ref: '#/components/schemas/Region'
+        address:
+          $ref: '#/components/schemas/Address'
+      example:
+        region:
+          country: "Denmark"
+          mainRegion: "Jylland"
+          subRegion: "Horsens"
+        address:
+          city:
+            name: "Horsens"
+          street: "Havnevej"
+          streetNumber: 12
+
+    Region:
+      type: object
+      required:
+        - country
+        - mainRegion
+        - subRegion
+      properties:
+        country:
+          type: string
+          example: "Denmark"
+        mainRegion:
+          type: string
+          example: "Jylland"
+        subRegion:
+          type: string
+          example: "Horsens"
+
+    Address:
+      type: object
+      required:
+        - city
+        - street
+        - streetNumber
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        street:
+          type: string
+          example: "Havnevej"
+        streetNumber:
+          type: integer
+          format: int32
+          example: 12
+      example:
+        city:
+          name: "Horsens"
+        street: "Havnevej"
+        streetNumber: 12
+
+    City:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Horsens"
+      example:
+        name: "Horsens"

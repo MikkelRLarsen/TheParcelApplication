@@ -8,50 +8,24 @@ namespace TerminalService.Api.Controllers
 	public sealed class TerminalControllerImplementation : ITerminalController
 	{
 		private readonly IAllocateRequestCommand _command;
-		private readonly ICheckIfExistQuery _query;
 		private readonly HttpContext _httpContext;
-		private readonly IUpdateTerminalCapacityQuery _updateTerminalCapacityQuery;
+		private readonly IGetTerminalQuery _query;
 
-		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor, ICheckIfExistQuery query, IUpdateTerminalCapacityQuery updateTerminalCapacityQuery)
+		public TerminalControllerImplementation(IAllocateRequestCommand command, IHttpContextAccessor httpContextAccessor, IGetTerminalQuery query)
 		{
 			_command = command;
 			_httpContext = httpContextAccessor.HttpContext!;
 			_query = query;
-			_updateTerminalCapacityQuery = updateTerminalCapacityQuery;
 		}
 
-		public async Task CheckTerminalByIdAsync(Guid id)
+		public async Task<Terminal> GetTerminalByIdAsync(Guid id)
 		{
-			Result result = await _query.Handle(id);
-
-			if (result.Status == ResultStatus.Success) 
-				return;
+			ResultT<Facade.DataTransferObjects.Terminal> result = await _query.GetTerminalAsync(id);
+			if (result.Status is ResultStatus.Success)
+				return Terminal.Map(result.Value);
 
 			switch (result.Error!.ErrorType)
 			{
-				case ErrorType.NotFound:
-					throw new NotFoundException(result.Error.Description);
-
-				default:
-					throw new InternalException(result.Error.Description);
-			}
-		}
-
-		public async Task RequestTerminalCapacityAsync(TerminalCapacityRequest body)
-		{
-			Result result = await _updateTerminalCapacityQuery.HandleAsync(body.Map());
-
-			if (result.Status == ResultStatus.Success)
-			{
-				_httpContext.Response.StatusCode = StatusCodes.Status202Accepted;
-				return;
-			}
-
-			switch (result.Error!.ErrorType)
-			{
-				case ErrorType.BadRequest:
-					throw new BadRequest(result.Error.Description);
-
 				case ErrorType.NotFound:
 					throw new NotFoundException(result.Error.Description);
 

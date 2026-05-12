@@ -7,11 +7,12 @@ using System.Text;
 using TerminalService.Domain.Entities;
 using TerminalService.Facade;
 using TerminalService.Infrastructure.InfrastructureErros;
+using TerminalService.Infrastructure.Mappers;
 using TerminalService.UseCase.InfrastructureInterfaces;
 
 namespace TerminalService.Infrastructure.Repositories
 {
-	public sealed class TerminalRepository : ITerminalRepository, ICheckIfExistQuery
+	public sealed class TerminalRepository : ITerminalRepository, IGetTerminalQuery
 	{
 		private readonly EFAppContext _context;
 
@@ -59,19 +60,6 @@ namespace TerminalService.Infrastructure.Repositories
 			}
 		}
 
-
-		public async Task<Result> Handle(Guid id)
-		{
-			try
-			{
-				return await _context.Terminals.AnyAsync(t => t.Id == id) ? Result.Success() : DatabaseError.NotFound(id);
-			}
-			catch (Exception)
-			{
-				return DatabaseError.DatabaseGetError(id);
-			}
-		}
-
 		public async Task<Result> SaveChangesAsync()
 		{
 			try
@@ -97,6 +85,21 @@ namespace TerminalService.Infrastructure.Repositories
 			{
 				return DatabaseError.DatabaseGetError();
 			}
+		}
+
+		public async Task<ResultT<Facade.DataTransferObjects.Terminal>> GetTerminalAsync(Guid id)
+		{
+			Terminal? terminal = await _context.Terminals
+				.AsNoTracking()
+				.FirstOrDefaultAsync(t => t.Id == id);
+			if(terminal is null)
+				return DatabaseError.NotFound(id);
+
+			var projectionResult = await GetAllocationStatusAsync(id, DateOnly.FromDateTime(DateTime.UtcNow));
+			if (projectionResult.Status is ResultStatus.Failure)
+				return projectionResult.Error!;
+
+			return terminal.Map(projectionResult.Value.CurrentReserved);
 		}
 	}
 }

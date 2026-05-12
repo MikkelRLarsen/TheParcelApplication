@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TerminalService.UseCase.InfrastructureInterfaces.Contracts
+namespace AllocationService.Facade.DataTransferObjects
 {
 	public sealed record UpdateTerminalCapacity
 	{
