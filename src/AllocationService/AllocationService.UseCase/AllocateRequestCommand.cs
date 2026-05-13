@@ -2,6 +2,7 @@
 using AllocationService.Facade;
 using AllocationService.Facade.DataTransferObjects;
 using AllocationService.UseCase.AllocationServices;
+using AllocationService.UseCase.Contracts;
 using AllocationService.UseCase.InfrastructureInterfaces;
 using AllocationService.UseCase.QueueFactories;
 using AllocationService.UseCase.TerminalResolvers;
@@ -9,7 +10,7 @@ using Shared.ResultPattern;
 
 namespace AllocationService.UseCase
 {
-	public sealed class AllocateRequestCommand : IAllocateRequestCommand
+	public sealed partial class AllocateRequestCommand : IAllocateRequestCommand
 	{
 		private readonly ITerminalResolver _terminalResolver;
 		private readonly IQueueFactory _queueFactory;
@@ -56,9 +57,10 @@ namespace AllocationService.UseCase
 
 				IQueueTerminal queue = factoryResult.Value;
 
-				return queue.Enqueue(
-					priority: allocateRequest.Priority,
-					terminal: terminalWithHighestCapacity);
+				return queue.Enqueue(new AllocationQueueContract(
+					trackingNumber: allocateRequest.TrackingNumber,
+					terminalId: terminalWithHighestCapacity.Id,
+					priority: allocateRequest.Priority));
 			}
 		}
 	}

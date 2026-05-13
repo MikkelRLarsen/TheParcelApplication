@@ -48,6 +48,30 @@ namespace AllocationService.Api.Controllers
 
         System.Threading.Tasks.Task ProcessAllocationRequestAsync(AllocateRequestV1 body);
 
+        /// <summary>
+        /// Reallocate a failed allocation
+        /// </summary>
+
+        /// <remarks>
+        /// Receives a failed terminal allocation Request and tries to reallocate it and publish result
+        /// </remarks>
+
+        /// <returns>Allocation created</returns>
+
+        System.Threading.Tasks.Task ProcessFailedAllocationRequestAsync(AllocationRequestFailed body);
+
+        /// <summary>
+        /// Update cache and allocate queue
+        /// </summary>
+
+        /// <remarks>
+        /// Receives a update terminal capacity event which updates cache and allocates parcels in p
+        /// </remarks>
+
+        /// <returns>Accepted update</returns>
+
+        System.Threading.Tasks.Task UpdateCacheCapacityAsync(UpdateTerminalCapacity body);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -73,6 +97,36 @@ namespace AllocationService.Api.Controllers
         {
 
             return _implementation.ProcessAllocationRequestAsync(body);
+        }
+
+        /// <summary>
+        /// Reallocate a failed allocation
+        /// </summary>
+        /// <remarks>
+        /// Receives a failed terminal allocation Request and tries to reallocate it and publish result
+        /// </remarks>
+        /// <returns>Allocation created</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("allocation/failed")]
+		[Topic("daprpubsub", "allocation-failed")]
+		public System.Threading.Tasks.Task ProcessFailedAllocationRequest([Microsoft.AspNetCore.Mvc.FromBody] AllocationRequestFailed body)
+        {
+
+            return _implementation.ProcessFailedAllocationRequestAsync(body);
+        }
+
+        /// <summary>
+        /// Update cache and allocate queue
+        /// </summary>
+        /// <remarks>
+        /// Receives a update terminal capacity event which updates cache and allocates parcels in p
+        /// </remarks>
+        /// <returns>Accepted update</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("allocation/capacity")]
+		[Topic("daprpubsub", "update-terminal-capacity")]
+		public System.Threading.Tasks.Task UpdateCacheCapacity([Microsoft.AspNetCore.Mvc.FromBody] UpdateTerminalCapacity body)
+        {
+
+            return _implementation.UpdateCacheCapacityAsync(body);
         }
 
     }

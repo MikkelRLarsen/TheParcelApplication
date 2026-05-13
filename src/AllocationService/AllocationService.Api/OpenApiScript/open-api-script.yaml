@@ -27,6 +27,46 @@ paths:
         '500':
           $ref: '#/components/responses/500Error'
 
+  /allocation/failed:
+    post:
+      summary: Reallocate a failed allocation
+      description: |
+        Receives a failed terminal allocation Request and tries to reallocate it and publish result
+      operationId: processFailedAllocationRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocationRequestFailed'
+      responses:
+        '201':
+          description: Allocation created
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /allocation/capacity:
+    post:
+      summary: Update cache and allocate queue
+      description: |
+        Receives a update terminal capacity event which updates cache and allocates parcels in p
+      operationId: updateCacheCapacity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTerminalCapacity'
+      responses:
+        '202':
+          description: Accepted update
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
 
 components:
   responses:

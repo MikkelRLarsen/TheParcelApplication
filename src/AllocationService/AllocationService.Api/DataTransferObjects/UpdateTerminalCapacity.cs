@@ -6,5 +6,12 @@ namespace AllocationService.Api.DataTransferObjects
 	{
 		public required Guid TerminalId { get; init; }
 		public required int TerminalCapacity { get; init; }
+
+		public Facade.DataTransferObjects.UpdateTerminalCapacity Map()
+		{
+			return new Facade.DataTransferObjects.UpdateTerminalCapacity(
+				terminalId: TerminalId,
+				terminalCapacity: TerminalCapacity);
+		}
 	}
 }

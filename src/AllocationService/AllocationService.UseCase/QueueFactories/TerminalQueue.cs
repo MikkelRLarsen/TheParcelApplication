@@ -1,4 +1,5 @@
 ﻿using AllocationService.Domain;
+using AllocationService.UseCase.Contracts;
 using Shared.ResultPattern;
 using System;
 using System.Collections.Generic;
@@ -8,22 +9,22 @@ namespace AllocationService.UseCase.QueueFactories
 {
 	public sealed class TerminalQueue : IQueueTerminal
 	{
-		private readonly MinHeap<Terminal> _heap = new();
-		public ResultT<Terminal> Dequeue()
+		private readonly MinHeap<AllocationQueueContract> _heap = new();
+
+		public ResultT<AllocationQueueContract> Dequeue()
 		{
 			return _heap.Dequeue();
 		}
 
-		public Result Enqueue(int priority, Terminal terminal)
+		public Result Enqueue(AllocationQueueContract contract)
 		{
-			_heap.Enqueue(priority, terminal);
+			_heap.Enqueue(contract.Priority, contract);
 			return Result.Success();
 		}
 
-		public ResultT<Terminal> Peek()
+		public ResultT<AllocationQueueContract> Peek()
 		{
-			var result = _heap.Peek();
-			return result;
+			return _heap.Peek();
 		}
 	}
 }

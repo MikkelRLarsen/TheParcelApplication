@@ -6,8 +6,8 @@ namespace AllocationService.UseCase.QueueFactories
 {
 	public interface IQueueTerminal
 	{
-		public ResultT<Terminal> Peek();
-		public ResultT<Terminal> Dequeue();
-		public Result Enqueue(int priority, Terminal terminal);
+		public ResultT<AllocationQueueContract> Peek();
+		public ResultT<AllocationQueueContract> Dequeue();
+		public Result Enqueue(AllocationQueueContract contract);
 	}
 }
