@@ -16,7 +16,9 @@ namespace AllocationService.InversionOfControl
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Commands
-            services.AddScoped<IAllocateRequestCommand, AllocateRequestCommand>();
+            services.AddScoped<IAllocateRequestCommand, AllocateRequestCommandHandler>();
+            services.AddScoped<IUpdateTerminalCapacityCommand, UpdateTerminalCapacityCommandHandler>();
+            services.AddScoped<IAllocationRequestFailedCommand, AllocationRequestFailedCommandHandler>();
 
             // UseCase Helpers
             services.AddScoped<IAllocationService, AllocationServiceHandler>();
@@ -26,7 +28,7 @@ namespace AllocationService.InversionOfControl
             // Infrastructure
             services.AddScoped<ICacheHandler, DaprStatestoreHandler>();
             services.AddScoped<IPublisher, DaprPublisher>();
-            services.AddScoped<ITerminalService, TerminalService>();
+            services.AddScoped<ITerminalService, TerminalServiceHandler>();
 
             
 

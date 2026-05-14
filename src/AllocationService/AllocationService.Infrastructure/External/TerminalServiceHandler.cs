@@ -13,11 +13,11 @@ using System.Text;
 
 namespace AllocationService.Infrastructure.External
 {
-	public sealed class TerminalService : ITerminalService
+	public sealed class TerminalServiceHandler : ITerminalService
 	{
 		private readonly HttpClient _httpClient;
 
-		public TerminalService(DaprClient daprClient)
+		public TerminalServiceHandler(DaprClient daprClient)
 		{
 			_httpClient = daprClient.CreateInvokableHttpClient("terminalservice");
 		}

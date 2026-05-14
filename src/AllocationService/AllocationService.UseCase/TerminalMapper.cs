@@ -23,5 +23,10 @@ namespace AllocationService.UseCase
 			=> new Terminal(
 				id: state.Id,
 				capacity: state.Capacity);
+
+		public static TerminalCacheState ToCache(this TerminalServiceState terminal)
+			=> new TerminalCacheState(
+				id: terminal.Id,
+				capacity: terminal.Capacity);
 	}
 }

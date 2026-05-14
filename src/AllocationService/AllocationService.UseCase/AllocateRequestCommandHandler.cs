@@ -10,13 +10,13 @@ using Shared.ResultPattern;
 
 namespace AllocationService.UseCase
 {
-	public sealed partial class AllocateRequestCommand : IAllocateRequestCommand
+	public sealed partial class AllocateRequestCommandHandler : IAllocateRequestCommand
 	{
 		private readonly ITerminalResolver _terminalResolver;
 		private readonly IQueueFactory _queueFactory;
 		private readonly IAllocationService _allocationService;
 
-		public AllocateRequestCommand(ITerminalResolver terminalResolver, IQueueFactory queueFactory, IAllocationService allocationService)
+		public AllocateRequestCommandHandler(ITerminalResolver terminalResolver, IQueueFactory queueFactory, IAllocationService allocationService)
 		{
 			_terminalResolver = terminalResolver;
 			_queueFactory = queueFactory;

@@ -16,6 +16,18 @@ namespace AllocationService.UseCase.TerminalResolvers
 			_terminalService = terminalService;
 		}
 
+		public async Task<Result> ForceUpdateAsync(Guid terminalId)
+		{
+			ResultT<TerminalServiceState> terminalResult = await _terminalService.GetAsync(terminalId);
+			if (terminalResult.Status is ResultStatus.Failure)
+				return terminalResult.Error!;
+
+			TerminalCacheState cacheState = terminalResult.Value.ToCache();
+			await _cacheHandler.CreateAsync(cacheState);
+
+			return Result.Success();
+		}
+
 		public async Task<ResultT<Terminal>> GetAsync(Guid terminalId)
 		{
 			ResultT<TerminalCacheState> cacheResult = await _cacheHandler.GetAsync(terminalId);
