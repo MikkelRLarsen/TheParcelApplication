@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: allocationservice-service
+  labels:
+    app: allocationservice-service
+spec:
+  type: LoadBalancer
+  selector: 
+    app: allocationservice
+  ports:
+    - port: 8004
+      targetPort: 8004

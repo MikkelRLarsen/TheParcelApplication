@@ -1,0 +1,28 @@
+# ParcelService Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: allocationservice
+  labels:
+    app: allocationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: allocationservice
+  template:
+    metadata:
+      labels:
+        app: allocationservice
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "allocationservice"
+        dapr.io/app-port: "8004"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+        - name: allocationservice
+          image: ghcr.io/mikkelrlarsen/allocationservice:latest
+          ports:
+            - containerPort: 8004
+          imagePullPolicy: Always
