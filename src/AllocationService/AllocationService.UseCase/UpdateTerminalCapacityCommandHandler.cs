@@ -38,6 +38,7 @@ namespace AllocationService.UseCase
 			if (queueResult.Status is ResultStatus.Failure)
 				return queueResult;
 
+			// Current dequeue strategy. Should be revisited later
 			IQueueTerminal queue = queueResult.Value;
 			for (int i = 0; i < updateTerminalCapacity.TerminalCapacity; i++)
 			{

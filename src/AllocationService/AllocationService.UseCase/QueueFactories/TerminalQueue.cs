@@ -13,7 +13,14 @@ namespace AllocationService.UseCase.QueueFactories
 
 		public ResultT<AllocationQueueContract> Dequeue()
 		{
-			return _heap.Dequeue();
+			try
+			{
+				return _heap.Dequeue();
+			}
+			catch (Exception ex)
+			{
+				return Error.Failure("Queue.Error", ex.Message);
+			}
 		}
 
 		public Result Enqueue(AllocationQueueContract contract)
@@ -24,7 +31,14 @@ namespace AllocationService.UseCase.QueueFactories
 
 		public ResultT<AllocationQueueContract> Peek()
 		{
-			return _heap.Peek();
+			try
+			{
+				return _heap.Peek();
+			}
+			catch (Exception ex)
+			{
+				return Error.Failure("Queue.Error", ex.Message);
+			}
 		}
 	}
 }
