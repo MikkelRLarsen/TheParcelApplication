@@ -40,11 +40,19 @@ namespace AllocationService.UseCase
 
 			// Current dequeue strategy. Should be revisited later
 			IQueueTerminal queue = queueResult.Value;
-			for (int i = 0; i < updateTerminalCapacity.TerminalCapacity; i++)
+
+			await EmptyQueue(queue, updateTerminalCapacity.TerminalCapacity);
+
+			return Result.Success();
+		}
+
+		private async Task EmptyQueue(IQueueTerminal queue, int newCapcity)
+		{
+			while(queue.Any() || newCapcity-- == 0)
 			{
 				ResultT<AllocationQueueContract> allocationResult = queue.Dequeue();
 				if (allocationResult.Status is ResultStatus.Failure)
-					return allocationResult;
+					return;
 
 				AllocationQueueContract allocation = allocationResult.Value;
 
@@ -52,12 +60,9 @@ namespace AllocationService.UseCase
 					trackingNumber: allocation.TrackingNumber,
 					terminals: Enumerable.Repeat(allocation.TerminalId, 1),
 					priority: allocation.Priority));
-
-				if (allocateResult.Status is ResultStatus.Failure)
-					return allocateResult;
 			}
 
-			return Result.Success();
+			return;
 		}
 	}
 }

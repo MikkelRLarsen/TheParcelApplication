@@ -11,6 +11,11 @@ namespace AllocationService.UseCase.QueueFactories
 	{
 		private readonly MinHeap<AllocationQueueContract> _heap = new();
 
+		public bool Any()
+		{
+			return _heap.Any();
+		}
+
 		public ResultT<AllocationQueueContract> Dequeue()
 		{
 			try
@@ -29,16 +34,9 @@ namespace AllocationService.UseCase.QueueFactories
 			return Result.Success();
 		}
 
-		public ResultT<AllocationQueueContract> Peek()
+		public AllocationQueueContract? Peek()
 		{
-			try
-			{
-				return _heap.Peek();
-			}
-			catch (Exception ex)
-			{
-				return Error.Failure("Queue.Error", ex.Message);
-			}
+			return _heap.Peek();
 		}
 	}
 }

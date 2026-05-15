@@ -21,11 +21,11 @@ namespace AllocationService.UseCase.QueueFactories
 		private readonly object _lock = new object();
 		private List<HeapValues> _heap = new List<HeapValues>();
 
-		public T Peek()
+		public T? Peek()
 		{
 			lock (_lock)
 			{
-				if (_heap.Count == 0) throw new InvalidOperationException("Heap is empty");
+				if (_heap.Count == 0) return default;
 
 				return _heap[0].ClassValue;
 			}
