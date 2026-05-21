@@ -115,12 +115,3 @@ components:
           type: string
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-
-x-use-cases:
-  - name: Routing Flow
-    steps:
-      - ParcelService publishes NewParcelEvent
-      - RoutingService receives event via POST /routing
-      - RoutingService validates input
-      - RoutingService calculates optimal route
-      - Routing result is published as RoutingCreated event
