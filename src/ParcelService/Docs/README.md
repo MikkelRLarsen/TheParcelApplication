@@ -1,4 +1,4 @@
-### Parcel Service API – Opret en ny forsendelse
+# Parcel Service API – Opret en ny forsendelse
 POST /parcels opretter en ny pakke i det event‑drevne routingsystem. Ved succes genereres et trackingnummer, og der publiceres et ParcelCreated‑event på eventbussen.
 
 Se OpenApi Spec her: [OpenAPI script](../ParcelService.Api/OpenApiScript/open-api-script.yaml)
@@ -54,8 +54,7 @@ Se OpenApi Spec her: [OpenAPI script](../ParcelService.Api/OpenApiScript/open-ap
 }
 ```
 
-
-### Flow diagram
+# Flow diagram
 ```mermaid
 flowchart TD
     A[POST /parcel] --> B[Create Parcel Async]
