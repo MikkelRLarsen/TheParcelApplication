@@ -15,9 +15,9 @@ Semesteret består af følgende fagelementer. Microservices‑delen er gennemfø
 # Dokumentation
 Der er oprettet C4 model: [C4](https://isoflow.io/project/cmnn3ibsq017smc1vpqpz8e93)
 
-Repository docs, Dapr Components og kubernetes manifest kan findes i mappen [/Docs](Docs)
-Hvis der ønskes services specifikke dokumentation kan de findes i hver microservice i deres README
-[ParcelService](src/ParcelService)
-[RoutingService](src/RoutingService)
-[AllocationService](src/AllocationService)
-[TerminalService](src/TerminalService)
+Repository docs, Dapr Components og kubernetes manifest kan findes i mappen [/Docs](Docs)  
+Hvis der ønskes services specifikke dokumentation kan de findes i hver microservice i deres README  
+[ParcelService](src/ParcelService)  
+[RoutingService](src/RoutingService)  
+[AllocationService](src/AllocationService)  
+[TerminalService](src/TerminalService)  
