@@ -3,7 +3,7 @@ Routing Service håndterer routing af pakker i det event‑drevne pakkesystem.
 Servicen konsumerer NewParcelEvent, beregner ruten mellem afsender‑ og modtagerterminaler og kan publicere et RoutingCreated‑event ved succes.
 
 Derudover informerer servicen SAGA‑orchestration, når en allokering er modtaget.
-Se OpenApi Spec her: [OpenAPI spec](../RoutingService.Api/OpenApiScript/open-api-script.yaml)
+Se OpenApi Spec her: [OpenAPI spec](RoutingService.Api/OpenApiScript/open-api-script.yaml)
 
 # Endpoints
 ## POST /routing/newparcelevent

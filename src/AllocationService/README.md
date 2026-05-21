@@ -2,7 +2,7 @@
 API’et håndterer terminal‑allokering af pakker i det event‑drevne pakkesystem.
 Servicen fungerer primært som en prioritetskø, der modtager allokeringsanmodninger, opdaterer kapacitet og publicerer resultater.
 
-Se OpenApi Spec her: [OpenAPI spec](../AllocationService.Api/OpenApiScript/open-api-script.yaml)
+Se OpenApi Spec her: [OpenAPI spec](AllocationService.Api/OpenApiScript/open-api-script.yaml)
 
 # Endpoints
 ## POST /allocation
