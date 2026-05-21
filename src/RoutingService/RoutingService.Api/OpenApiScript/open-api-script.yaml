@@ -87,12 +87,12 @@ components:
         senderTerminal:
           type: string
           format: uuid
-          example: "550e8400-e29b-41d4-a716-446655440000"
+          example: "30000000-0000-0000-0000-000000000009"
 
         receiverTerminal:
           type: string
           format: uuid
-          example: "550e8400-e29b-41d4-a716-446655440000"
+          example: "30000000-0000-0000-0000-000000000001"
 
         priority:
           type: integer
@@ -114,4 +114,4 @@ components:
         terminalId:
           type: string
           format: uuid
-          example: "550e8400-e29b-41d4-a716-446655440000"
+          example: "20000000-0000-0000-0000-000000000009"
