@@ -7,6 +7,7 @@ Se OpenApi Spec her: [OpenAPI spec](TerminalService.Api/OpenApiScript/open-api-s
 # Endpoints
 ## POST /terminal
 Processerer en ny terminal‑allokeringsanmodning og forsøger at allokere pakken til den angivne terminal.
+Bliver automatisk consumed af Event: allcate-parcel-to-terminal
 ### Request Body (JSON)
 ``` json
 {
