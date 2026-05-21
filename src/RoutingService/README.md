@@ -40,10 +40,10 @@ Eventet er modtaget.
 ```
 
 # Flow diagram
-## POST /allocation
+## POST /routing/newparcelevent
 ```mermaid
 flowchart TD
-    A[POST /allocation] --> B[Load Sender Terminal]
+    A[POST /routing/newparcelevent] --> B[Load Sender Terminal]
 
     B --> C{Success?}
     C -- No --> C1[Return error]
@@ -65,7 +65,7 @@ flowchart TD
 ### Pipeline - Strategy selection
 ```mermaid
 flowchart TD
-    A[POST /allocation] --> B[Load Sender Terminal]
+    A[Pipeline] --> B[Load Sender Terminal]
 
     B --> C{Success?}
     C -- No --> C1[Return error]
@@ -82,6 +82,22 @@ flowchart TD
 
     G -- Yes --> H[Start Allocate Saga]
     H --> I[Return success]
+```
+
+### Example på rute, hvis JSON example body bliver sendt
+```mermaid
+flowchart TD
+    A[3.9] --> B[2.5]
+    B --> C[1.2]
+    C --> D[1.1]
+
+    D --> E[2.10]
+    E --> F[3.1]
+    E --> G[2.9]
+
+    D --> G
+
+    G --> F
 ```
 
 ## POST /routing/allocationreceivedevent
@@ -131,3 +147,5 @@ flowchart TD
 
     C --> D[Return success result]
 ```
+
+## Routepath flow, hvis 
