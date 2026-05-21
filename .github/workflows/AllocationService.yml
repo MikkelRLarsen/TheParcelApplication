@@ -1,0 +1,59 @@
+name: AllocationService Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'src/AllocationService/**'
+      - '!src/AllocationService/Docs/**' 
+jobs:
+  Countinous_Integration:
+    permissions: 
+      contents: read
+      checks: write
+    uses: ./.github/workflows/ContinousIntegration.yml
+      
+  Countinous_Delivery:
+    needs: Countinous_Integration
+    permissions: 
+      contents: read
+      packages: write
+    uses: ./.github/workflows/ContinousDelivery.yml
+    with:
+      image-name: allocationservice
+      docker-context: src
+      dockerfile: src/AllocationService/Dockerfile
+      tag: ${{ github.sha }}
+
+  Staging:
+    needs: Countinous_Delivery
+    uses: ./.github/workflows/Staging.yml
+    with:
+      deployment-name: allocationservice
+      container-name: allocationservice
+      image-name: allocationservice
+      tag: ${{ needs.Countinous_Delivery.outputs.tag  }}
+    secrets:
+      KUBECONFIG: ${{ secrets.STAGING_KUBECONFIG }}
+      
+  Production:
+    needs: [Staging, Countinous_Delivery]
+    uses: ./.github/workflows/Production.yml
+    with:
+      deployment-name: allocationservice
+      container-name: allocationservice
+      image-name: allocationservice
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}
+    secrets:
+      KUBECONFIG: ${{ secrets.PRODUCTION_KUBECONFIG }}
+
+  UpdateDocs:
+    needs: [Production, Countinous_Delivery]
+    permissions: 
+      contents: write
+    uses: ./.github/workflows/UpdateK8DeploymentYaml.yml
+    with:
+      container-name: allocationservice
+      filepath: Docs/KubernetesDocuments/Deployments/AllocationService/AllocationServiceDeployment.yml
+      tag: ${{ needs.Countinous_Delivery.outputs.tag }}

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TerminalService.Facade.DataTransferObjects;
 
 namespace TerminalService.Facade
 {

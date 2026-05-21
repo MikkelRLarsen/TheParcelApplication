@@ -44,8 +44,7 @@ namespace TerminalService.Infrastructure
 					await publisher.PublishUpdateTerminalCapacityAsync(
 						new UpdateTerminalCapacity(
 							terminalId: terminal.Id, 
-							terminalCapacity: terminal.DailyCapacity,
-							dateTime: now
+							terminalCapacity: terminal.DailyCapacity
 							));
 				}
 			}

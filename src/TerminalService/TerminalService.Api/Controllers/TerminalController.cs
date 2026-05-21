@@ -37,11 +37,11 @@ namespace TerminalService.Api.Controllers
     {
 
         /// <summary>
-        /// Process new allocation request
+        /// Process new terminal allocation request
         /// </summary>
 
         /// <remarks>
-        /// Receives an Allocation Request and tries to allocate it and publish result
+        /// Receives an terminal allocation Request and tries to allocate it and publish result
         /// </remarks>
 
         /// <returns>Allocation created</returns>
@@ -49,30 +49,18 @@ namespace TerminalService.Api.Controllers
         System.Threading.Tasks.Task ProcessAllocationRequestAsync(AllocationRequestEvent body);
 
         /// <summary>
-        /// Check if terminal exists
+        /// Returns terminal based om ID
         /// </summary>
 
         /// <remarks>
-        /// Checks whether a terminal with the given ID exists
+        /// Returns a terminal with the given ID exists
         /// </remarks>
 
         /// <param name="id">Terminal ID</param>
 
-        /// <returns>Terminal exists</returns>
+        /// <returns>Get Terminal</returns>
 
-        System.Threading.Tasks.Task CheckTerminalByIdAsync(System.Guid id);
-
-        /// <summary>
-        /// Request the current capacity of a Terminal
-        /// </summary>
-
-        /// <remarks>
-        /// Publishes the capacity result to update-terminal-capacity topic
-        /// </remarks>
-
-        /// <returns>Request Recieved</returns>
-
-        System.Threading.Tasks.Task RequestTerminalCapacityAsync(TerminalCapacityRequest body);
+        System.Threading.Tasks.Task<Terminal> GetTerminalByIdAsync(System.Guid id);
 
     }
 
@@ -87,10 +75,10 @@ namespace TerminalService.Api.Controllers
         }
 
         /// <summary>
-        /// Process new allocation request
+        /// Process new terminal allocation request
         /// </summary>
         /// <remarks>
-        /// Receives an Allocation Request and tries to allocate it and publish result
+        /// Receives an terminal allocation Request and tries to allocate it and publish result
         /// </remarks>
         /// <returns>Allocation created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("terminal")]
@@ -102,33 +90,18 @@ namespace TerminalService.Api.Controllers
         }
 
         /// <summary>
-        /// Check if terminal exists
+        /// Returns terminal based om ID
         /// </summary>
         /// <remarks>
-        /// Checks whether a terminal with the given ID exists
+        /// Returns a terminal with the given ID exists
         /// </remarks>
         /// <param name="id">Terminal ID</param>
-        /// <returns>Terminal exists</returns>
+        /// <returns>Get Terminal</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("terminal/{id}")]
-        public System.Threading.Tasks.Task CheckTerminalById(System.Guid id)
+        public System.Threading.Tasks.Task<Terminal> GetTerminalById(System.Guid id)
         {
 
-            return _implementation.CheckTerminalByIdAsync(id);
-        }
-
-        /// <summary>
-        /// Request the current capacity of a Terminal
-        /// </summary>
-        /// <remarks>
-        /// Publishes the capacity result to update-terminal-capacity topic
-        /// </remarks>
-        /// <returns>Request Recieved</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("terminal/capacity")]
-		[Topic("daprpubsub", "request-terminal-capacity")]
-		public System.Threading.Tasks.Task RequestTerminalCapacity([Microsoft.AspNetCore.Mvc.FromBody] TerminalCapacityRequest body)
-        {
-
-            return _implementation.RequestTerminalCapacityAsync(body);
+            return _implementation.GetTerminalByIdAsync(id);
         }
 
     }

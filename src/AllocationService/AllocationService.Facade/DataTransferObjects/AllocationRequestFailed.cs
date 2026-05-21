@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TerminalService.Facade
+namespace AllocationService.Facade.DataTransferObjects
 {
-	public sealed record AllocateRequest
+	public sealed record AllocationRequestFailed
 	{
 		[SetsRequiredMembers]
-		public AllocateRequest(Guid trackingNumber, Guid terminalId)
+		public AllocationRequestFailed(Guid trackingNumber, Guid terminalId)
 		{
 			TrackingNumber = trackingNumber;
 			TerminalId = terminalId;

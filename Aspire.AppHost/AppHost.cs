@@ -32,9 +32,10 @@ namespace Aspire.AppHost
             builder.ParcelService(buildingBlock);
             builder.RoutingService(buildingBlock);
             builder.TerminalService(buildingBlock);
+            builder.AllocationService(buildingBlock);
 
-            // Add Dapr Dashboard
-            builder.AddExecutable(
+			// Add Dapr Dashboard
+			builder.AddExecutable(
                 "dapr-dashboard",   
                 "dapr",            
                 ".",                
@@ -92,6 +93,17 @@ namespace Aspire.AppHost
 					ResourcesPaths = block.daprResources
 				})
 				.WaitFor(terminalDb);
+		}
+
+		public static void AllocationService(this IDistributedApplicationBuilder builder, ServiceBuildingBlocks block)
+		{
+            var allocationService = builder.AddProject<Projects.AllocationService_Api>("allocationservice")
+                .WithDaprSidecar(new DaprSidecarOptions
+                {
+                    AppId = "allocationservice",
+                    DaprHttpPort = 8085,
+                    ResourcesPaths = block.daprResources
+                });
 		}
 	}
 
