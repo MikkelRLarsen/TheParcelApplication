@@ -10,8 +10,10 @@
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
     <ProjectReference Include="..\AllocationService.Domain\AllocationService.Domain.csproj" />
     <ProjectReference Include="..\AllocationService.Facade\AllocationService.Facade.csproj" />
-    <ProjectReference Include="..\AllocationService.UseCase\AllocationService.UseCase.csproj" />
-	<PackageReference Include="Dapr.Client" />
+    <ProjectReference Include="..\AllocationService.UseCase\AllocationService.UseCase.csproj" />	
   </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dapr.Client" />
+	</ItemGroup>
 
 </Project>

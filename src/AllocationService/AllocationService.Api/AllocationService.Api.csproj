@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" />
 	<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
 	<PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
 

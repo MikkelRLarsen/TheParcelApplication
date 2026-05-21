@@ -13,10 +13,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Shared først
 COPY Shared/Shared.csproj Shared/Shared/
 
-# Props + projekter
 COPY RoutingService/Directory.Packages.props RoutingService/
 
 COPY RoutingService/RoutingService.Api/RoutingService.Api.csproj RoutingService/RoutingService.Api/
@@ -28,7 +26,6 @@ COPY RoutingService/RoutingService.InversionOfControl/RoutingService.InversionOf
 
 RUN dotnet restore RoutingService/RoutingService.Api/RoutingService.Api.csproj
 
-# Resten af koden
 COPY . .
 
 RUN dotnet build RoutingService/RoutingService.Api/RoutingService.Api.csproj -c $BUILD_CONFIGURATION -o /app/build

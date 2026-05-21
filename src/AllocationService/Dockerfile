@@ -11,7 +11,7 @@ WORKDIR /src
 
 COPY Shared/Shared.csproj Shared/Shared/
 
-COPY AllocationService/Directory.Packages.props Allocation/
+COPY AllocationService/Directory.Packages.props AllocationService/
 
 COPY AllocationService/AllocationService.Api/AllocationService.Api.csproj AllocationService/AllocationService.Api/
 COPY AllocationService/AllocationService.Facade/AllocationService.Facade.csproj AllocationService/AllocationService.Facade/
