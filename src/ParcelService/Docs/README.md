@@ -56,17 +56,17 @@ Se OpenApi Spec her: [OpenAPI script](../ParcelService.Api/OpenApiScript/open-ap
 
 
 ### Flow diagram
-``` Mermaid
+```mermaid
 flowchart TD
-    A[POST /parcel] --> B[CreateParcelAsync(parcel)]
-    
+    A[POST /parcel] --> B[Create Parcel Async]
+
     B --> C{Database result success?}
     C -- No --> C1[Return error]
-    C -- Yes --> D[SaveAsync()]
+    C -- Yes --> D[Save Async]
 
     D --> E{Save success?}
-    E -- No --> E1[Returnerror]
-    E -- Yes --> F[Publish NewParcel Event(parcel)]
+    E -- No --> E1[Return error]
+    E -- Yes --> F[Publish New Parcel Event]
 
-    F --> G[Return TrackingNumber]
+    F --> G[Return Tracking Number]
 ```
