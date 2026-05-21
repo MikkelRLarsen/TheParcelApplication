@@ -1,15 +1,15 @@
-#Routing Service API
+# Routing Service API
 Routing Service håndterer routing af pakker i det event‑drevne pakkesystem.
 Servicen konsumerer NewParcelEvent, beregner ruten mellem afsender‑ og modtagerterminaler og kan publicere et RoutingCreated‑event ved succes.
 
 Derudover informerer servicen SAGA‑orchestration, når en allokering er modtaget.
 Se OpenApi Spec her: [OpenAPI spec](../RoutingService.Api/OpenApiScript/open-api-script.yaml)
 
-#Endpoints
-##POST /routing/newparcelevent
+# Endpoints
+## POST /routing/newparcelevent
 Processerer et nyt parcel‑event og starter routinglogikken.
 Bliver automatisk consumed af Event: new-parcel
-###Request Body (JSON)
+### Request Body (JSON)
 ``` json
 {
   "trackingNumber": "550e8400-e29b-41d4-a716-446655440000",
@@ -18,21 +18,21 @@ Bliver automatisk consumed af Event: new-parcel
   "priority": 1
 }
 ```
-###Response (202 Accepted)
+### Response (202 Accepted)
 Routing er modtaget og behandles asynkront.
 
-##POST /routing/allocationreceivedevent
+## POST /routing/allocationreceivedevent
 Informerer SAGA‑orchestration om, at en pakke er blevet allokeret.
-###Request Body (JSON)
+### Request Body (JSON)
 ``` json
 {
   "trackingNumber": "550e8400-e29b-41d4-a716-446655440000",
   "terminalId": "30000000-0000-0000-0000-000000000001"
 }
 ```
-###Response (200 OK)
+### Response (200 OK)
 Eventet er modtaget.
-###Response example (400 eller 500)
+### Response example (400 eller 500)
 ``` json
 {
   "message": "Invalid request data"
@@ -40,7 +40,7 @@ Eventet er modtaget.
 ```
 
 # Flow diagram
-##POST /allocation
+## POST /allocation
 ```mermaid
 flowchart TD
     A[POST /allocation] --> B[Load Sender Terminal]
@@ -89,7 +89,7 @@ flowchart TD
 flowchart TD
     A[RaiseSagaEvent] --> B[Send External Event to RoutingWorkflow]
 
-    B --> C[Log event (trackingNumber + terminalId)]
+    B --> C[Log event]
     C --> D[Return]
 ```
 
@@ -106,7 +106,7 @@ flowchart TD
 
     D --> E[Call RequestAllocationActivity]
 
-    E --> F[Wait for External Event (AllocationReceived)]
+    E --> F[Wait for External Event]
 
     F --> G{Terminal matches expected route?}
 
