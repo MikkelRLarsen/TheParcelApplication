@@ -13,10 +13,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Shared
 COPY Shared/Shared.csproj Shared/Shared/
 
-# Props + projects
 COPY TerminalService/Directory.Packages.props TerminalService/
 
 COPY TerminalService/TerminalService.Api/TerminalService.Api.csproj TerminalService/TerminalService.Api/
@@ -28,7 +26,6 @@ COPY TerminalService/TerminalService.InversionOfControl/TerminalService.Inversio
 
 RUN dotnet restore TerminalService/TerminalService.Api/TerminalService.Api.csproj
 
-# Copy rest
 COPY . .
 
 RUN dotnet build TerminalService/TerminalService.Api/TerminalService.Api.csproj -c $BUILD_CONFIGURATION -o /app/build

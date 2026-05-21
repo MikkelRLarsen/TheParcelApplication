@@ -13,10 +13,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Shared først
 COPY Shared/Shared.csproj Shared/Shared/
 
-# Props + projekter
 COPY ParcelService/Directory.Packages.props ParcelService/
 
 COPY ParcelService/ParcelService.Api/ParcelService.Api.csproj ParcelService/ParcelService.Api/
@@ -28,7 +26,6 @@ COPY ParcelService/ParcelService.InversionOfControl/ParcelService.InversionOfCon
 
 RUN dotnet restore ParcelService/ParcelService.Api/ParcelService.Api.csproj
 
-# Resten af koden
 COPY . .
 
 RUN dotnet build ParcelService/ParcelService.Api/ParcelService.Api.csproj -c $BUILD_CONFIGURATION -o /app/build

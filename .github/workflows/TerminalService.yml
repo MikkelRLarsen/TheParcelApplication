@@ -6,7 +6,7 @@ on:
     branches: [master]
     paths:
       - 'src/TerminalService/**'
-      - '!src/TerminalService/Docs/**' 
+      - '!src/TerminalService/README.md' 
 jobs:
   Countinous_Integration:
     permissions: 
